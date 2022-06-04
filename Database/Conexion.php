@@ -62,21 +62,33 @@ class Conexion implements ConexionInterfaz
      */
     public function insertar()
     {
-        $sql = "INSERT INTO $this->tabla ( ID, name, image, description) VALUES (null, :name, :image, :description)";
-        $this->process($sql, $this->libro);
+        $sql = "INSERT INTO $this->tabla ( ID, isbn, titulo, autor, tipo_libro, codigo_bibliotecario, estado ) 
+                VALUES (null, :isbn, :titulo, :autor, :tipo_libro, :codigo_bibliotecario, :estado)";
+        $this->prepareInsert($sql);
     }
 
     /**
      * Edita un objeto en la base de datos.
      *
      * @param [type] $id
+     * @param [array] $datos 
      * @return void
      */
-    public function actualizar($id, $data)
+    public function actualizar($id, array $datos)
     {
-        $sql = "UPDATE $this->table SET ";
+        $this->validar($id);
+        $this->validar($datos);
 
-        $this->process($sql, $this->libro);
+        $sql = "UPDATE $this->table SET ";
+        foreach ($datos as $key => $value) {
+            $sql .= $key . " = " . $value . ", ";
+        }
+
+        $sql = trim($sql, ",");
+        $sql  .= "WHERE id = $id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
     }
 
     /**
@@ -87,6 +99,7 @@ class Conexion implements ConexionInterfaz
      */
     public function borrar($id)
     {
+        $this->validar($id);
         print_r($id);
         $sql = "DELETE FROM $this->tabla WHERE ID = $id";
         $stmt = $this->pdo->prepare($sql);
@@ -101,7 +114,7 @@ class Conexion implements ConexionInterfaz
      */
     public function buscar($id)
     {
-
+        $this->validar($id);
         $sql = "SELECT * FROM $this->tabla WHERE ID = $id";
         echo $sql;
         $stmt = $this->pdo->prepare($sql);
@@ -122,14 +135,24 @@ class Conexion implements ConexionInterfaz
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    private function process($sql)
+    private function prepareInsert($sql)
     {
         //Desde aqui habria que modificar pero sera cuando tenga los campos de la base de datos y del objeto que se va a usar.
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":name", $project->get("name"));
-        $stmt->bindValue(":image", $project->get("img"));
-        $stmt->bindValue(":description", $project->get("description"));
+        $stmt->bindValue(":isbn", $this->libro->getIsbn());
+        $stmt->bindValue(":titulo", $this->libro->getTitulo());
+        $stmt->bindValue(":autor", $this->libro->getAutor());
+        $stmt->bindValue(":tipo_libro", $this->libro->getTipoLibro());
+        $stmt->bindValue(":codigo_bibliotecario", $this->libro->getCodigoBibliotecario());
+        $stmt->bindValue(":estado", $this->libro->getEstado());
 
         $stmt->execute();
+    }
+
+    private function validar($valor)
+    {
+        if ($valor == null || $valor == "" || $valor == []) {
+            throw new InvalidArgumentException("Este Valor no puede estar vacio!");
+        }
     }
 }

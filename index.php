@@ -1,17 +1,78 @@
 <?php
 include("Plantillas/Cabecera.php");
 ?>
+<br>
+
+<h1 class="display-4 text-center">Bienvenido al sistema administrador.</h1>
 
 <body>
-    <div class="p-5 bg-light">
-        <div class="container">
-            <h1 class="display-3">Jumbo heading</h1>
-            <p class="lead">Jumbo helper text</p>
-            <hr class="my-2">
-            <p>More info</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="Jumbo action link" role="button">Jumbo action name</a>
-            </p>
+    <div class="container d-flex justify-content-center index-flex-parent">
+        <!-- la primera fila -->
+        <div class="card index-element index-flex-child">
+            <div class="card-header text-white text-center bg-dark">
+                Usuarios Totales
+            </div>
+            <div class="card-body index-font text-center">
+                0
+            </div>
+            <div class="card-footer bg-dark text-muted">
+
+            </div>
+        </div>
+        <div class="card index-element index-flex-child">
+            <div class="card-header  text-white text-center bg-dark">
+                Administradores
+            </div>
+            <div class="card-body index-font text-center">
+                0
+            </div>
+            <div class="card-footer bg-dark text-muted">
+
+            </div>
+        </div>
+        <div class="card index-element index-flex-child">
+            <div class="card-header text-white text-center bg-dark">
+                Libros
+            </div>
+            <div class="card-body index-font text-center">
+                0
+            </div>
+            <div class="card-footer bg-dark text-muted">
+
+            </div>
+        </div>
+        <div class="card index-element index-flex-child">
+            <div class="card-header text-white text-center bg-dark">
+                Prestamos
+            </div>
+            <div class="card-body index-font text-center">
+                0
+            </div>
+            <div class="card-footer bg-dark text-muted">
+
+            </div>
+        </div>
+        <div class="card index-element index-flex-child">
+            <div class="card-header text-white text-center bg-dark">
+                Devoluciones pendientes
+            </div>
+            <div class="card-body index-font text-center">
+                0
+            </div>
+            <div class="card-footer bg-dark text-muted">
+
+            </div>
+        </div>
+        <div class="card index-element index-flex-child">
+            <div class="card-header text-white text-center bg-dark">
+                Multas
+            </div>
+            <div class="card-body index-font text-center">
+                0
+            </div>
+            <div class="card-footer bg-dark text-muted">
+
+            </div>
         </div>
     </div>
 </body>
