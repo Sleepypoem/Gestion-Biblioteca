@@ -72,9 +72,10 @@ class Conexion implements ConexionInterfaz
      * @param [type] $id
      * @return void
      */
-    public function actualizar($id)
+    public function actualizar($id, $data)
     {
-        $sql = "INSERT INTO $this->table ( id, name, img, description) VALUES ($id, ?, ?, ?)";
+        $sql = "UPDATE $this->table SET ";
+
         $this->process($sql, $this->libro);
     }
 
