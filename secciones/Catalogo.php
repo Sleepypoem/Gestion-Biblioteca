@@ -1,47 +1,31 @@
 <?php
 include("../Plantillas/Cabecera.php");
+
+function obtenerNombrePagina()
+{
+    return pathinfo(__FILE__, PATHINFO_FILENAME);
+}
 ?>
 <br>
 <br>
 
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        Ingresar libro
-                    </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" name="" id="" aria-describedby="helpId"
-                                    placeholder="">
-                                <small id="helpId" class="form-text text-muted">Help text</small>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Footer
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        Header
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Title</h4>
-                        <p class="card-text">Text</p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Footer
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="col-md-6">
 
+            <form action="" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Ingresa el ISBN del libro</label>
+                    <input type="text" class="form-control" name="isbn" aria-describedby="book-isbn">
+                    <small id="helpId" class="form-text text-muted">Buscalo en la contraportada o en la pagina de
+                        copyright.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+
+        </div>
     </div>
 </body>
 
