@@ -84,7 +84,7 @@ class Conexion implements ConexionInterfaz
             $sql .= $key . " = " . $value . ", ";
         }
 
-        $sql = trim($sql, ",");
+        $sql = trim($sql, ", ");
         $sql  .= "WHERE id = $id";
 
         $stmt = $this->pdo->prepare($sql);
