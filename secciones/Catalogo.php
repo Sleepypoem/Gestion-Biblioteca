@@ -1,13 +1,13 @@
 <?php
 include("../Plantillas/Cabecera.php");
-require_once("../Database/Conexion.php");
+require_once("../Database/ConexionLibros.php");
 
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$conexionLibros = new Conexion("localhost", "biblioteca", "root", "", "libro");
+$conexionLibros = new ConexionLibros("localhost", "bd_biblioteca", "root", "", "libro");
 $conexionLibros->conectar();
 if ($_POST) {
 
@@ -24,7 +24,7 @@ if ($_POST) {
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
 
                 <div class="card">
                     <div class="card-header card-header text-white text-center bg-dark">
@@ -76,7 +76,7 @@ if ($_POST) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header card-header text-white text-center bg-dark">
                         Catalogo de libros
@@ -88,9 +88,11 @@ if ($_POST) {
                                 <tr>
                                     <th>ISBN</th>
                                     <th>Titulo</th>
-                                    <th>Autor</th>
+                                    <th>ID de Autor</th>
+                                    <th>Copias</th>
                                     <th>Tipo de Libro</th>
                                     <th>Codigo de bibliotecario</th>
+                                    <th>Estado</th>
                                     <th>Fecha añadido</th>
                                 </tr>
                             </thead>
@@ -101,10 +103,12 @@ if ($_POST) {
                                 <tr>
                                     <td><?php echo $libro["isbn"] ?></td>
                                     <td><?php echo $libro["titulo"] ?></td>
-                                    <td><?php echo $libro["autor"] ?></td>
-                                    <td><?php echo $libro["tipo_libro"] ?></td>
-                                    <td><?php echo $libro["codigo_bibliotecario"] ?></td>
-                                    <td><?php echo $libro["fecha_adicion"] ?></td>
+                                    <td><?php echo $libro["copias"] ?></td>
+                                    <td><?php echo $libro["idAutor"] ?></td>
+                                    <td><?php echo $libro["tipoLibro"] ?></td>
+                                    <td><?php echo $libro["codigoBbliotecario"] ?></td>
+                                    <td><?php echo $libro["estado"] ?></td>
+                                    <td><?php echo $libro["fechaRegistro"] ?></td>
                                 </tr>
 
                                 <?php } ?>
