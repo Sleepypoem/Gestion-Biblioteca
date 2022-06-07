@@ -32,6 +32,7 @@ abstract class Conexion implements ConexionInterfaz
             echo "Error conectando a la base de datos " . $e;
         }
     }
+    
 
     /**
      * Inserta un objeto en la base de datos.
