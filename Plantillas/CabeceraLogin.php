@@ -17,6 +17,5 @@ $url = "http://" . $_SERVER["HTTP_HOST"] . "/public/Gestion Biblioteca/";
     <link rel="stylesheet" href="<?php echo $url . "css/customStyleSheet.css"; ?>">
 
 
-
 </head>
 <br>
