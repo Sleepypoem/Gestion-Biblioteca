@@ -59,6 +59,10 @@ if ($_POST) {
                                 etc.</small>
                         </div>
 
+                        <label class="form-label">Ingresa la cantidad de copias</label>
+                        <input class="form-control" type="number" name="copias" id="copias-id" value="1">
+                        <br>
+
                         <div class="mb-3">
                             <label class="form-label">Ingresa tu codigo</label>
                             <input type="text" class="form-control" name="codigo-bibliotecario"
