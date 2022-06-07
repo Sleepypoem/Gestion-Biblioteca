@@ -7,7 +7,7 @@ function obtenerNombrePagina()
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$conexionLibros = new ConexionLibros("localhost", "bd_biblioteca", "root", "", "libro");
+$conexionLibros = new ConexionLibros("localhost", "bd_biblioteca", "root", "", "v_libros");
 $conexionLibros->conectar();
 ?>
 <br>
@@ -32,9 +32,6 @@ $conexionLibros->conectar();
                                     <th>ID de Autor</th>
                                     <th>Copias</th>
                                     <th>Tipo de Libro</th>
-                                    <th>Codigo de Bibliotecario</th>
-                                    <th>Estado</th>
-                                    <th>Fecha</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,11 +42,8 @@ $conexionLibros->conectar();
                                     <td><?php echo $libro["isbn"] ?></td>
                                     <td><?php echo $libro["titulo"] ?></td>
                                     <td><?php echo $libro["copias"] ?></td>
-                                    <td><?php echo $libro["idAutor"] ?></td>
-                                    <td><?php echo $libro["tipoLibro"] ?></td>
-                                    <td><?php echo $libro["codigoBbliotecario"] ?></td>
-                                    <td><?php echo $libro["estado"] ?></td>
-                                    <td><?php echo $libro["fechaRegistro"] ?></td>
+                                    <td><?php echo $libro["Autor"] ?></td>
+                                    <td><?php echo $libro["Tipo de Libro"] ?></td>
                                 </tr>
 
                                 <?php } ?>
