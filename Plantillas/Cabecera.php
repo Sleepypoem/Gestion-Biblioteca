@@ -35,8 +35,16 @@ $url = "http://" . $_SERVER["HTTP_HOST"] . "/public/Gestion Biblioteca/";
                         <a class="nav-link" href="<?php echo $url . "secciones/Devoluciones.php" ?>">Devoluciones
                             <span class="visually-hidden">(current)</span></a></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo $url . "secciones/Catalogo.php" ?>">Catalogo</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="LibrosDropDown" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Libros</a>
+                        <div class="dropdown-menu bg-dark" aria-labelledby="Acciones-Libros">
+                            <a class="dropdown-item text-white"
+                                href="<?php echo $url . "secciones/Catalogo.php" ?>">Catalogo</a>
+                            <a class="dropdown-item text-white"
+                                href="<?php echo $url . "secciones/Agregar.php" ?>">Añadir
+                                libro</a>
+                        </div>
                     </li>
 
                 </ul>
