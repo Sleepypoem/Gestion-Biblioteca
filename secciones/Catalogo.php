@@ -29,8 +29,8 @@ $conexionLibros->conectar();
                                 <tr>
                                     <th>ISBN</th>
                                     <th>Titulo</th>
-                                    <th>ID de Autor</th>
                                     <th>Copias</th>
+                                    <th>Autor</th>
                                     <th>Tipo de Libro</th>
                                 </tr>
                             </thead>
@@ -52,6 +52,7 @@ $conexionLibros->conectar();
                         </table>
                     </div>
                     <div class="card-footer bg-dark text-muted">
+
                     </div>
                 </div>
             </div>
