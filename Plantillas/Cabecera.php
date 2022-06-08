@@ -1,6 +1,6 @@
 <?php
 $url = "http://" . $_SERVER["HTTP_HOST"] . "/public/Gestion Biblioteca/";
-
+#$url = "http://" . $_SERVER["HTTP_HOST"] . "/github-clon/Gestion-Biblioteca/";
 ?>
 <!DOCTYPE html>
 <html lang="en">
