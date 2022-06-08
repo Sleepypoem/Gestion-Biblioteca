@@ -60,7 +60,8 @@ class Conexion implements ConexionInterfaz
             }
         }
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->prepararQuery($sql);
+        $this->agregarValores($stmt, $datos);
         $stmt->execute();
     }
 
@@ -85,7 +86,7 @@ class Conexion implements ConexionInterfaz
         $sql = trim($sql, ", ");
         $sql  .= "WHERE id = $id";
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->prepararQuery($sql);
         $stmt->execute();
     }
 
@@ -97,6 +98,9 @@ class Conexion implements ConexionInterfaz
      */
     public function borrar($id)
     {
+        $sql = "DELETE FROM $this->tabla WHERE id = $id";
+        $stmt = $this->prepararQuery($sql);
+        $this->ejecutarQuery($stmt);
     }
 
     /**
@@ -107,6 +111,9 @@ class Conexion implements ConexionInterfaz
      */
     public function buscar($id)
     {
+        $sql = "SELECT * FROM $this->tabla WHERE id = $id";
+        $stmt = $this->prepararQuery($sql);
+        $this->ejecutarQuery($stmt);
     }
 
     /**
@@ -116,15 +123,25 @@ class Conexion implements ConexionInterfaz
      */
     public function leerTodos()
     {
+        $sql = "SELECT * FROM $this->tabla";
+        $stmt = $this->prepararQuery($sql);
+        $this->ejecutarQuery($stmt);
     }
 
     private function agregarValores(PDOStatement $stmt, $datos)
     {
+        foreach ($datos as $llave => $valor) {
+            $stmt->bindParam(":" . $llave, $valor);
+        }
     }
 
-    public function ejecutarQuery($sql)
+    public function prepararQuery($sql)
     {
-        $stmt = $this->pdo->prepare($sql);
+        return $stmt = $this->pdo->prepare($sql);
+    }
+
+    public function ejecutarQuery(PDOStatement $stmt)
+    {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
