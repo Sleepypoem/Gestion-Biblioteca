@@ -1,14 +1,13 @@
 <?php
 include("../Plantillas/Cabecera.php");
-require_once("../Database/ConexionLibros.php");
+require_once("../classes/VistasLibros.php");
 
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$conexionLibros = new ConexionLibros("localhost", "bd_biblioteca", "root", "", "v_libros");
-$conexionLibros->conectar();
+$conexionLibros = new VistasLibros();
 ?>
 <br>
 <br>
@@ -36,7 +35,7 @@ $conexionLibros->conectar();
                             </thead>
                             <tbody>
                                 <!-- Aqui van los datos de la base de datos -->
-                                <?php $libros = $conexionLibros->leerTodos();
+                                <?php $libros = $conexionLibros->mostrarLibros();
                                 foreach ($libros as $libro) { ?>
                                 <tr>
                                     <td><?php echo $libro["isbn"] ?></td>

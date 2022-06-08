@@ -12,6 +12,7 @@ class Libros implements IEnviarDatos, IConsultarDatos, IEjecutarSQL
         }
         return ($insertarLibro) ? $this->mensaje('Registrado') : $this->mensaje('Error');
     }
+
     function consultarDatos($sql)
     {
         $query = $this->pdo()->prepare($sql);
