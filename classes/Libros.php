@@ -2,6 +2,7 @@
 class Libros implements IEnviarDatos, IConsultarDatos, IEjecutarSQL
 {
     use Basededatos;
+
     function enviarDatos($array)
     {
         $sql = "INSERT INTO libro (isbn, titulo, idAutor, tipoLibro, codigoBbliotecario) VALUE('$array[0]', '$array[1]', '$array[2]', '$array[3]', '$array[4]')";
