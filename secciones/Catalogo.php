@@ -1,13 +1,13 @@
 <?php
 include("../Plantillas/Cabecera.php");
-require_once("../classes/VistasLibros.php");
+require_once("../classes/LibrosBaseDeDatos.php");
 
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$conexionLibros = new VistasLibros();
+$conexionLibros = new LibrosBaseDeDatos();
 ?>
 <br>
 <br>
@@ -35,14 +35,15 @@ $conexionLibros = new VistasLibros();
                             </thead>
                             <tbody>
                                 <!-- Aqui van los datos de la base de datos -->
-                                <?php $libros = $conexionLibros->mostrarLibros();
+                                <?php $libros = $conexionLibros->obtenerLibros();
+
                                 foreach ($libros as $libro) { ?>
                                 <tr>
-                                    <td><?php echo $libro["isbn"] ?></td>
-                                    <td><?php echo $libro["titulo"] ?></td>
-                                    <td><?php echo $libro["copias"] ?></td>
-                                    <td><?php echo $libro["Autor"] ?></td>
-                                    <td><?php echo $libro["Tipo de Libro"] ?></td>
+                                    <td><?php echo $libro->isbn ?></td>
+                                    <td><?php echo $libro->titulo ?></td>
+                                    <td><?php echo $libro->copias ?></td>
+                                    <td><?php echo $libro->Autor ?></td>
+                                    <td><?php echo $libro->{'Tipo de Libro'} ?></td>
                                 </tr>
 
                                 <?php } ?>
