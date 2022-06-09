@@ -17,43 +17,34 @@ $conexionLibros = new LibrosBD();
         <div class="row">
 
             <div class="container">
-                <div class="card">
-                    <div class="card-header card-header text-white text-center bg-dark">
-                        Catalogo de libros
-                    </div>
-                    <div class="card-body">
-                        <!-- Aqui va la lista de libros sacados de la base de datos -->
-                        <table class="darkTable">
-                            <thead>
-                                <tr>
-                                    <th>ISBN</th>
-                                    <th>Titulo</th>
-                                    <th>Copias</th>
-                                    <th>Autor</th>
-                                    <th>Tipo de Libro</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Aqui van los datos de la base de datos -->
-                                <?php $libros = $conexionLibros->obtenerLibros();
 
-                                foreach ($libros as $libro) { ?>
-                                <tr>
-                                    <td><?php echo $libro->isbn ?></td>
-                                    <td><?php echo $libro->titulo ?></td>
-                                    <td><?php echo $libro->copias ?></td>
-                                    <td><?php echo $libro->Autor ?></td>
-                                    <td><?php echo $libro->{'Tipo de Libro'} ?></td>
-                                </tr>
+                <!-- Aqui va la lista de libros sacados de la base de datos -->
+                <table class="table table-hover table-bordered border-danger">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ISBN</th>
+                            <th>Titulo</th>
+                            <th>Copias</th>
+                            <th>Autor</th>
+                            <th>Tipo de Libro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aqui van los datos de la base de datos -->
+                        <?php $libros = $conexionLibros->obtenerLibros();
 
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer bg-dark text-muted">
+                        foreach ($libros as $libro) { ?>
+                        <tr>
+                            <td><?php echo $libro->isbn ?></td>
+                            <td><?php echo $libro->titulo ?></td>
+                            <td><?php echo $libro->copias ?></td>
+                            <td><?php echo $libro->Autor ?></td>
+                            <td><?php echo $libro->{'Tipo de Libro'} ?></td>
+                        </tr>
 
-                    </div>
-                </div>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
