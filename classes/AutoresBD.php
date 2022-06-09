@@ -1,17 +1,6 @@
 <?php
-class AutoresBD implements IEnviarDatos, IConsultarDatos, IEjecutarSQL
+
+require_once "ConexionBD.php";
+class AutoresBD extends ConexionBD
 {
-    use Basededatos;
-    function enviarDatos($sql)
-    {
-    }
-    function consultarDatos($sql)
-    {
-        $query = $this->pdo()->prepare($sql);
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
-    function ejecutaSQL($sql)
-    {
-    }
 }

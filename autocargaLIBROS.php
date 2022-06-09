@@ -7,3 +7,4 @@ require_once('classes/LibrosBD.php');
 require_once('Libros/Copias.php');
 require_once('classes/AutoresBD.php');
 require_once('classes/TiposDeLibrosBD.php');
+require_once('classes/ConexionBD.php');
