@@ -9,8 +9,8 @@ class Libro
 
     function __construct($isbn, $titulo, $autor, $tipoLibro)
     {
-        $this->$isbn = $isbn;
-        $this->$titulo = $titulo;
+        $this->isbn = $isbn;
+        $this->titulo = $titulo;
         $this->autor = $autor;
         $this->tipoLibro = $tipoLibro;
     }

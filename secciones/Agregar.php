@@ -3,6 +3,7 @@ include("../Plantillas/Cabecera.php");
 require_once("../classes/LibrosBD.php");
 require_once("../classes/AutoresBD.php");
 require_once("../Libros/Libro.php");
+require_once("../classes/TiposDeLibrosBD.php");
 
 function obtenerNombrePagina()
 {
@@ -21,7 +22,7 @@ if ($_POST) {
     $libro = new Libro($isbn, $titulo, $autor, $tipoLibro);
 
     $libroInsert = new LibrosBD();
-    $libroInsert->registrarLibro($libro, $codigo, $copias);
+    $libroInsert->registrarLibro($libro, $codigo, $cantidad);
 }
 ?>
 
@@ -81,7 +82,7 @@ if ($_POST) {
                                 <?php
                                 foreach ($datosTLIB as $tplib) {
                                 ?>
-                                <option value="<?= $tplib["idtipoLibro"]; ?>"><?= $tplib["nombre"]; ?></option>
+                                <option value="<?= $tplib->idtipoLibro; ?>"><?= $tplib->nombre; ?></option>
                                 <?php
                                 }
                                 ?>
