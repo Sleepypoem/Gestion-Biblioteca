@@ -1,7 +1,7 @@
 <?php
 include("../Plantillas/Cabecera.php");
-require_once("../classes/LibrosBaseDeDatos.php");
-require_once("../classes/Autores.php");
+require_once("../classes/LibrosBD.php");
+require_once("../classes/AutoresBD.php");
 require_once("../Libros/Libro.php");
 
 function obtenerNombrePagina()
@@ -20,7 +20,7 @@ if ($_POST) {
 
     $libro = new Libro($isbn, $titulo, $autor, $tipoLibro);
 
-    $libroInsert = new LibrosBaseDeDatos();
+    $libroInsert = new LibrosBD();
     $libroInsert->registrarLibro($libro, $codigo, $copias);
 }
 ?>
@@ -55,7 +55,7 @@ if ($_POST) {
                         <div class="mb-3">
                             <label class="form-label">Ingresa el autor del libro</label>
                             <?php $sql = 'SELECT * FROM autor;';
-                            $autores = new Autores();
+                            $autores = new AutoresBD();
                             $datosAutor = $autores->consultarDatos($sql);
                             ?>
                             <select name="autor" id="autor" class="form-control">
@@ -73,15 +73,15 @@ if ($_POST) {
 
                         <div class="mb-3">
                             <label class="form-label">Ingresa el tipo de libro</label>
-                            <?php $sql = 'SELECT idtipoLibro, nombre FROM `tipos-de-libros`;';
-                            $tiposDeLibros = new TiposDeLibros();
-                            $datosTLIB = $tiposDeLibros->consultarDatos($sql);
+                            <?php
+                            $tiposDeLibros = new TiposDeLibrosBD();
+                            $datosTLIB = $tiposDeLibros->consultarCategorias();
                             ?>
                             <select name="tipo-libro" id="tipo-libro" class="form-control">
                                 <?php
                                 foreach ($datosTLIB as $tplib) {
                                 ?>
-                                <option value="<?= $tplib->idtipoLibro; ?>"><?= $tplib->nombre; ?></option>
+                                <option value="<?= $tplib["idtipoLibro"]; ?>"><?= $tplib["nombre"]; ?></option>
                                 <?php
                                 }
                                 ?>

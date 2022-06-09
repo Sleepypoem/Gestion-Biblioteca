@@ -1,5 +1,5 @@
 <?php
-class Autores implements IEnviarDatos, IConsultarDatos, IEjecutarSQL
+class AutoresBD implements IEnviarDatos, IConsultarDatos, IEjecutarSQL
 {
     use Basededatos;
     function enviarDatos($sql)

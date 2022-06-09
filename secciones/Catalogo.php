@@ -1,13 +1,13 @@
 <?php
 include("../Plantillas/Cabecera.php");
-require_once("../classes/LibrosBaseDeDatos.php");
+require_once("../classes/LibrosBD.php");
 
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$conexionLibros = new LibrosBaseDeDatos();
+$conexionLibros = new LibrosBD();
 ?>
 <br>
 <br>
@@ -48,7 +48,6 @@ $conexionLibros = new LibrosBaseDeDatos();
 
                                 <?php } ?>
                             </tbody>
-                            </tr>
                         </table>
                     </div>
                     <div class="card-footer bg-dark text-muted">

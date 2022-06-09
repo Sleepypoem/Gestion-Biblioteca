@@ -1,6 +1,6 @@
 <?php
 require_once "../autocargaLIBROS.php";
-class LibrosBaseDeDatos implements IEnviarDatos, IConsultarDatos, IEjecutarSQL
+class LibrosBD implements IEnviarDatos, IConsultarDatos, IEjecutarSQL
 {
     use Basededatos;
 

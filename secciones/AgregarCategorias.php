@@ -1,6 +1,6 @@
 <?php
 include("../Plantillas/Cabecera.php");
-require_once("../classes/TiposDeLibros.php");
+require_once("../classes/TiposDeLibrosBD.php");
 
 function obtenerNombrePagina()
 {
@@ -12,7 +12,7 @@ if ($_POST) {
     $descripcion = $_POST["descripcion-categoria"];
 
     $datosCategoria = [$nombre, $descripcion];
-    $nuevaCategoria = new TiposDeLibros();
+    $nuevaCategoria = new TiposDeLibrosBD();
     $nuevaCategoria->enviarDatos($datosCategoria);
 }
 
