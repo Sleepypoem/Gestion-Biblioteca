@@ -1,14 +1,15 @@
 <?php
 include("../Plantillas/Cabecera.php");
-require_once("../autocargaLIBROS.php");
+require_once("../classes/LibrosBD.php");
+require_once("../classes/AutoresBD.php");
+require_once("../Libros/Libro.php");
+require_once("../classes/TiposDeLibrosBD.php");
 
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-//$conexionLibros = new ConexionLibros("localhost", "bd_biblioteca", "root", "", "libro");
-//$conexionLibros->conectar();
 if ($_POST) {
 
     $isbn = $_POST["isbn"];
@@ -18,11 +19,10 @@ if ($_POST) {
     $codigo = $_POST["codigo-bibliotecario"];
     $cantidad = $_POST["copias"];
 
-    $array = array($isbn, $titulo, $autor, $tipoLibro, $codigo, $cantidad);
+    $libro = new Libro($isbn, $titulo, $autor, $tipoLibro);
 
-    
-    $libroInsert = new Libros();
-    $libroInsert->enviarDatos($array);
+    $libroInsert = new LibrosBD();
+    $libroInsert->registrarLibro($libro, $codigo, $cantidad);
 }
 ?>
 
@@ -56,14 +56,14 @@ if ($_POST) {
                         <div class="mb-3">
                             <label class="form-label">Ingresa el autor del libro</label>
                             <?php $sql = 'SELECT * FROM autor;';
-                            $autores = new Autores();
+                            $autores = new AutoresBD();
                             $datosAutor = $autores->consultarDatos($sql);
                             ?>
                             <select name="autor" id="autor" class="form-control">
                                 <?php
                                 foreach ($datosAutor as $autor) {
                                 ?>
-                                    <option value="<?= $autor->idAutor; ?>"><?= $autor->nombre; ?></option>
+                                <option value="<?= $autor->idAutor; ?>"><?= $autor->nombre; ?></option>
                                 <?php
                                 }
                                 ?>
@@ -74,15 +74,15 @@ if ($_POST) {
 
                         <div class="mb-3">
                             <label class="form-label">Ingresa el tipo de libro</label>
-                            <?php $sql = 'SELECT idtipoLibro, nombre FROM `tipos-de-libros`;';
-                            $tiposDeLibros = new TiposDeLibros();
-                            $datosTLIB = $tiposDeLibros->consultarDatos($sql);
+                            <?php
+                            $tiposDeLibros = new TiposDeLibrosBD();
+                            $datosTLIB = $tiposDeLibros->consultarCategorias();
                             ?>
                             <select name="tipo-libro" id="tipo-libro" class="form-control">
                                 <?php
                                 foreach ($datosTLIB as $tplib) {
                                 ?>
-                                    <option value="<?= $tplib->idtipoLibro; ?>"><?= $tplib->nombre; ?></option>
+                                <option value="<?= $tplib->idtipoLibro; ?>"><?= $tplib->nombre; ?></option>
                                 <?php
                                 }
                                 ?>
@@ -96,8 +96,9 @@ if ($_POST) {
                         <br>
 
                         <div class="mb-3">
-                            
-                            <input type="hidden" class="form-control" value="1000" name="codigo-bibliotecario" aria-describedby="codigo-bibliotecario" required>
+
+                            <input type="hidden" class="form-control" value="1000" name="codigo-bibliotecario"
+                                aria-describedby="codigo-bibliotecario" required>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Añadir libro</button>

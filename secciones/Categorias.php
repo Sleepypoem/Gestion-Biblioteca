@@ -1,15 +1,13 @@
 <?php
 include("../Plantillas/Cabecera.php");
-
-require_once("../classes/LibrosBD.php");
-
+require_once("../classes/TiposDeLibrosBD.php");
 
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$conexionLibros = new LibrosBD();
+$tiposdeLibros = new TiposDeLibrosBD();
 
 ?>
 <br>
@@ -20,29 +18,23 @@ $conexionLibros = new LibrosBD();
         <div class="row">
 
             <div class="container">
-
                 <!-- Aqui va la lista de libros sacados de la base de datos -->
                 <table class="table table-hover table-bordered border-danger">
                     <thead class="table-dark">
                         <tr>
-                            <th>ISBN</th>
-                            <th>Titulo</th>
-                            <th>Copias</th>
-                            <th>Autor</th>
-                            <th>Tipo de Libro</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Aqui van los datos de la base de datos -->
-                        <?php $libros = $conexionLibros->obtenerLibros();
+                        <?php
+                        $categorias = $tiposdeLibros->consultarCategorias();
 
-                        foreach ($libros as $libro) { ?>
+                        foreach ($categorias as $categoria) { ?>
                         <tr>
-                            <td><?php echo $libro->isbn ?></td>
-                            <td><?php echo $libro->titulo ?></td>
-                            <td><?php echo $libro->copias ?></td>
-                            <td><?php echo $libro->Autor ?></td>
-                            <td><?php echo $libro->{'Tipo de Libro'} ?></td>
+                            <td><?php echo $categoria->nombre ?></td>
+                            <td><?php echo $categoria->descripcion ?></td>
                         </tr>
 
                         <?php } ?>
