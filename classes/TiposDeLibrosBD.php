@@ -5,7 +5,7 @@ class TiposDeLibrosBD extends ConexionBD
 
     public function registrarCategoria($nombre, $descripcion)
     {
-        $sql = "INSERT INTO `tipos-de-libros` ( nombre, descripcion) VALUE('$nombre', '$descripcion')";
+        $sql = "INSERT INTO `tipos-de-libros` (nombre, descripcion) VALUE('$nombre', '$descripcion')";
         $this->enviarDatos($sql);
     }
 
