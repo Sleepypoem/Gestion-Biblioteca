@@ -1,13 +1,13 @@
 <?php
 include("../Plantillas/Cabecera.php");
-require_once("../classes/TiposDeLibrosBD.php");
+require_once("../classes/CopiasBD.php");
 
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$tiposdeLibros = new TiposDeLibrosBD();
+$tiposdeLibros = new CopiasBD();
 
 ?>
 <br>
@@ -29,12 +29,12 @@ $tiposdeLibros = new TiposDeLibrosBD();
                     <tbody>
                         <!-- Aqui van los datos de la base de datos -->
                         <?php
-                        $categorias = $tiposdeLibros->consultarCategorias();
+                        $copias = $tiposdeLibros->obtenerCopias();
 
-                        foreach ($categorias as $categoria) { ?>
+                        foreach ($copias as $copia) { ?>
                         <tr>
-                            <td><?php echo $categoria->nombre ?></td>
-                            <td><?php echo $categoria->descripcion ?></td>
+                            <td><?php echo $copia->codigo ?></td>
+                            <td><?php echo $copia->isbn ?></td>
                         </tr>
 
                         <?php } ?>
