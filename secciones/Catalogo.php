@@ -1,6 +1,8 @@
 <?php
 include("../Plantillas/Cabecera.php");
+
 require_once("../classes/LibrosBD.php");
+
 
 function obtenerNombrePagina()
 {
@@ -8,6 +10,7 @@ function obtenerNombrePagina()
 }
 
 $conexionLibros = new LibrosBD();
+
 ?>
 <br>
 <br>
