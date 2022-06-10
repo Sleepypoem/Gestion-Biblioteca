@@ -7,7 +7,7 @@ function obtenerNombrePagina()
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$tiposdeLibros = new CopiasBD();
+$copias = new CopiasBD();
 
 ?>
 <br>
@@ -29,7 +29,7 @@ $tiposdeLibros = new CopiasBD();
                     <tbody>
                         <!-- Aqui van los datos de la base de datos -->
                         <?php
-                        $copias = $tiposdeLibros->obtenerCopias();
+                        $copias = $copias->obtenerCopias();
 
                         foreach ($copias as $copia) { ?>
                         <tr>

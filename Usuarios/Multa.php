@@ -1,24 +1,50 @@
 <?php
-class Prestamo
-{
-    //aqui irian mas atributos dependiendo de la base de datos.
-    protected $inicio;
-    protected $final;
 
-    public function __construct($ini, $fin)
+class Multa
+{
+    private $monto = 0;
+    private $fechaDevolucion;
+    private $tarifa;
+
+    function __construct(DateTime $fechaDevolucion, $tarifa)
     {
-        $this->inicio = date($ini);
-        $this->final = date($fin);
+        $this->fechaDevolucion = $fechaDevolucion;
+        $this->tarifa = $tarifa;
     }
 
-    #funcion_multa
-    public function Multa($Fecha)
+    public function recalcularMonto()
     {
-        $Fecha_Devolucion = date($Fecha);
-        if ($Fecha_Devolucion > $this->final) {
-            echo "Tiene una multa pendiente";
-        } else {
-            echo "el prestamo no acumula multa";
+        $fechaHoy = new DateTime();
+        $diasTranscurridos = $fechaHoy->diff($this->fechaDevolucion);
+
+        for ($iterador = 0; $iterador < $diasTranscurridos; $iterador++) {
+            $this->monto += $this->tarifa;
         }
+    }
+
+    /**
+     * Get the value of monto
+     */
+    public function getMonto()
+    {
+        return $this->monto;
+    }
+
+    /**
+     * Get the value of tarifa
+     */
+    public function getTarifa()
+    {
+        return $this->tarifa;
+    }
+
+    /**
+     * Set the value of tarifa
+     *
+     * @return  self
+     */
+    public function setTarifa($tarifa)
+    {
+        $this->tarifa = $tarifa;
     }
 }
