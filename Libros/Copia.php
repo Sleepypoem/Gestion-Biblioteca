@@ -1,6 +1,7 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-require_once "./interfaz/IMostrable.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+require_once SITE_ROOT . "/interfaz/IMostrable.php";
 /* ************************************************************************************************************************************************ */
 class Copia
 {

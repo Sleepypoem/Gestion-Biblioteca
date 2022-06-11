@@ -1,5 +1,9 @@
 <?php
 
+/* ***************************************************************** Dependencias ***************************************************************** */
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+include_once SITE_ROOT . "/interfaz/IFabrica.php";
+/* ************************************************************************************************************************************************ */
 class Fabrica implements IFabrica
 {
     public function crear($tipo, $datos): IMostrable
@@ -14,7 +18,7 @@ class Fabrica implements IFabrica
                 break;
 
             case 'autor':
-                return new Autor($datos["nombre"], $datos["fechaDeNacimiento"]);
+                return new Autor($datos["nombre"], $datos["fechaDeNacimiento"], $datos["imagen"]);
                 break;
 
             case 'tipodelibro':

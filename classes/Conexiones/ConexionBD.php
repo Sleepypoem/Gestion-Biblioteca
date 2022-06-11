@@ -1,8 +1,10 @@
 <?php
-
-require_once "../Interfaz/IConsultarDatos.php";
-require_once "../Interfaz/IEnviarDatos.php";
-require_once "../Interfaz/IConsultarDatos.php";
+/* ***************************************************************** Dependencias ***************************************************************** */
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+require_once SITE_ROOT . "/Interfaz/IConsultarDatos.php";
+require_once SITE_ROOT . "/Interfaz/IEnviarDatos.php";
+require_once SITE_ROOT . "/Interfaz/IConsultarDatos.php";
+/* ************************************************************************************************************************************************ */
 
 abstract class ConexionBD implements IEnviarDatos, IConsultarDatos
 {

@@ -1,11 +1,13 @@
 <?php
-
-include_once "./classes/Conexiones/AutoresBD.php";
-include_once "./classes/Conexiones/CopiasBD.php";
-include_once "./classes/Conexiones/LibrosBD.php";
-include_once "./classes/Conexiones/PrestamosBD.php";
-include_once "./classes/Conexiones/TiposDeLibros.php";
-include_once "./classes/Conexiones/UsuariosBD.php";
+/* ***************************************************************** Dependencias ***************************************************************** */
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+include_once SITE_ROOT . "/classes/Conexiones/AutoresBD.php";
+include_once SITE_ROOT . "/classes/Conexiones/CopiasBD.php";
+include_once SITE_ROOT . "/classes/Conexiones/LibrosBD.php";
+include_once SITE_ROOT . "/classes/Conexiones/PrestamosBD.php";
+include_once SITE_ROOT . "/classes/Conexiones/TiposDeLibrosBD.php";
+include_once SITE_ROOT . "/classes/Conexiones/UsuariosBD.php";
+/* ************************************************************************************************************************************************ */
 
 class Intermediario
 {

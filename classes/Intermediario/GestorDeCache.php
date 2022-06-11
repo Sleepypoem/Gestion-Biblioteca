@@ -1,8 +1,14 @@
 <?php
 
 /* ***************************************************************** Dependencias ***************************************************************** */
-require_once "./classes/Fabricas/Fabrica.php";
-require_once "Intermediario.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+require_once SITE_ROOT . "/classes/Fabricas/Fabrica.php";
+require_once SITE_ROOT . "/Libros/Libro.php";
+require_once SITE_ROOT . "/Libros/Copia.php";
+require_once SITE_ROOT . "/Libros/Autor.php";
+require_once SITE_ROOT . "/Libros/TipoDeLibro.php";
+require_once SITE_ROOT . "/Usuarios/Prestamo.php";
+require_once SITE_ROOT . "/classes/Intermediario/Intermediario.php";
 /* ************************************************************************************************************************************************ */
 
 class GestorDeCache
@@ -17,16 +23,26 @@ class GestorDeCache
 
     function __construct()
     {
+        $this->intermediario = new Intermediario();
+        $this->fabrica = new Fabrica();
     }
 
     function generarCache($valor)
     {
         switch ($valor) {
             case 'libros':
-                $this->intermediario = new Intermediario();
                 $listaCompleta = $this->intermediario->obtenerDeBD($valor);
                 foreach ($listaCompleta as $elemento) {
-                    $this->libros[] = $elemento;
+                    $datos = array(
+                        "isbn" => $elemento->isbn,
+                        "titulo" => $elemento->titulo,
+                        "autor" => $elemento->Autor,
+                        "tipoLibro" => $elemento->{'Tipo de Libro'},
+                        "imagen" => $elemento->image
+
+                    );
+
+                    $this->libros[] = $this->fabrica->crear("libro", $datos);
                 }
                 break;
 
@@ -35,4 +51,16 @@ class GestorDeCache
                 break;
         }
     }
+
+    /**
+     * Get the value of libros
+     */
+    public function getLibros()
+    {
+        return $this->libros;
+    }
 }
+
+$cache = new GestorDeCache();
+$cache->generarCache("libros");
+print_r($cache->getLibros());
