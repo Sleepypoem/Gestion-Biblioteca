@@ -1,18 +1,23 @@
 <?php
+/* ***************************************************************** Dependencias ***************************************************************** */
+require_once "./interfaz/IMostrable.php";
+/* ************************************************************************************************************************************************ */
 
-class Libro
+class Libro implements IMostrable
 {
     private $isbn;
     private $titulo;
     private $autor;
     private $tipoLibro;
+    private $imagen;
 
-    function __construct($isbn, $titulo, $autor, $tipoLibro)
+    function __construct($isbn, $titulo, $autor, $tipoLibro, $imagen)
     {
         $this->isbn = $isbn;
         $this->titulo = $titulo;
         $this->autor = $autor;
         $this->tipoLibro = $tipoLibro;
+        $this->imagen = $imagen;
     }
 
     public function getISBN()
@@ -53,5 +58,29 @@ class Libro
     public function getTipoDeLibro()
     {
         return $this->tipoLibro;
+    }
+
+    public function datosComoArray(): array
+    {
+        $retorno = array(
+            "isbn" => $this->isbn,
+            "titulo" => $this->titulo,
+            "autor" => $this->autor,
+            "tipoLibro" => $this->tipoLibro,
+            "imagen" => $this->imagen
+
+        );
+
+        return $retorno;
+    }
+
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen($imagen)
+    {
+        $this->imagen = $imagen;
     }
 }

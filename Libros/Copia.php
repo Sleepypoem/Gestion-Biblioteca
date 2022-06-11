@@ -1,5 +1,7 @@
 <?php
-
+/* ***************************************************************** Dependencias ***************************************************************** */
+require_once "./interfaz/IMostrable.php";
+/* ************************************************************************************************************************************************ */
 class Copia
 {
     private $isbn;
@@ -35,5 +37,15 @@ class Copia
     public function setEstado($estado)
     {
         $this->estado = $estado;
+    }
+
+    public function datosComoArray(): array
+    {
+        $retorno = array(
+            "isbn" => $this->isbn,
+            "estado" => $this->estado
+        );
+
+        return $retorno;
     }
 }

@@ -1,6 +1,8 @@
 <?php
-
-class tipoDeLibro
+/* ***************************************************************** Dependencias ***************************************************************** */
+require_once "./interfaz/IMostrable.php";
+/* ************************************************************************************************************************************************ */
+class tipoDeLibro implements IMostrable
 {
     private $nombre;
     private $descripcion;
@@ -45,5 +47,15 @@ class tipoDeLibro
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
+    }
+
+    public function datosComoArray(): array
+    {
+        $retorno = array(
+            "nombre" => $this->nombre,
+            "descripcion" => $this->descripcion
+        );
+
+        return $retorno;
     }
 }

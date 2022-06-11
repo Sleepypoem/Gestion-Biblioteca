@@ -1,5 +1,8 @@
 <?php
-class Prestamo
+/* ***************************************************************** Dependencias ***************************************************************** */
+require_once "./interfaz/IMostrable.php";
+/* ************************************************************************************************************************************************ */
+class Prestamo implements IMostrable
 {
     //aqui irian mas atributos dependiendo de la base de datos.
     private $inicio;
@@ -45,5 +48,16 @@ class Prestamo
     public function setEstado($estado)
     {
         $this->estado = $estado;
+    }
+
+    public function datosComoArray(): array
+    {
+        $retorno = array(
+            "inicio" => $this->inicio,
+            "final" => $this->final,
+            "estado" => $this->estado
+        );
+
+        return $retorno;
     }
 }

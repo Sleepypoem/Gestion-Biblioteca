@@ -1,21 +1,27 @@
 <?php
-
-class Usuario
+/* ***************************************************************** Dependencias ***************************************************************** */
+require_once "./interfaz/IMostrable.php";
+/* ************************************************************************************************************************************************ */
+class Usuario implements IMostrable
 {
     private $nombre;
     private $codigo;
     private $email;
+    private $direccion;
     private $contrasenia;
     private $telefono;
+    private $imagen;
     private $estado = 1;
 
-    function __construct($nombre, $codigo, $email, $contrasenia, $telefono)
+    function __construct($nombre, $codigo, $direccion, $email, $contrasenia, $telefono, $imagen)
     {
         $this->nombre = $nombre;
         $this->codigo = $codigo;
         $this->email = $email;
+        $this->direccion = $direccion;
         $this->contrasenia = $contrasenia;
         $this->telefono = $telefono;
+        $this->imagen = $imagen;
     }
 
     /**
@@ -114,5 +120,41 @@ class Usuario
     public function setEstado($estado)
     {
         $this->estado = $estado;
+    }
+
+    public function datosComoArray(): array
+    {
+        $retorno = array(
+            "nombre" => $this->nombre,
+            "codigo" => $this->codigo,
+            "email" => $this->email,
+            "direccion" => $this->direccion,
+            "contrasenia" => $this->contrasenia,
+            "telefono" => $this->telefono,
+            "estado" => $this->estado,
+            "imagen" => $this->imagen
+        );
+
+        return $retorno;
+    }
+
+    /**
+     * Get the value of direccion
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * Set the value of direccion
+     *
+     * @return  self
+     */
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
+
+        return $this;
     }
 }

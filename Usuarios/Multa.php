@@ -1,6 +1,8 @@
 <?php
-
-class Multa
+/* ***************************************************************** Dependencias ***************************************************************** */
+require_once "./interfaz/IMostrable.php";
+/* ************************************************************************************************************************************************ */
+class Multa implements IMostrable
 {
     private $monto = 0;
     private $fechaDevolucion;
@@ -46,5 +48,16 @@ class Multa
     public function setTarifa($tarifa)
     {
         $this->tarifa = $tarifa;
+    }
+
+    public function datosComoArray(): array
+    {
+        $retorno = array(
+            "monto" => $this->monto,
+            "fechaDevolucion" => $this->fechaDevolucion,
+            "tarifa" => $this->tarifa
+        );
+
+        return $retorno;
     }
 }
