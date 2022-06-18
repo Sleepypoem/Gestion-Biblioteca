@@ -1,10 +1,15 @@
 <?php
-include("Plantillas/Cabecera.php");
+/* ***************************************************************** Dependencias ***************************************************************** */
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Organizacion-prueba/config.php";
+include_once TEMPLATES . "/Cabecera.php";
+require_once VIEWS . "/CrearComponentes.php";
+/* ************************************************************************************************************************************************ */
 
 function obtenerNombrePagina()
 {
     return "Inicio";
 }
+$creador = new CrearComponentes();
 ?>
 <br>
 
@@ -14,81 +19,18 @@ function obtenerNombrePagina()
 <body>
     <div class="container d-flex justify-content-center index-flex-parent">
         <!-- la primera fila -->
-        <div class="card index-element index-flex-child">
-            <div class="card-header text-center bg-light">
-                <img class="card-image" src="img/users.png" alt="users">
+        <?php $creador->crearTarjeta(0, "bi bi-person-circle", "Usuarios Totales"); ?>
+        <?php $creador->crearTarjeta(0, "bi bi-person-video2", "Administradores"); ?>
+        <?php $creador->crearTarjeta(0, "bi bi-book", "Libros"); ?>
+        <?php $creador->crearTarjeta(0, "bi bi-arrow-up-circle-fill", "Prestamos"); ?>
+        <?php $creador->crearTarjeta(0, "bi bi-arrow-down-circle-fill", "Devoluciones"); ?>
+        <?php $creador->crearTarjeta(0, "bi bi-cash-coin", "Multas"); ?>
 
-            </div>
-            <div class="card-body card-body-font text-center">
-
-                0
-            </div>
-            <div class="card-footer text-white text-center bg-dark">
-                Usuarios Totales
-            </div>
-        </div>
-        <div class="card index-element index-flex-child">
-            <div class="card-header text-center bg-light">
-                <img class="card-image" src="img/admins.png" alt="users">
-            </div>
-            <div class="card-body card-body-font text-center">
-                0
-            </div>
-            <div class="card-footer text-white text-center bg-dark ">
-                Administradores
-            </div>
-        </div>
-        <div class="card index-element index-flex-child">
-            <div class="card-header text-center bg-light">
-                <img class="card-image" src="img/books.png" alt="users">
-
-            </div>
-            <div class="card-body card-body-font text-center">
-                0
-            </div>
-            <div class="card-footer text-white text-center bg-dark ">
-                Libros
-            </div>
-        </div>
-        <div class="card index-element index-flex-child">
-            <div class="card-header text-center bg-light">
-                <img class="card-image" src="img/borrowings.png" alt="users">
-
-            </div>
-            <div class="card-body card-body-font text-center">
-                0
-            </div>
-            <div class="card-footer text-white text-center bg-dark ">
-                Prestamos
-            </div>
-        </div>
-        <div class="card index-element index-flex-child">
-            <div class="card-header text-center bg-light">
-                <img class="card-image" src="img/returns.png" alt="users">
-
-            </div>
-            <div class="card-body card-body-font text-center">
-                0
-            </div>
-            <div class="card-footer text-white text-center bg-dark ">
-                Devoluciones pendientes
-            </div>
-        </div>
-        <div class="card index-element index-flex-child">
-            <div class="card-header text-center bg-light">
-                <img class="card-image" src="img/penaltys.png" alt="users">
-
-            </div>
-            <div class="card-body card-body-font text-center">
-                0
-            </div>
-            <div class="card-footer text-white text-center bg-dark ">
-                Multas
-            </div>
-        </div>
     </div>
 </body>
 
 <?php
-include("Plantillas/Pie.php");
+/* ***************************************************************** Dependencias ***************************************************************** */
+include_once TEMPLATES . "/Pie.php";
+/* ************************************************************************************************************************************************ */
 ?>
