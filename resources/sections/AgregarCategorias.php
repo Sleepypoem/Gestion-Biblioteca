@@ -1,6 +1,6 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Organizacion-prueba/config.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once CONTROLLERS . "/GestorDeCategorias.php";
 include_once TEMPLATES . "/Cabecera.php";
@@ -46,8 +46,10 @@ if ($_POST) {
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Ingresa una descripcion para la categoria</label>
-                            <textarea class="form-control" name="descripcion-categoria" rows="5"></textarea>
+                            <label class="form-label">Ingresa una descripcion para la
+                                categoria</label>
+                            <textarea class="form-control" name="descripcion-categoria"
+                                rows="5"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Añadir categoria</button>

@@ -1,6 +1,6 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Organizacion-prueba/config.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 include_once TEMPLATES . "/Cabecera.php";
 /* ************************************************************************************************************************************************ */
@@ -50,7 +50,8 @@ $listaDeLibros = $intermediario->ejecutarSQL($sql);
                         <td class="align-items-center">
                             <a name="editar" class="btn btn-outline-info" href="#">Editar</a>
                             <a name="borrar" class="btn btn-outline-danger" href="#">Borrar</a>
-                            <a name="revisar-copias" class="btn btn-outline-success" href="#">ver copias</a>
+                            <a name="revisar-copias" class="btn btn-outline-success"
+                                href="#">ver copias</a>
                         </td>
                     </tr>
 

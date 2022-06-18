@@ -1,6 +1,6 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Organizacion-prueba/config.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once CONTROLLERS . "/GestorDeLibros.php";
 include_once TEMPLATES . "/Cabecera.php";
@@ -99,7 +99,7 @@ if ($_POST) {
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="select-test">
                                         <a
-                                            href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarAutor.php"; ?>"><i class="bi bi-bookmark-plus"> Añadir</i></a>
+                                            href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarAutor.php"; ?>"><i class="bi bi-person-lines"> Añadir</i></a>
 
                                     </span>
                                 </div>

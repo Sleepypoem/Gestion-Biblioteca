@@ -1,6 +1,6 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Organizacion-prueba/config.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 include_once TEMPLATES . "/Cabecera.php";
 require_once VIEWS . "/CrearComponentes.php";
 /* ************************************************************************************************************************************************ */

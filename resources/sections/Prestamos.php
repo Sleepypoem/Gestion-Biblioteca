@@ -1,6 +1,6 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Organizacion-prueba/config.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once CONTROLLERS . "/GestorDePrestamos.php";
 include_once TEMPLATES . "/Cabecera.php";
@@ -43,7 +43,8 @@ if ($_POST) {
                             <select class="form-control" name="prestamos-isbn">
                                 <?php foreach ($listaLibros as $libro) { ?>
 
-                                <option value="<?php echo $libro["isbn"] ?>"><?php echo $libro["titulo"] ?></option>
+                                <option value="<?php echo $libro["isbn"] ?>">
+                                    <?php echo $libro["titulo"] ?></option>
                                 <?php } ?>
                             </select>
                         </div>

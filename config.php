@@ -6,13 +6,13 @@
 
 $config = array(
     "urls" => array(
-        "baseUrl" => "http://" . $_SERVER["HTTP_HOST"] . "/Organizacion-prueba"
+        "baseUrl" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca"
     ),
     "paths" => array(
         "resources" => "/resources",
         "images" => array(
-            "content" => "http://" . $_SERVER["HTTP_HOST"] . "/Organizacion-prueba/public_html/img/content",
-            "layout" => "http://" . $_SERVER["HTTP_HOST"] . "/Organizacion-prueba/public_html/img/layout"
+            "content" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca/public_html/img/content",
+            "layout" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca/public_html/img/layout"
         )
     )
 );
