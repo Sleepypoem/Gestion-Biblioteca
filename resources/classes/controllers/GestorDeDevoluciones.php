@@ -29,17 +29,17 @@ class GestorDeDevoluciones implements IGestor
     {
         $sql = "UPDATE prestamo SET estado = 2 WHERE idPrestamo = $this->idPrestamo";
         $this->comunicarseConBD($sql);
-        $this->actualizarLaCopia();
+
         $this->registrarDevolucion();
+        $this->actualizarLaCopia();
 
         return "Libro devuelto con exito";
     }
 
     private function consultarPrestamo()
     {
-        $sql = "SELECT idPrestamo, codigoLector, codigoBbliotecario FROM prestamo WHERE codigo_copia = $this->codigoCopia";
+        $sql = "SELECT idPrestamo, codigoLector, codigoBbliotecario FROM prestamo WHERE codigo_copia = $this->codigoCopia AND estado = 1;";
         $resultados = $this->comunicarseConBD($sql);
-
         if ($resultados == []) {
             return "No se encontro ningun prestamo asociado a esta copia";
         } else {
@@ -50,7 +50,8 @@ class GestorDeDevoluciones implements IGestor
 
     private function registrarDevolucion()
     {
-        $sql = "INSERT INTO devolucion (idPrestamo, idBbliotecario) VALUES ($this->idPrestamo,$this->codigoBibliotecario)";
+        $sql = "INSERT INTO devolucion (idPrestamo, idBbliotecario) VALUES ($this->idPrestamo, $this->codigoBibliotecario)";
+        echo $sql;
         $this->comunicarseConBD($sql);
     }
 

@@ -10,8 +10,6 @@ function obtenerNombrePagina()
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-
-
 //despues de 3 dias aprendiendo los joins xd
 function actualizarLista()
 {
@@ -23,7 +21,6 @@ function actualizarLista()
 $listaCopias = actualizarLista();
 
 if ($_POST) {
-    echo $_POST["codigo-copia"];
     $gestor = new GestorDeDevoluciones($_POST["codigo-copia"]);
     $gestor->devolver();
     $listaCopias = actualizarLista();
