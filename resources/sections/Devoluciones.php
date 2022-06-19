@@ -29,7 +29,7 @@ if ($_POST) {
 
 <body>
     <div class="container">
-        <div class="card outline-danger">
+        <div class="card">
             <div class="card-header card-header text-white text-center bg-primary">
                 Devolver libro
             </div>

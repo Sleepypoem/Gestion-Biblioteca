@@ -35,20 +35,12 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="PrestamosDropDown"
-                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">Préstamos</a>
-                            <div class="dropdown-menu" aria-labelledby="Acciones-Libros">
-                                <a class="dropdown-item"
-                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Prestamos.php"; ?>">Hacer
-                                préstamo</a>
-                                <a class="dropdown-item"
-                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/HistorialDePrestamos.php"; ?>">Historial
-                                de
-                                préstamos</a>
-                            </div>
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-1">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Prestamos.php"; ?>">Préstamos
+                            <span class="visually-hidden">(current)</span></a></a>
+                        </li>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"

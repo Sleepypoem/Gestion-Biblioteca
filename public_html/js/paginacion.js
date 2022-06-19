@@ -243,3 +243,11 @@ $(document).ready(function () {
 
     });
 });
+
+$(document).ready(function () {
+    $('#tabla-prestamos').DataTable({
+
+        "pageLength": 2,
+
+    });
+});
