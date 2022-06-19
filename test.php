@@ -13,6 +13,8 @@ $creador = new CrearComponentes();
 $listaPrueba = ["id-prueba", "valor-prueba"]
 ?>
 
+
+
 <body>
     <div class="p-5 bg-light">
         <div class="container">
@@ -30,8 +32,10 @@ $listaPrueba = ["id-prueba", "valor-prueba"]
     </div>
 
 
+    <span class="badge badge-danger">Primary</span>
+
     <div class="mb-3">
-        <label class="form-label">Texto de prueba</label>
+        <label class="form-label"></label>
         <?php $creador->crearFormElemento("text", "bi bi-person-circle", "prueba-texto"); ?>
         <small id="helpId" class="form-text text-muted">
             este es un form de prueba
@@ -58,7 +62,7 @@ $listaPrueba = ["id-prueba", "valor-prueba"]
 
     <div class="container text-center">
         <div class="alert alert-info w-20 fade show">
-            <i class="bi bi-info-circle"></i>Hola, soy una alerta
+            <i class="bi bi-info-circle"></i> Hola, soy una alerta
         </div>
     </div>
 
@@ -123,14 +127,16 @@ $listaPrueba = ["id-prueba", "valor-prueba"]
         <form class="row g-3 needs-validation" novalidate>
             <div class="col-md-4">
                 <label for="validationCustom01" class="form-label">First name</label>
-                <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+                <input type="text" class="form-control" id="validationCustom01" value="Mark"
+                    required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
             <div class="col-md-4">
                 <label for="validationCustom02" class="form-label">Last name</label>
-                <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+                <input type="text" class="form-control" id="validationCustom02" value="Otto"
+                    required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -172,7 +178,8 @@ $listaPrueba = ["id-prueba", "valor-prueba"]
             </div>
             <div class="col-12">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck"
+                        required>
                     <label class="form-check-label" for="invalidCheck">
                         Agree to terms and conditions
                     </label>

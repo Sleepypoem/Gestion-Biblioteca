@@ -51,7 +51,7 @@ $listaDeLibros = $intermediario->ejecutarSQL($sql);
                             <a name="editar" class="btn btn-outline-info" href="#">Editar</a>
                             <a name="borrar" class="btn btn-outline-danger" href="#">Borrar</a>
                             <a name="revisar-copias" class="btn btn-outline-success"
-                                href="#">ver copias</a>
+                                href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Copias.php?isbn=" . $libro["isbn"]; ?>">ver copias</a>
                         </td>
                     </tr>
 

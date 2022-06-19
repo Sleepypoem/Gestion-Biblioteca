@@ -134,7 +134,7 @@ if ($_POST) {
                         Lista de Autores
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped table-primary" id="tabla-datos"
+                        <table class="table table-striped table-primary" id="tabla-autores"
                             style="width:100%">
                             <thead class=" center-text">
                                 <tr>

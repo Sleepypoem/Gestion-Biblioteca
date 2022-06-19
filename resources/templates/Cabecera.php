@@ -63,7 +63,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
                                 <a class="dropdown-item"
                                     href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Catalogo.php"; ?>">Catalogo</a>
                                 <a class="dropdown-item"
-                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Agregar.php"; ?>">Añadir
+                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarLibros.php"; ?>">Añadir
                                 libro</a>
                             </div>
                         </li>

@@ -99,7 +99,7 @@ if ($_POST) {
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="select-test">
                                         <a
-                                            href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarAutor.php"; ?>"><i class="bi bi-person-lines"> Añadir</i></a>
+                                            href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarAutor.php"; ?>"><i class="bi bi-person-lines-fill"> Añadir</i></a>
 
                                     </span>
                                 </div>

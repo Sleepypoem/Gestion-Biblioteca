@@ -7,6 +7,8 @@ function obtenerNombrePagina()
     return "Historial de prestamos";
 }
 
+
+
 ?>
 
 <body>
