@@ -107,4 +107,3 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 
 
     </head>
-    <br>

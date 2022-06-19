@@ -251,3 +251,19 @@ $(document).ready(function () {
 
     });
 });
+
+$(document).ready(function () {
+    $('#tabla-libros').DataTable({
+
+        "pageLength": 10,
+
+    });
+});
+
+$(document).ready(function () {
+    $('#tabla-categorias').DataTable({
+
+        "pageLength": 10,
+
+    });
+});

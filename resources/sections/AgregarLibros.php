@@ -31,10 +31,10 @@ $tiposDeLibros = $intermediario->obtenerDeBD("tipos-de-libros");
 
 if ($_POST) {
     $gestor = new GestorDeLibros($_POST["isbn"], $_POST["titulo"], $_POST["autor"], $_POST["tipo-libro"], $_POST["copias"]);
-    if (isset($_FILES["libro"])) {
+    if (isset($_FILES["libro-imagen"])) {
         $gestor->setImagen(moverImagen($_FILES["libro-imagen"]["tmp_name"], $rutaImg, $_FILES["libro-imagen"]["name"]));
     } else {
-        $gestor->setImagen($rutaImg . "/default.png");
+        $gestor->setImagen("default.png");
     }
 
     $gestor->setCodigoBibliotecario(1000);

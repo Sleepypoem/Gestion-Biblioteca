@@ -16,48 +16,63 @@ $sql = "SELECT * FROM v_libros";
 $listaDeLibros = $intermediario->ejecutarSQL($sql);
 
 ?>
-<br>
-<br>
+<h1 class="text-center pb-2">Catalogo de libros</h1>
 
 <body>
 
     <!-- Aqui va la lista de libros sacados de la base de datos -->
-    <div class="container">
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered border-danger ">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ISBN</th>
-                        <th>Titulo</th>
-                        <th>Autor</th>
-                        <th>Tipo de Libro</th>
-                        <th>Imagen</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aqui van los datos de la base de datos -->
-                    <?php
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header text-white text-center bg-primary">
+            </div>
+            <div class="card-body">
 
-                    foreach ($listaDeLibros as $libro) {
-                    ?>
-                    <tr>
-                        <td><?php echo $libro["isbn"] ?></td>
-                        <td><?php echo $libro["titulo"] ?></td>
-                        <td><?php echo $libro["Autor"] ?></td>
-                        <td><?php echo $libro["Tipo de Libro"] ?></td>
-                        <td><?php echo $libro["image"] ?></td>
-                        <td class="align-items-center">
-                            <a name="editar" class="btn btn-outline-info" href="#">Editar</a>
-                            <a name="borrar" class="btn btn-outline-danger" href="#">Borrar</a>
-                            <a name="revisar-copias" class="btn btn-outline-success"
-                                href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Copias.php?isbn=" . $libro["isbn"]; ?>">ver copias</a>
-                        </td>
-                    </tr>
+                <table class="table table-striped" id="tabla-libros">
+                    <thead class="bg-primary text-center text-white">
+                        <tr>
+                            <th>ISBN</th>
+                            <th>Titulo</th>
+                            <th>Autor</th>
+                            <th>Tipo de Libro</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Aqui van los datos de la base de datos -->
+                        <?php
 
-                    <?php } ?>
-                </tbody>
-            </table>
+                        foreach ($listaDeLibros as $libro) {
+                        ?>
+                        <tr>
+                            <td><?php echo $libro["isbn"] ?></td>
+                            <td><?php echo $libro["titulo"] ?></td>
+                            <td><?php echo $libro["Autor"] ?></td>
+                            <td><?php echo $libro["Tipo de Libro"] ?></td>
+                            <td>
+                                <img src="<?php echo (file_exists("../../public_html/img/content/" . $libro["image"])) ? "../../public_html/img/content/" . $libro["image"] : "../../public_html/img/content/default.png"; ?>"
+                                    class="border border-dark " alt="Imagen del autor"
+                                    style="width: 70px ; height:85px;">
+                            </td>
+                            <td>
+                                <a name="editar" class="btn btn-warning" href="#">Editar</a>
+                                <a name="revisar-copias" class="btn btn-success"
+                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Copias.php?isbn=" . $libro["isbn"]; ?>">ver copias</a>
+                            </td>
+                        </tr>
+
+                        <?php } ?>
+                    </tbody>
+                </table>
+
+                <script
+                    src="<?php echo $config["urls"]["baseUrl"] . "/public_html/js/paginacion.js"; ?>">
+
+                </script>
+
+            </div>
+            <div class="card-footer bg-primary text-muted">
+            </div>
         </div>
 
     </div>

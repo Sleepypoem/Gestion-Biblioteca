@@ -1,8 +1,8 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
-include SITE_ROOT . "/plantillas/Cabecera.php";
-require_once SITE_ROOT . "/classes/Intermediario/Intermediario.php";
+require_once CONTROLLERS . "/Intermediario.php";
+include_once TEMPLATES . "/Cabecera.php";
 /* ************************************************************************************************************************************************ */
 
 function obtenerNombrePagina()
@@ -11,23 +11,25 @@ function obtenerNombrePagina()
 }
 
 $listaDeCategorias = new Intermediario();
-$categorias = $listaDeCategorias->obtenerDeBD("tiposdelibro");
+$categorias = $listaDeCategorias->obtenerDeBD("tipos-de-libros");
 
 ?>
-<br>
-<br>
 
 <body>
-    <div class="container align-items-center">
-        <div class="row">
+    <div class="container-fluid">
 
-            <div class="container">
-                <!-- Aqui va la lista de libros sacados de la base de datos -->
-                <table class="table table-hover table-bordered border-danger">
-                    <thead class="table-dark">
+        <!-- Aqui va la lista de libros sacados de la base de datos -->
+        <div class="card">
+            <div class="card-header bg-primary">
+            </div>
+            <div class="card-body">
+
+                <table class="table table-striped" id="tabla-categorias">
+                    <thead class="bg-primary text-center text-white">
                         <tr>
                             <th>Nombre</th>
                             <th>Descripción</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,18 +38,27 @@ $categorias = $listaDeCategorias->obtenerDeBD("tiposdelibro");
 
                         foreach ($categorias as $categoria) { ?>
                         <tr>
-                            <td><?php echo $categoria->nombre ?></td>
-                            <td><?php echo $categoria->descripcion ?></td>
+                            <td><?php echo $categoria["nombre"] ?></td>
+                            <td><?php echo $categoria["descripcion"] ?></td>
+                            <td><a href="#" class="btn w-90 btn-warning">Editar</a></td>
                         </tr>
 
                         <?php } ?>
                     </tbody>
                 </table>
+
+            </div>
+            <div class="card-footer bg-primary text-muted">
             </div>
         </div>
+        <script src="<?php echo $config["urls"]["baseUrl"] . "/public_html/js/paginacion.js"; ?>">
+
+        </script>
     </div>
 </body>
 
 <?php
-include("../Plantillas/Pie.php");
+/* ***************************************************************** Dependencias ***************************************************************** */
+include_once TEMPLATES . "/Pie.php";
+/* ************************************************************************************************************************************************ */
 ?>

@@ -33,7 +33,7 @@ class GestorDeAutores implements IGestor
         $sql = "INSERT INTO `autor`( `nombre`, `fechaNacimiento`, `image`) 
         VALUES ('$this->nombre', '$this->fechaDeNacimiento', '$this->imagen')";
         try {
-            #$this->comunicarseConBD($sql);
+            $this->comunicarseConBD($sql);
         } catch (PDOException $e) {
             return "Error al contactarse con la BD. Error: " . $e;
         }
