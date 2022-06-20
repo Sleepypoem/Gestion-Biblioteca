@@ -14,10 +14,16 @@ class GestorDeCategorias implements IGestor, IValidar
     private $descripcion = "sin descripcion";
     private $alertas;
 
-    function __construct($nombre, $descripcion)
+    function __construct($nombre, $descripcion, $intermediario = null)
     {
         $this->alertas = new CrearAlertas();
-        $this->intermediario = new Intermediario();
+
+        //si pasan el intermediario por el constructor usamos ese, sino creamos uno
+        if ($intermediario === null) {
+            $this->intermediario = new Intermediario();
+        } else {
+            $this->intermediario = $intermediario;
+        }
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
     }
