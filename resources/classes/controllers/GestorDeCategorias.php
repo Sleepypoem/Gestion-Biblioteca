@@ -3,9 +3,10 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once INTERFACES . "/IGestor.php";
+require_once INTERFACES . "/IValidar.php";
 /* ************************************************************************************************************************************************ */
 
-class GestorDeCategorias implements IGestor
+class GestorDeCategorias implements IGestor, IValidar
 {
     private $intermediario;
     private $nombre;
@@ -18,6 +19,11 @@ class GestorDeCategorias implements IGestor
         $this->descripcion = $descripcion;
     }
 
+    /**
+     * Se encarga de todo lo necesario para agregar una categoria a la base de datos con los datos pasados al constructor.
+     *
+     * @return string Un mensaje de confirmacion o de error.
+     */
     public function agregarCategoria()
     {
         if (!$this->validarCampo($this->nombre)) {
@@ -30,7 +36,7 @@ class GestorDeCategorias implements IGestor
         }
     }
 
-    private function validarCampo($entrada)
+    function validarCampo(string $entrada): bool
     {
         if ($entrada == "" || $entrada == null) {
             return false;
