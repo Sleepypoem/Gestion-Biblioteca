@@ -13,7 +13,7 @@ function obtenerNombrePagina()
 /* ****************************************************************** Instancias ****************************************************************** */
 $intermediario = new Intermediario();
 /* ************************************************************************************************************************************************ */
-$sql = "SELECT * FROM v_libros WHERE copias > 1";
+$sql = "SELECT * FROM v_libros WHERE copias >= 1";
 $listaLibros = $intermediario->ejecutarSQL($sql);
 
 $sql = "SELECT * FROM usuario WHERE estado = 1";
@@ -28,7 +28,7 @@ if ($_POST) {
     echo $gestorPrestamos->prestar();
 
     $archivoActual = $_SERVER['PHP_SELF'];
-    echo "<meta http-equiv=\"Refresh\" content=\"1;url=$archivoActual\">";
+    echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
 }
 
 ?>
@@ -121,9 +121,9 @@ if ($_POST) {
                                     <td><?php echo $prestamo["titulo"]  ?></td>
                                     <td>
                                         <?php if ($prestamo["estado"] == 1) {
-                                                echo "<a class=\"text-start btn disabled w-75 btn-warning\"><i class=\"text-end bi bi-person-x\">  Sin devolver</i></a>";
+                                                echo "<a class=\"text-start btn disabled w-80 btn-warning\"><i class=\"text-end bi bi-person-x\">  Sin devolver</i></a>";
                                             } else if ($prestamo["estado"] == 2) {
-                                                echo "<a class=\"text-start btn disabled w-75 btn-success\"><i class=\" bi bi-person-check\">  Devuelto</i></a>";
+                                                echo "<a class=\"text-start btn disabled w-80 btn-success\"><i class=\" bi bi-person-check\">  Devuelto</i></a>";
                                             } ?>
                                     </td>
                                 </tr>

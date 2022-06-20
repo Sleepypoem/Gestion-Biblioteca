@@ -3,6 +3,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once INTERFACES . "/IGestor.php";
+require_once VIEWS . "/CrearAlertas.php";
 /* ************************************************************************************************************************************************ */
 
 class GestorDePrestamos implements IGestor
@@ -12,9 +13,11 @@ class GestorDePrestamos implements IGestor
     private $isbn;
     private $fechaDeHoy;
     private $copiasDisponibles = [];
+    private $alertas;
 
     function __construct($codigoLector, $codigoBibliotecario, $isbn)
     {
+        $this->alertas = new CrearAlertas();
         $this->intermediario = new Intermediario();
         $this->fechaDeHoy = new DateTime();
         $this->codigoLector = $codigoLector;
@@ -30,9 +33,13 @@ class GestorDePrestamos implements IGestor
     public function comprobarUsuario()
     {
         $sql = "SELECT `estado` FROM `usuario` WHERE codigo = $this->codigoLector";
-        $resultado = $this->intermediario->ejecutarSQL($sql);
-        if ($resultado[0]["estado"] == 1) {
-            return true;
+        $estado = $this->comunicarseConBD($sql);
+        if ($estado[0]["estado"] == 1) {
+            $sql = "SELECT COUNT(0) as prestamos FROM prestamo WHERE codigoLector = $this->codigoLector AND estado = 1";
+            $numeroDePrestamos = $this->comunicarseConBD($sql)[0]["prestamos"];
+            if ($numeroDePrestamos < 3) {
+                return true;
+            }
         }
         return false;
     }
@@ -105,22 +112,17 @@ class GestorDePrestamos implements IGestor
      */
     public function prestar()
     {
-        $mensaje = "";
-
         if (!$this->comprobarUsuario()) {
-            $mensaje = "Este usuario no puede prestar mas libros.";
-            return $mensaje;
+            return $this->alertas->crearAlertaFallo("Este usuario no puede prestar mas libros!");
         }
 
         if ($this->comprobarCopias() == 0) {
-            $mensaje = "Lo sentimos, este libro no tiene copias disponibles.";
-            return $mensaje;
+            return $this->alertas->crearAlertaFallo("Lo sentimos, no hay mas copias de este libro.");
         }
 
         $this->registrarPrestamo();
         $this->actualizarLaCopia();
-        $mensaje = "Se registro el prestamo.";
-        return $mensaje;
+        return $this->alertas->crearAlertaExito("Se registro el prestamo");
     }
 
     function comunicarseConBD($sql): array

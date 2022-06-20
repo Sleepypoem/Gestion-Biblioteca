@@ -2,13 +2,21 @@
 /* ***************************************************************** Dependencias ***************************************************************** */
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 include_once TEMPLATES . "/Cabecera.php";
-require_once VIEWS . "/CrearComponentes.php";
+require_once CONTROLLERS . "/Intermediario.php";
 /* ************************************************************************************************************************************************ */
 
 function obtenerNombrePagina()
 {
     return "Inicio";
 }
+
+$intermediario = new Intermediario();
+
+$usuarios = count($intermediario->obtenerDeBD("usuario"));
+$libros = count($intermediario->obtenerDeBD("libro"));
+$autores = count($intermediario->obtenerDeBD("autor"));
+$prestamos = count($intermediario->obtenerDeBD("prestamo"));
+$devoluciones = count($intermediario->obtenerDeBD("devolucion"));
 
 
 ?>
@@ -27,7 +35,7 @@ function obtenerNombrePagina()
                         <i class="bi bi-person-circle" style="font-size: 3rem; color: white;"></i>
                     </div>
                     <div class="card-body card-body-font text-white text-center bg-success">
-                        0
+                        <?php echo $usuarios ?>
                     </div>
                     <div class="card-footer fs-2 text-white text-center bg-primary">
                         <strong>Usuarios totales</strong>
@@ -43,7 +51,7 @@ function obtenerNombrePagina()
                         <i class="bi bi-person-video2" style="font-size: 3rem; color: white;"></i>
                     </div>
                     <div class="card-body card-body-font text-white text-center bg-success">
-                        0
+                        1
                     </div>
                     <div class="card-footer fs-2 text-white text-center bg-primary">
                         <strong>Administradores</strong>
@@ -60,7 +68,7 @@ function obtenerNombrePagina()
                         <i class="bi bi-book" style="font-size: 3rem; color: white;"></i>
                     </div>
                     <div class="card-body card-body-font text-white text-center bg-success">
-                        0
+                        <?php echo $libros ?>
                     </div>
                     <div class="card-footer fs-2 text-white text-center bg-primary">
                         <strong>Libros</strong>
@@ -80,7 +88,7 @@ function obtenerNombrePagina()
                             style="font-size: 3rem; color: white;"></i>
                     </div>
                     <div class="card-body card-body-font text-white text-center bg-success">
-                        0
+                        <?php echo $prestamos ?>
                     </div>
                     <div class="card-footer fs-2 text-white text-center bg-primary">
                         <strong>Préstamos</strong>
@@ -97,7 +105,7 @@ function obtenerNombrePagina()
                             style="font-size: 3rem; color: white;"></i>
                     </div>
                     <div class="card-body card-body-font text-white text-center bg-success">
-                        0
+                        <?php echo $devoluciones ?>
                     </div>
                     <div class="card-footer fs-2 text-white text-center bg-primary">
                         <strong>Devoluciones</strong>

@@ -5,6 +5,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once INTERFACES . "/IGestor.php";
 require_once INTERFACES . "/IValidar.php";
+require_once VIEWS . "/CrearAlertas.php";
 /* ************************************************************************************************************************************************ */
 
 class GestorDeLibros implements IGestor, IValidar
@@ -17,9 +18,11 @@ class GestorDeLibros implements IGestor, IValidar
     private $codigoBibliotecario = 1000;
     private $imagen = "sin definir";
     private $copias;
+    private $alertas;
 
     function __construct($isbn, $titulo, $idAutor, $idTipoLibro, $copias)
     {
+        $this->alertas = new CrearAlertas();
         $this->intermediario = new Intermediario();
         $this->isbn = $isbn;
         $this->titulo = $titulo;
@@ -40,10 +43,12 @@ class GestorDeLibros implements IGestor, IValidar
 
     public function registrarLibro()
     {
-        $this->procesarIsbn();
-
         if (!$this->validarCampo($this->titulo)) {
-            return "El titulo no puede estar vacio";
+            return $this->alertas->crearAlertaFallo("El titulo no puede estar vacio!");
+        }
+
+        if (!$this->validarCampo($this->isbn)) {
+            return $this->alertas->crearAlertaFallo("El isbn no puede estar vacio!");
         }
 
         $sql = "INSERT INTO libro (isbn, titulo, idAutor, tipoLibro, codigoBbliotecario, image, estado) 
@@ -55,30 +60,7 @@ class GestorDeLibros implements IGestor, IValidar
 
         $this->comunicarseConBD($sql);
 
-        return "Libro ingresado con exito";
-    }
-
-    private function procesarIsbn()
-    {
-        if ($this->validarCampo($this->isbn)) {
-            $this->formatearIsbn();
-        } else {
-            throw new Exception("El isbn no puede estar vacio");
-        }
-    }
-
-    private function formatearIsbn()
-    {
-        $arrayIsbn = str_split($this->isbn);
-
-        for ($iterador = 0; $iterador < count($arrayIsbn); $iterador++) {
-            $resultado[] = $arrayIsbn[$iterador];
-            if ($iterador == 0 || $iterador == 4 || $iterador == 8) {
-                $resultado[] = "-";
-            }
-        }
-
-        $this->isbn = implode($resultado);
+        return $this->alertas->crearAlertaExito("Libro agregado con exito");
     }
 
     function validarCampo(string $entrada): bool

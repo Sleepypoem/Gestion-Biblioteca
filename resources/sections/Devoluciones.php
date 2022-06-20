@@ -22,8 +22,10 @@ $listaCopias = actualizarLista();
 
 if ($_POST) {
     $gestor = new GestorDeDevoluciones($_POST["codigo-copia"]);
-    $gestor->devolver();
-    $listaCopias = actualizarLista();
+    echo $gestor->devolver();
+
+    $archivoActual = $_SERVER['PHP_SELF'];
+    echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
 }
 ?>
 

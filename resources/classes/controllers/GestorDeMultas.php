@@ -2,6 +2,7 @@
 /* ***************************************************************** Dependencias ***************************************************************** */
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
+require_once VIEWS . "/CrearAlertas.php";
 /* ************************************************************************************************************************************************ */
 
 class GestorDeMultas
@@ -9,9 +10,11 @@ class GestorDeMultas
     private $intermediario;
     private $fechadeHoy;
     private $tarifa = 0.50;
+    private $alertas;
 
     function __construct(Intermediario $intermediario)
     {
+        $this->alertas = new CrearAlertas();
         $this->intermediario = $intermediario;
         $this->fechadeHoy = new DateTime();
     }

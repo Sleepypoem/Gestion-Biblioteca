@@ -59,6 +59,11 @@ class Intermediario
                 return $listaMultas;
                 break;
 
+            case 'devolucion':
+                $listaDevoluciones = $this->conexion->ejecutaSQL($sql);
+                return $listaDevoluciones;
+                break;
+
             default:
                 throw new Exception("No existen objetos de tipo '" . $valor . "' en la base de datos");
 

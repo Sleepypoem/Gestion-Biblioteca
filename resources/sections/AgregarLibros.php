@@ -39,6 +39,9 @@ if ($_POST) {
 
     $gestor->setCodigoBibliotecario(1000);
     echo $gestor->registrarLibro();
+
+    $archivoActual = $_SERVER['PHP_SELF'];
+    echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
 }
 ?>
 

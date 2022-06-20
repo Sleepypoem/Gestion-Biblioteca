@@ -4,6 +4,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once INTERFACES . "/IGestor.php";
 require_once INTERFACES . "/IValidar.php";
+require_once VIEWS . "/CrearAlertas.php";
 /* ************************************************************************************************************************************************ */
 
 class GestorDeCategorias implements IGestor, IValidar
@@ -11,9 +12,11 @@ class GestorDeCategorias implements IGestor, IValidar
     private $intermediario;
     private $nombre;
     private $descripcion = "sin descripcion";
+    private $alertas;
 
     function __construct($nombre, $descripcion)
     {
+        $this->alertas = new CrearAlertas();
         $this->intermediario = new Intermediario();
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
@@ -27,12 +30,12 @@ class GestorDeCategorias implements IGestor, IValidar
     public function agregarCategoria()
     {
         if (!$this->validarCampo($this->nombre)) {
-            return "El nombre no puede estar vacio";
+            return $this->alertas->crearAlertaFallo("El nombre no puede estar vacio!");
         } else {
             $sql = "INSERT INTO `tipos-de-libros` (nombre, descripcion) VALUES ('$this->nombre', '$this->descripcion')";
             $this->comunicarseConBD($sql);
 
-            return "Categoria añadida exitosamente";
+            return $this->alertas->crearAlertaExito("Categoria agregada con exito");
         }
     }
 

@@ -17,7 +17,10 @@ if ($_POST) {
     $descripcion = $_POST["descripcion-categoria"];
 
     $gestor = new GestorDeCategorias($nombre, $descripcion);
-    $gestor->agregarCategoria();
+    echo $gestor->agregarCategoria();
+
+    $archivoActual = $_SERVER['PHP_SELF'];
+    echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
 }
 
 ?>

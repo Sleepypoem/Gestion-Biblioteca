@@ -4,6 +4,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once INTERFACES . "/IGestor.php";
+require_once VIEWS . "/CrearAlertas.php";
 /* ************************************************************************************************************************************************ */
 
 class GestorDeDevoluciones implements IGestor
@@ -12,12 +13,14 @@ class GestorDeDevoluciones implements IGestor
     private $idPrestamo;
     private $codigoCopia;
     private $codigoBibliotecario;
+    private $alertas;
 
     function __construct($codigoCopia)
     {
+        $this->alertas = new CrearAlertas();
         $this->intermediario = new Intermediario();
         $this->codigoCopia = $codigoCopia;
-        echo $this->consultarPrestamo();
+        $this->consultarPrestamo();
     }
 
     /**
@@ -34,7 +37,7 @@ class GestorDeDevoluciones implements IGestor
         $this->registrarDevolucion();
         $this->actualizarLaCopia();
 
-        return "Libro devuelto con exito";
+        return $this->alertas->crearAlertaExito("Se registro la devolucion.");
     }
 
     /**
@@ -47,7 +50,7 @@ class GestorDeDevoluciones implements IGestor
         $sql = "SELECT idPrestamo, codigoLector, codigoBbliotecario FROM prestamo WHERE codigo_copia = $this->codigoCopia AND estado = 1;";
         $resultados = $this->comunicarseConBD($sql);
         if ($resultados == []) {
-            return "No se encontro ningun prestamo asociado a esta copia";
+            return $this->alertas->crearAlertaFallo("No se encontro prestamo registrado a esta copia.");
         } else {
             $this->idPrestamo = $resultados[0]["idPrestamo"];
             $this->codigoBibliotecario = $resultados[0]["codigoBbliotecario"];
@@ -62,7 +65,6 @@ class GestorDeDevoluciones implements IGestor
     private function registrarDevolucion()
     {
         $sql = "INSERT INTO devolucion (idPrestamo, idBbliotecario) VALUES ($this->idPrestamo, $this->codigoBibliotecario)";
-        echo $sql;
         $this->comunicarseConBD($sql);
     }
 
