@@ -39,6 +39,26 @@ class GestorDeCategorias implements IGestor, IValidar
         }
     }
 
+    /**
+     * Se encarga de todo lo necesario para editar la categoria en la base de datos
+     * con los datos pasados al constructor y un id para identificar la fila a editar.
+     *
+     * @param int $id El id de la fila a editar.
+     * @return void
+     */
+    public function editarCategoria($id)
+    {
+        $sql = "UPDATE `tipos-de-libros` SET nombre = '$this->nombre', descripcion = '$this->descripcion' WHERE idtipoLibro = $id";
+
+        try {
+            $this->comunicarseConBD($sql);
+        } catch (PDOException $e) {
+            return $this->alertas->crearAlertaFallo("Error al comunicarse con la base de datos. Error: " . $e);
+        }
+
+        return $this->alertas->crearAlertaExito("Categoria editada con exito");
+    }
+
     function validarCampo(string $entrada): bool
     {
         if ($entrada == "" || $entrada == null) {

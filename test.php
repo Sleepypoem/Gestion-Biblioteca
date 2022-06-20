@@ -97,7 +97,7 @@ if ($_POST) {
             <select name="autor" class="form-control">
                 <option value="1">test</option>
                 <option value="2">test2</option>
-                <option value="3">test3</option>
+                <option value="3" selected>test3</option>
             </select>
         </div>
     </div>

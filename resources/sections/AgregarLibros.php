@@ -7,12 +7,46 @@ include_once TEMPLATES . "/Cabecera.php";
 require_once VIEWS . "/CrearComponentes.php";
 /* ************************************************************************************************************************************************ */
 
+/* ********************************************************* Valores por defecto sin $_GET ******************************************************** */
+$intermediario = new Intermediario();
+$rutaImg = "../../public_html/img/content/";
+$encabezado = "Agregar";
+$agregar = true;
+$isbn = "";
+$titulo = "";
+$idAutor = "";
+$idTipoLibro = "";
+$nombreImagen = "";
+$copias = 1;
+$id;
+/* ************************************************************************************************************************************************ */
+
+if ($_GET) {
+    $id = $_GET["id"];
+    $encabezado = "Editar";
+    $agregar = false;
+
+    $sql = "SELECT * FROM libro WHERE id = $id";
+    $libros = $intermediario->ejecutarSQL($sql);
+
+    $isbn = $libros[0]["isbn"];
+    $titulo = $libros[0]["titulo"];
+    $idAutor = $libros[0]["idAutor"];
+    $idTipoLibro = $libros[0]["tipoLibro"];
+    $nombreImagen = $libros[0]["image"];
+
+    /* ************************************************* Contando las copias de un libro en especifico ************************************************ */
+    $sql = "SELECT COUNT(0) as copias FROM copias WHERE isbn = '$isbn'";
+    $copias = $intermediario->ejecutarSQL($sql)[0]["copias"];
+    /* ************************************************************************************************************************************************ */
+}
+
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-$rutaImg = "../../public_html/img/content/";
+
 
 
 function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
@@ -24,21 +58,46 @@ function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
     return $img;
 }
 
-$intermediario = new Intermediario();
-$creador = new CrearComponentes();
 $listaAutores = $intermediario->obtenerDeBD("autor");
 $tiposDeLibros = $intermediario->obtenerDeBD("tipos-de-libros");
 
 if ($_POST) {
-    $gestor = new GestorDeLibros($_POST["isbn"], $_POST["titulo"], $_POST["autor"], $_POST["tipo-libro"], $_POST["copias"]);
-    if (isset($_FILES["libro-imagen"])) {
-        $gestor->setImagen(moverImagen($_FILES["libro-imagen"]["tmp_name"], $rutaImg, $_FILES["libro-imagen"]["name"]));
-    } else {
-        $gestor->setImagen("default.png");
-    }
 
-    $gestor->setCodigoBibliotecario(1000);
-    echo $gestor->registrarLibro();
+    $isbn = $_POST["isbn"];
+    $titulo = $_POST["titulo"];
+    $autor = $_POST["autor"];
+    $tipoLibro = $_POST["tipo-libro"];
+    $nombreTempImagen = $_FILES["libro-imagen"]["tmp_name"];
+    $nombreImagen = $_FILES["libro-imagen"]["name"];
+
+    if ($agregar) {
+        $copias = $_POST["copias"];
+        $gestor = new GestorDeLibros($isbn, $titulo, $autor, $tipoLibro, $copias);
+        if (isset($_FILES["libro-imagen"])) {
+            $gestor->setImagen(moverImagen($nombreTempImagen, $rutaImg, $nombreImagen));
+        } else {
+            $gestor->setImagen("default.png");
+        }
+
+        $gestor->setCodigoBibliotecario(1000);
+        echo $gestor->registrarLibro();
+    } else {
+
+        /* ************************************************* Contando las copias de un libro en especifico ************************************************ */
+        $sql = "SELECT COUNT(0) as copias FROM copias WHERE isbn = '$isbn'";
+        $copias = $intermediario->ejecutarSQL($sql)[0]["copias"];
+        /* ************************************************************************************************************************************************ */
+
+        $gestor = new GestorDeLibros($isbn, $titulo, $autor, $tipoLibro, $copias);
+        if (isset($_FILES["libro-imagen"])) {
+            $gestor->setImagen(moverImagen($nombreTempImagen, $rutaImg, $nombreImagen));
+        } else {
+            $gestor->setImagen($nombreImagen);
+        }
+
+        $gestor->setCodigoBibliotecario(1000);
+        echo $gestor->editarLibro($id);
+    }
 
     $archivoActual = $_SERVER['PHP_SELF'];
     echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
@@ -47,12 +106,12 @@ if ($_POST) {
 
 <body>
 
-    <div class="container row-cols-xl-2 align-items-center">
+    <div class="container align-items-center">
         <div class="container">
 
             <div class="card">
                 <div class="card-header card-header text-white text-center bg-primary">
-                    Añadir un nuevo libro
+                    <?php echo $encabezado ?> libro
                 </div>
                 <div class="card-body">
 
@@ -61,10 +120,15 @@ if ($_POST) {
                             <label class="form-label">
                                 Ingresa el ISBN del libro
                             </label>
-
-                            <?php $creador->crearFormElemento("text", "bi bi-journal-bookmark-fill", "isbn", "required"); ?>
-
-
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-journal-bookmark-fill"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="isbn" class="form-control"
+                                    placeholder="0-0000-0000-0" value="<?php echo $isbn ?>">
+                            </div>
                             <small id="helpId" class="form-text text-muted">
                                 Buscalo en la contraportada o en la página de copyright.
                             </small>
@@ -74,9 +138,16 @@ if ($_POST) {
                             <label class="form-label">
                                 Ingresa el titulo del libro
                             </label>
-
-                            <?php $creador->crearFormElemento("text", "bi bi-journal-text", "titulo", "required"); ?>
-
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-journal-text"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="titulo" class="form-control"
+                                    placeholder="Escribe el titulo del libro"
+                                    value="<?php echo $titulo ?>">
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -93,7 +164,8 @@ if ($_POST) {
                                     <?php
                                     foreach ($listaAutores as $autor) {
                                     ?>
-                                    <option value="<?= $autor["idAutor"]; ?>">
+                                    <option value="<?= $autor["idAutor"] ?>"
+                                        <?php echo ($autor["idAutor"] == $idAutor) ? "selected" : "" ?>>
                                         <?= $autor["nombre"]; ?></option>
                                     <?php
                                     }
@@ -124,7 +196,8 @@ if ($_POST) {
                                     <?php
                                     foreach ($tiposDeLibros as $tipolibro) {
                                     ?>
-                                    <option value="<?= $tipolibro["idtipoLibro"]; ?>">
+                                    <option value="<?= $tipolibro["idtipoLibro"]; ?>"
+                                        <?php echo ($tipolibro["idtipoLibro"] == $idTipoLibro) ? "selected" : "" ?>>
                                         <?= $tipolibro["nombre"]; ?>
                                     </option>
 
@@ -142,23 +215,34 @@ if ($_POST) {
                             </div>
                         </div>
 
-                        <label class="form-label">Ingresa la cantidad de copias</label>
-                        <?php $creador->crearFormElemento("number", "bi bi-plus-slash-minus", "copias", "value=\"1\""); ?>
-                        <br>
-
                         <div class="mb-3">
-                            <label for="imagen" class="form-label">Elegir imagen</label>
-                            <input type="file" class="form-control" name="libro-imagen" id="imagen">
-                            <div class="form-text">Ingresa una imagen de la portada</div>
+                            <label
+                                class="form-label"><?php echo (!$agregar) ? "No se puede añadir o quitar copias desde aqui" : "Ingresa la cantidad de copias" ?>
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="select-test">
+                                        <i class="bi bi-plus-slash-minus"></i>
+                                    </span>
+                                </div>
+                                <input type="number" class="form-control" name="copias"
+                                    value="<?php echo $copias ?>"
+                                    <?php echo (!$agregar) ? "disabled" : "" ?>>
+                            </div>
                         </div>
 
-                        <input type="hidden" class="form-control" value="libro" name="form-id"
-                            aria-describedby="identificador-de-formulario">
+                        <div class="mb-3">
+                            <label for="imagen"
+                                class="form-label"><?php echo (!$agregar) ? "Imagen actual: " . $nombreImagen : "Ingresa una imagen" ?></label>
+                            <input type="file" class="form-control" name="libro-imagen" id="imagen">
+                            <div class="form-text">Selecciona una imagen de portada</div>
+                        </div>
                         <br>
                         <button type="submit" class="btn btn-success">
                             <div class="btn-group">
-                                <i class="bi bi-book"> Añadir
-                                    libro </i>
+                                <i class="bi bi-book">
+                                    <?php echo $encabezado ?> libro
+                                </i>
                             </div>
 
                         </button>

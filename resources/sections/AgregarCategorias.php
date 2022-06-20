@@ -12,16 +12,40 @@ function obtenerNombrePagina()
     return "Añadir Categoria";
 }
 
+$encabezado = "Añadir una nueva";
+$agregar = true;
+$id;
+
+if ($_GET) {
+    $encabezado = "Editar";
+    $id = $_GET["id"];
+    $añadir = false;
+
+    $sql = "SELECT * FROM `tipos-de-libros` WHERE idtipoLibro = $id";
+    $intermediario = new Intermediario();
+    $categoria = $intermediario->ejecutarSQL($sql)[0];
+}
+
 if ($_POST) {
+
     $nombre = $_POST["nombre-categoria"];
     $descripcion = $_POST["descripcion-categoria"];
 
-    $gestor = new GestorDeCategorias($nombre, $descripcion);
-    echo $gestor->agregarCategoria();
+    if ($agregar) {
+
+        $gestor = new GestorDeCategorias($nombre, $descripcion);
+        echo $gestor->agregarCategoria();
+    } else {
+
+        $gestor = new GestorDeCategorias($nombre, $descripcion);
+        echo $gestor->editarCategoria($id);
+    }
 
     $archivoActual = $_SERVER['PHP_SELF'];
     echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
 }
+
+
 
 ?>
 
@@ -32,7 +56,7 @@ if ($_POST) {
 
             <div class="card">
                 <div class="card-header card-header text-white text-center bg-primary">
-                    Añadir una nueva categoria
+                    <?php echo $encabezado ?> categoria
                 </div>
                 <div class="card-body">
 
@@ -44,7 +68,8 @@ if ($_POST) {
                                     <i class="bi bi-tags"></i>
                                 </span>
                                 <input type="text" class="form-control" name="nombre-categoria"
-                                    aria-describedby="nombre-categoria" required>
+                                    value="<?php echo isset($categoria["nombre"]) ? $categoria["nombre"] : "" ?>"
+                                    required>
                             </div>
                         </div>
 
@@ -52,10 +77,12 @@ if ($_POST) {
                             <label class="form-label">Ingresa una descripcion para la
                                 categoria</label>
                             <textarea class="form-control" name="descripcion-categoria"
-                                rows="5"></textarea>
+                                rows="5"><?php echo isset($categoria["descripcion"]) ? $categoria["descripcion"] : "" ?></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Añadir categoria</button>
+                        <button type="submit" class="btn btn-success">
+                            <?php echo $encabezado ?> categoria
+                        </button>
 
                     </form>
 

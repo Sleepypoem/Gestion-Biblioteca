@@ -5,6 +5,7 @@ require_once CONTROLLERS . "/Intermediario.php";
 include_once TEMPLATES . "/Cabecera.php";
 /* ************************************************************************************************************************************************ */
 
+$rutaImg = "../../public_html/img/content/";
 
 function obtenerNombrePagina()
 {
@@ -50,14 +51,19 @@ $listaDeLibros = $intermediario->ejecutarSQL($sql);
                             <td><?php echo $libro["Autor"] ?></td>
                             <td><?php echo $libro["Tipo de Libro"] ?></td>
                             <td>
-                                <img src="<?php echo (file_exists("../../public_html/img/content/" . $libro["image"])) ? "../../public_html/img/content/" . $libro["image"] : "../../public_html/img/content/default.png"; ?>"
+                                <img src="<?php echo (file_exists($rutaImg . $libro["image"])) ? $rutaImg . $libro["image"] : $rutaImg . "default.png"; ?>"
                                     class="border border-dark " alt="Imagen del autor"
                                     style="width: 70px ; height:85px;">
                             </td>
                             <td>
-                                <a name="editar" class="btn btn-warning" href="#">Editar</a>
+                                <a name="editar" class="btn btn-warning"
+                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarLibros.php?id=" . $libro["id libro"]; ?>">
+                                        Editar
+                                    </a>
                                 <a name="revisar-copias" class="btn btn-success"
-                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Copias.php?isbn=" . $libro["isbn"]; ?>">ver copias</a>
+                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Copias.php?isbn=" . $libro["isbn"]; ?>">
+                                        ver copias
+                                    </a>
                             </td>
                         </tr>
 

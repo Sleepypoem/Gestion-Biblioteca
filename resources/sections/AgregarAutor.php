@@ -26,6 +26,7 @@ $cantidadDeAutores = $intermediario->ejecutarSQL($sql)[0]["autores"];
 
 $rutaImg = "../../public_html/img/content/";
 $encabezado = "Agregar";
+$agregar = true;
 $id;
 
 
@@ -48,10 +49,11 @@ if ($_GET) {
     $fechaNacimiento = $_GET["fecha"];
     $imagen = $_GET["img"];
     $id = $_GET["id"];
+    $agregar = false;
 }
 
 if ($_POST) {
-    if ($_POST["formulario-id"] == "Agregar") {
+    if ($agregar) {
         $gestor = new GestorDeAutores($_POST["nombre-autor"], $_POST["fecha-nacimiento"]);
         if (isset($_FILES["autor-imagen"])) {
             $gestor->setImagen(moverImagen($_FILES["autor-imagen"]["tmp_name"], $rutaImg, $_FILES["autor-imagen"]["name"]));
@@ -108,9 +110,6 @@ if ($_POST) {
                                     <?php echo (isset($fechaNacimiento)) ? "Imagen actual: " . $imagen : "Ingresa una imagen del autor" ?></label>
                                     <input type="file" class="form-control" name="autor-imagen">
                             </div>
-
-                            <input type="hidden" name="formulario-id"
-                                value="<?php echo $encabezado ?>">
 
                             <button type="submit" class="btn btn-success">
                                 <div class="btn-group">

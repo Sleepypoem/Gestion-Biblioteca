@@ -40,7 +40,8 @@ $categorias = $listaDeCategorias->obtenerDeBD("tipos-de-libros");
                         <tr>
                             <td><?php echo $categoria["nombre"] ?></td>
                             <td><?php echo $categoria["descripcion"] ?></td>
-                            <td><a href="#" class="btn w-90 btn-warning">Editar</a></td>
+                            <td><a href="AgregarCategorias.php?id=<?php echo $categoria["idtipoLibro"]  ?>"
+                                    class="btn w-90 btn-warning">Editar</a></td>
                         </tr>
 
                         <?php } ?>
