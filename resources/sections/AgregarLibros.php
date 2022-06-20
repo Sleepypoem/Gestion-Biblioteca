@@ -93,7 +93,7 @@ if ($_POST) {
             $nombreImagen = $_FILES["libro-imagen"]["name"];
 
             //si una nueva imagen es pasada al editar el libro tenemos que borrar la anterior
-            echo file_exists($rutaImg . $nombreImagendb) ? unlink($rutaImg . $nombreImagendb) : $rutaImg . $nombreImagendb;
+            file_exists($rutaImg . $nombreImagendb) ? unlink($rutaImg . $nombreImagendb) : $rutaImg . $nombreImagendb;
 
             $gestor->setImagen(moverImagen($nombreTempImagen, $rutaImg, $nombreImagen));
         } else {
