@@ -21,7 +21,8 @@ class GestorDeDevoluciones implements IGestor
     }
 
     /**
-     * Registra la devolucion en la base de datos, actualiza los estados de la copia y el prestamo.
+     * Se encarga de todo lo relacionado a la devolucion en la base de datos,
+     * actualiza los estados de la copia y el prestamo.
      *
      * @return string Un mensaje de confirmacion.
      */
@@ -36,6 +37,11 @@ class GestorDeDevoluciones implements IGestor
         return "Libro devuelto con exito";
     }
 
+    /**
+     * Consulta la informacion de prestamo de una copia en especifico.
+     *
+     * @return void
+     */
     private function consultarPrestamo()
     {
         $sql = "SELECT idPrestamo, codigoLector, codigoBbliotecario FROM prestamo WHERE codigo_copia = $this->codigoCopia AND estado = 1;";
@@ -48,6 +54,11 @@ class GestorDeDevoluciones implements IGestor
         }
     }
 
+    /**
+     * Registra la devolucion en la base de dato, para dejar registro.
+     *
+     * @return void
+     */
     private function registrarDevolucion()
     {
         $sql = "INSERT INTO devolucion (idPrestamo, idBbliotecario) VALUES ($this->idPrestamo, $this->codigoBibliotecario)";
@@ -55,6 +66,11 @@ class GestorDeDevoluciones implements IGestor
         $this->comunicarseConBD($sql);
     }
 
+    /**
+     * Actualiza el estado de la copia en la base de datos a "1" que significa que ya esta disponible para volver a prestar.
+     *
+     * @return void
+     */
     private function actualizarLaCopia()
     {
         $sql = "UPDATE copias SET estado = 1 WHERE codigo = $this->codigoCopia";
