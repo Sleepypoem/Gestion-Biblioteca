@@ -9,23 +9,119 @@ function obtenerNombrePagina()
 {
     return "Inicio";
 }
-$creador = new CrearComponentes();
-?>
-<br>
 
-<h1 class="display-4 text-center">Bienvenido al sistema administrador.</h1>
+
+?>
+
+<h1 class="display-4 text-center">Bienvenido al sistema, administrador.</h1>
 <br>
 
 <body>
-    <div class="container d-flex justify-content-center index-flex-parent">
-        <!-- la primera fila -->
-        <?php $creador->crearTarjeta(0, "bi bi-person-circle", "Usuarios Totales"); ?>
-        <?php $creador->crearTarjeta(0, "bi bi-person-video2", "Administradores"); ?>
-        <?php $creador->crearTarjeta(0, "bi bi-book", "Libros"); ?>
-        <?php $creador->crearTarjeta(0, "bi bi-arrow-up-circle-fill", "Prestamos"); ?>
-        <?php $creador->crearTarjeta(0, "bi bi-arrow-down-circle-fill", "Devoluciones"); ?>
-        <?php $creador->crearTarjeta(0, "bi bi-cash-coin", "Multas"); ?>
+    <div class="container">
+        <div class="row">
 
+            <div class="col-sm-4">
+
+                <div class="card">
+                    <div class="card-header text-center bg-primary">
+                        <i class="bi bi-person-circle" style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="card-body card-body-font text-white text-center bg-success">
+                        0
+                    </div>
+                    <div class="card-footer fs-2 text-white text-center bg-primary">
+                        <strong>Usuarios totales</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-4">
+
+                <div class="card ">
+                    <div class="card-header text-center bg-primary">
+                        <i class="bi bi-person-video2" style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="card-body card-body-font text-white text-center bg-success">
+                        0
+                    </div>
+                    <div class="card-footer fs-2 text-white text-center bg-primary">
+                        <strong>Administradores</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-sm-4">
+
+                <div class="card ">
+                    <div class="card-header text-center bg-primary">
+                        <i class="bi bi-book" style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="card-body card-body-font text-white text-center bg-success">
+                        0
+                    </div>
+                    <div class="card-footer fs-2 text-white text-center bg-primary">
+                        <strong>Libros</strong>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-4">
+
+                <div class="card ">
+                    <div class="card-header text-center bg-primary">
+                        <i class="bi bi-arrow-up-circle-fill"
+                            style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="card-body card-body-font text-white text-center bg-success">
+                        0
+                    </div>
+                    <div class="card-footer fs-2 text-white text-center bg-primary">
+                        <strong>Préstamos</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-4">
+
+                <div class="card ">
+                    <div class="card-header text-center bg-primary">
+                        <i class="bi bi-arrow-down-circle-fill"
+                            style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="card-body card-body-font text-white text-center bg-success">
+                        0
+                    </div>
+                    <div class="card-footer fs-2 text-white text-center bg-primary">
+                        <strong>Devoluciones</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-4">
+
+                <div class="card ">
+                    <div class="card-header text-center bg-primary">
+                        <i class="bi bi-cash-coin" style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="card-body card-body-font text-white text-center bg-success">
+                        0
+                    </div>
+                    <div class="card-footer fs-2 text-white text-center bg-primary">
+                        <strong>Multas</strong>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </body>
 

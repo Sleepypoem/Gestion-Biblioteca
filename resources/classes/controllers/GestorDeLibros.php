@@ -4,9 +4,10 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once INTERFACES . "/IGestor.php";
+require_once INTERFACES . "/IValidar.php";
 /* ************************************************************************************************************************************************ */
 
-class GestorDeLibros implements IGestor
+class GestorDeLibros implements IGestor, IValidar
 {
     private $intermediario;
     private $isbn;
@@ -80,7 +81,7 @@ class GestorDeLibros implements IGestor
         $this->isbn = implode($resultado);
     }
 
-    private function validarCampo($entrada)
+    function validarCampo(string $entrada): bool
     {
         if ($entrada == "" || $entrada == null) {
             return false;

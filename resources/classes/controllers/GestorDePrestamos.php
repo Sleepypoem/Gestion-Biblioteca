@@ -62,6 +62,11 @@ class GestorDePrestamos implements IGestor
         return $this->fechaDeHoy->format("Y-m-d");
     }
 
+    /**
+     * Le añade 4 semanas a la fecha actual para calcular la fecha de devolucion.
+     *
+     * @return string La fecha de hoy mas 4 semanas.
+     */
     private function calcularFechaDevolucion()
     {
         return $this->fechaDeHoy->modify("+4 week")->format("Y-m-d");
@@ -93,7 +98,8 @@ class GestorDePrestamos implements IGestor
     }
 
     /**
-     * Gestiona el prestamo con los datos pasados al constructor y devuelve un mensaje dependiendo del resultado.
+     * Se encarga de todo lo relacionado con el prestamo en la base de datos con los datos
+     * pasados al constructor y devuelve un mensaje dependiendo del resultado.
      *
      * @return void
      */

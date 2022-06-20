@@ -70,7 +70,7 @@ if ($_POST) {
         echo $gestor->editarAutor($id);
     }
     $archivoActual = $_SERVER['PHP_SELF'];
-    echo "<meta http-equiv=\"Refresh\" content=\"0;url=$archivoActual\">";
+    echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
 }
 
 

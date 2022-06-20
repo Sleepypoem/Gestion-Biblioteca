@@ -9,8 +9,50 @@ function obtenerNombrePagina()
     return "Pruebas";
 }
 
+function crearAlerta($tipo, $mensaje)
+{
+    $icono = "exclamation-triangle-fill";
+    $estilo = "success";
+
+    switch ($tipo) {
+        case 'exito':
+            $icono = "check-circle-fill";
+            $estilo = "success";
+            break;
+
+        case 'fallo':
+            $icono = "x-circle-fill";
+            $estilo = "danger";
+            break;
+
+        case 'advertencia':
+            $icono = "exclamation-triangle-fill";
+            $estilo = "warning";
+            break;
+
+        case 'info':
+            $icono = "question-circle-fill";
+            $estilo = "info";
+            break;
+    }
+    echo "<div class=\"container text-center\">" .
+        "<div class=\"alert alert-$estilo d-inline-flex \" role=\"alert\">" .
+        "<i class=\"bi bi-$icono flex-grow-1\" style=\"font-size: 1rem;\"></i>" .
+        "<div class=\" flex-grow-2\">" .
+        "&nbsp" . $mensaje .
+        "</div>" . "&nbsp" .
+        "<button type=\"button\" class=\"btn-close align-self-end\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>" .
+        "</div></div>";
+}
+
 $creador = new CrearComponentes();
-$listaPrueba = ["id-prueba", "valor-prueba"]
+$listaPrueba = ["id-prueba", "valor-prueba"];
+
+if ($_POST) {
+    $nombre = $_POST["text"];
+
+    echo crearAlerta("info", $nombre);
+}
 ?>
 
 
@@ -240,6 +282,47 @@ $listaPrueba = ["id-prueba", "valor-prueba"]
 <footer class="card-footer text-muted">
 </footer>
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+
+
+
+
+<form action="" method="post">
+    <div class="mb-3">
+        <label for="" class="form-label">test</label>
+        <input type="text" class="form-control" name="text" id="text" aria-describedby="helpId"
+            placeholder="">
+        <small id="helpId" class="form-text text-muted">Help text</small>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
 </html>
 
 <script>
@@ -269,10 +352,3 @@ function bootstrapAlert() {
 /* ***************************************************************** Dependencias ***************************************************************** */
 include_once TEMPLATES . "/Pie.php";
 /* ************************************************************************************************************************************************ */
-$d = [
-    "-",
-    "-",
-    "-"
-];
-echo sprintf("[1%s2121%s2121%s1]\n",  $d);
-?>

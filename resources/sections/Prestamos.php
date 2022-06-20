@@ -121,9 +121,9 @@ if ($_POST) {
                                     <td><?php echo $prestamo["titulo"]  ?></td>
                                     <td>
                                         <?php if ($prestamo["estado"] == 1) {
-                                                echo "<a class=\"btn disabled w-75 btn-warning\"><i class=\"bi bi-person-x\">  Sin devolver</i></a>";
+                                                echo "<a class=\"text-start btn disabled w-75 btn-warning\"><i class=\"text-end bi bi-person-x\">  Sin devolver</i></a>";
                                             } else if ($prestamo["estado"] == 2) {
-                                                echo "<a class=\"btn disabled w-75 btn-success\"><i class=\"bi bi-person-check\">  Devuelto</i></a>";
+                                                echo "<a class=\"text-start btn disabled w-75 btn-success\"><i class=\" bi bi-person-check\">  Devuelto</i></a>";
                                             } ?>
                                     </td>
                                 </tr>
