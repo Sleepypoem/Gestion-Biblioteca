@@ -15,10 +15,16 @@ class GestorDeDevoluciones implements IGestor
     private $codigoBibliotecario;
     private $alertas;
 
-    function __construct($codigoCopia)
+    function __construct($codigoCopia, $intermediario = null)
     {
         $this->alertas = new CrearAlertas();
-        $this->intermediario = new Intermediario();
+
+        //si pasan el intermediario por el constructor usamos ese, sino creamos uno
+        if ($intermediario === null) {
+            $this->intermediario = new Intermediario();
+        } else {
+            $this->intermediario = $intermediario;
+        }
         $this->codigoCopia = $codigoCopia;
         $this->consultarPrestamo();
     }

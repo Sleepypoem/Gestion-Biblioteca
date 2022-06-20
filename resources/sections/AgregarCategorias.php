@@ -12,17 +12,19 @@ function obtenerNombrePagina()
     return "Añadir Categoria";
 }
 
+/* *************************************************************** Variables default ************************************************************** */
+$intermediario = new Intermediario();
 $encabezado = "Añadir una nueva";
 $agregar = true;
 $id;
+/* ************************************************************************************************************************************************ */
 
 if ($_GET) {
     $encabezado = "Editar";
     $id = $_GET["id"];
-    $añadir = false;
+    $agregar = false;
 
     $sql = "SELECT * FROM `tipos-de-libros` WHERE idtipoLibro = $id";
-    $intermediario = new Intermediario();
     $categoria = $intermediario->ejecutarSQL($sql)[0];
 }
 
@@ -33,16 +35,18 @@ if ($_POST) {
 
     if ($agregar) {
 
-        $gestor = new GestorDeCategorias($nombre, $descripcion);
+        $gestor = new GestorDeCategorias($nombre, $descripcion, $intermediario);
         echo $gestor->agregarCategoria();
     } else {
 
-        $gestor = new GestorDeCategorias($nombre, $descripcion);
+        $gestor = new GestorDeCategorias($nombre, $descripcion, $intermediario);
         echo $gestor->editarCategoria($id);
     }
 
+    /* *************************************************** Refresca la pagina despues de 2 segundos *************************************************** */
     $archivoActual = $_SERVER['PHP_SELF'];
     echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
+    /* ************************************************************************************************************************************************ */
 }
 
 

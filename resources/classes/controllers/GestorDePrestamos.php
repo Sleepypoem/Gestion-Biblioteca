@@ -15,10 +15,17 @@ class GestorDePrestamos implements IGestor
     private $copiasDisponibles = [];
     private $alertas;
 
-    function __construct($codigoLector, $codigoBibliotecario, $isbn)
+    function __construct($codigoLector, $codigoBibliotecario, $isbn, $intermediario = null)
     {
         $this->alertas = new CrearAlertas();
-        $this->intermediario = new Intermediario();
+
+        //si pasan el intermediario por el constructor usamos ese, sino creamos uno
+        if ($intermediario === null) {
+            $this->intermediario = new Intermediario();
+        } else {
+            $this->intermediario = $intermediario;
+        }
+
         $this->fechaDeHoy = new DateTime();
         $this->codigoLector = $codigoLector;
         $this->codigoBibliotecario = $codigoBibliotecario;

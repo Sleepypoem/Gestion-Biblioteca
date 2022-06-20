@@ -15,10 +15,17 @@ class GestorDeAutores implements IGestor, IValidar
     private $imagen;
     private $alertas;
 
-    function __construct($nombre, $fechaDeNacimiento)
+    function __construct($nombre, $fechaDeNacimiento, $intermediario = null)
     {
         $this->alertas = new CrearAlertas();
-        $this->intermediario = new Intermediario();
+
+        //si pasan el intermediario por el constructor usamos ese, sino creamos uno
+        if ($intermediario === null) {
+            $this->intermediario = new Intermediario();
+        } else {
+            $this->intermediario = $intermediario;
+        }
+
         $this->nombre = $nombre;
         $this->fechaDeNacimiento = $fechaDeNacimiento;
     }

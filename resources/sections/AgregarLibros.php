@@ -26,6 +26,7 @@ if ($_GET) {
     $encabezado = "Editar";
     $agregar = false;
 
+    /* ******************************************************* Obtener informacion de los libros ****************************************************** */
     $sql = "SELECT * FROM libro WHERE id = $id";
     $libros = $intermediario->ejecutarSQL($sql);
 
@@ -33,11 +34,7 @@ if ($_GET) {
     $titulo = $libros[0]["titulo"];
     $idAutor = $libros[0]["idAutor"];
     $idTipoLibro = $libros[0]["tipoLibro"];
-    $nombreImagen = $libros[0]["image"];
-
-    /* ************************************************* Contando las copias de un libro en especifico ************************************************ */
-    $sql = "SELECT COUNT(0) as copias FROM copias WHERE isbn = '$isbn'";
-    $copias = $intermediario->ejecutarSQL($sql)[0]["copias"];
+    $nombreImagendb = $libros[0]["image"];
     /* ************************************************************************************************************************************************ */
 }
 
@@ -45,9 +42,6 @@ function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
-
-
-
 
 function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
 {
@@ -58,8 +52,10 @@ function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
     return $img;
 }
 
+/* *********************************************** Obteniendo las listas de autores y tipos de libro ********************************************** */
 $listaAutores = $intermediario->obtenerDeBD("autor");
 $tiposDeLibros = $intermediario->obtenerDeBD("tipos-de-libros");
+/* ************************************************************************************************************************************************ */
 
 if ($_POST) {
 
@@ -67,13 +63,15 @@ if ($_POST) {
     $titulo = $_POST["titulo"];
     $autor = $_POST["autor"];
     $tipoLibro = $_POST["tipo-libro"];
-    $nombreTempImagen = $_FILES["libro-imagen"]["tmp_name"];
-    $nombreImagen = $_FILES["libro-imagen"]["name"];
 
+
+    //Si agregar es true significa que estamos agreaando un nuevo libro, si es false, lo estamos editando
     if ($agregar) {
         $copias = $_POST["copias"];
-        $gestor = new GestorDeLibros($isbn, $titulo, $autor, $tipoLibro, $copias);
+        $gestor = new GestorDeLibros($isbn, $titulo, $autor, $tipoLibro, $copias, $intermediario);
         if (isset($_FILES["libro-imagen"])) {
+            $nombreTempImagen = $_FILES["libro-imagen"]["tmp_name"];
+            $nombreImagen = $_FILES["libro-imagen"]["name"];
             $gestor->setImagen(moverImagen($nombreTempImagen, $rutaImg, $nombreImagen));
         } else {
             $gestor->setImagen("default.png");
@@ -88,10 +86,18 @@ if ($_POST) {
         $copias = $intermediario->ejecutarSQL($sql)[0]["copias"];
         /* ************************************************************************************************************************************************ */
 
-        $gestor = new GestorDeLibros($isbn, $titulo, $autor, $tipoLibro, $copias);
+        $gestor = new GestorDeLibros($isbn, $titulo, $autor, $tipoLibro, $copias, $intermediario);
         if (isset($_FILES["libro-imagen"])) {
+
+            $nombreTempImagen = $_FILES["libro-imagen"]["tmp_name"];
+            $nombreImagen = $_FILES["libro-imagen"]["name"];
+
+            //si una nueva imagen es pasada al editar el libro tenemos que borrar la anterior
+            echo file_exists($rutaImg . $nombreImagendb) ? unlink($rutaImg . $nombreImagendb) : $rutaImg . $nombreImagendb;
+
             $gestor->setImagen(moverImagen($nombreTempImagen, $rutaImg, $nombreImagen));
         } else {
+            //si no pasan imagen le dejamos la que tenia
             $gestor->setImagen($nombreImagen);
         }
 
@@ -99,8 +105,11 @@ if ($_POST) {
         echo $gestor->editarLibro($id);
     }
 
+
+    /* **************************************************** refresca la pagina al pasar 2 segundos **************************************************** */
     $archivoActual = $_SERVER['PHP_SELF'];
     echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
+    /* ************************************************************************************************************************************************ */
 }
 ?>
 
@@ -208,7 +217,7 @@ if ($_POST) {
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="select-test">
                                         <a
-                                            href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarAutor.php"; ?>"><i class="bi bi-bookmark-plus"> Añadir</i></a>
+                                            href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarCategorias.php"; ?>"><i class="bi bi-bookmark-plus"> Añadir</i></a>
 
                                     </span>
                                 </div>
@@ -233,7 +242,7 @@ if ($_POST) {
 
                         <div class="mb-3">
                             <label for="imagen"
-                                class="form-label"><?php echo (!$agregar) ? "Imagen actual: " . $nombreImagen : "Ingresa una imagen" ?></label>
+                                class="form-label"><?php echo (!$agregar) ? "Imagen actual: " . $nombreImagendb : "Ingresa una imagen" ?></label>
                             <input type="file" class="form-control" name="libro-imagen" id="imagen">
                             <div class="form-text">Selecciona una imagen de portada</div>
                         </div>

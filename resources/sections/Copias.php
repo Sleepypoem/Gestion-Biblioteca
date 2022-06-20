@@ -11,15 +11,20 @@ function obtenerNombrePagina()
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
+/* ************************************************************* Variables por defecto ************************************************************ */
 $intermediario = new Intermediario();
+//variables para marcar el iicio t final de las reparaciones
 $reps = false;
 $repe = false;
 $codigo;
 $base = $config["urls"]["baseUrl"];
+/* ************************************************************************************************************************************************ */
 
+//A la seccion de copias por el momento solo se puede acceder desde el catalogo asi que si no hay un $_GET del isbn se redirecciona al inicio
 if (isset($_GET["isbn"])) {
 
     $isbn = $_GET["isbn"];
+
 
     $sql = "SELECT copias.codigo, copias.isbn, copias.estado, libro.titulo FROM copias INNER JOIN libro ON copias.isbn = libro.isbn WHERE copias.isbn = '$isbn';";
     $copias = $intermediario->ejecutarSQL($sql);
@@ -35,10 +40,14 @@ if (isset($_GET["reps"])) {
     $isbn = $_GET["isbn"];
 
     if ($reps) {
+        //aqui se pone a la copia el estado 0 que significa que esta en reparacion y no esta disponible para prestar
         $sql = "UPDATE copias SET estado = 0 WHERE codigo = $codigo";
         $intermediario->ejecutarSQL($sql);
     }
+
+    /* ************************** Refresca la pagina inmediatamente para que se vean los cambios en los estados de las copias ************************* */
     echo "<meta http-equiv=\"Refresh\" content=\"0;url=?isbn=$isbn\">";
+    /* ************************************************************************************************************************************************ */
 } else if (isset($_GET["repe"])) {
 
     $repe = $_GET["repe"];
@@ -47,10 +56,13 @@ if (isset($_GET["reps"])) {
 
 
     if ($repe) {
+        //aqui se le pone 1 para indicar que ya termino la reparacion y vuelve a estar disponible
         $sql = "UPDATE copias SET estado = 1 WHERE codigo = $codigo";
         $intermediario->ejecutarSQL($sql);
     }
+    /* ************************** Refresca la pagina inmediatamente para que se vean los cambios en los estados de las copias ************************* */
     echo "<meta http-equiv=\"Refresh\" content=\"0;url=?isbn=$isbn\">";
+    /* ************************************************************************************************************************************************ */
 }
 
 ?>
@@ -62,7 +74,8 @@ if (isset($_GET["reps"])) {
 
             </div>
 
-
+            <!-- Aqui nos aseguramos que no se vean errores antes de redirigir al inicio -->
+            <?php if (isset($_GET["isbn"])) { ?>
             <div class="col-md-8">
 
                 <div class="card">
@@ -71,7 +84,7 @@ if (isset($_GET["reps"])) {
                     </div>
                     <div class="card-body">
                         <!-- Aqui va la tabla -->
-                        <table class="table table-striped" id="tabla-copias">
+                        <table class="table table-striped table-primary" id="tabla-copias">
                             <thead class="text-center">
                                 <tr>
                                     <th>Código</th>
@@ -82,30 +95,30 @@ if (isset($_GET["reps"])) {
                             <tbody class="text-center">
                                 <?php
 
-                                foreach ($copias as $copia) {
-                                ?>
+                                    foreach ($copias as $copia) {
+                                    ?>
                                 <tr>
                                     <td><?php echo $copia["codigo"] ?> </td>
                                     <td>
                                         <?php
-                                            if ($copia["estado"] == 1) {
-                                                echo "<a class=\"btn disabled w-75 btn-success\"><i class=\"bi bi-check-circle\">  Disponible</i></a>";
-                                            } else if ($copia["estado"] == 2) {
-                                                echo "<a class=\"btn disabled w-75 btn-warning\"><i class=\"bi bi-person-check\">  Prestada</i></a>";
-                                            } else {
-                                                echo "<a class=\"btn disabled w-75 btn-danger\"><i class=\"bi bi-bandaid\"></i>En reparacion</a>";
-                                            }
+                                                if ($copia["estado"] == 1) {
+                                                    echo "<a class=\"btn disabled w-75 btn-success\"><i class=\"bi bi-check-circle\">  Disponible</i></a>";
+                                                } else if ($copia["estado"] == 2) {
+                                                    echo "<a class=\"btn disabled w-75 btn-warning\"><i class=\"bi bi-person-check\">  Prestada</i></a>";
+                                                } else {
+                                                    echo "<a class=\"btn disabled w-75 btn-danger\"><i class=\"bi bi-bandaid\"></i>En reparacion</a>";
+                                                }
 
-                                            ?>
+                                                ?>
                                     </td>
                                     <td>
                                         <?php if ($copia["estado"] == 0) {
-                                                echo "<a class=\"btn w-75 btn-info\" href=\"?repe=true&cod=" . $copia["codigo"] . "&isbn=" . $copia["isbn"] . "\"><i class=\"bi bi-bandaid-fill\"> Terminar reparacion </i></a>";
-                                            } else if ($copia["estado"] == 1) {
-                                                echo "<a class=\"btn w-75 btn-info\" href=\"?reps=true&cod=" . $copia["codigo"] . "&isbn=" . $copia["isbn"] . "\"><i class=\"bi bi-bandaid-fill\"> Mandar a reparar </i></a>";
-                                            } else if ($copia["estado"] == 2) {
-                                                echo "<a class=\"btn w-75 btn-info\" href=\"$base/resources/sections/Devoluciones.php\"><i class=\"bi bi-arrow-down-circle\"> Devolver </i></a>";
-                                            } ?>
+                                                    echo "<a class=\"btn w-75 btn-info\" href=\"?repe=true&cod=" . $copia["codigo"] . "&isbn=" . $copia["isbn"] . "\"><i class=\"bi bi-bandaid-fill\"> Terminar reparacion </i></a>";
+                                                } else if ($copia["estado"] == 1) {
+                                                    echo "<a class=\"btn w-75 btn-info\" href=\"?reps=true&cod=" . $copia["codigo"] . "&isbn=" . $copia["isbn"] . "\"><i class=\"bi bi-bandaid-fill\"> Mandar a reparar </i></a>";
+                                                } else if ($copia["estado"] == 2) {
+                                                    echo "<a class=\"btn w-75 btn-info\" href=\"$base/resources/sections/Devoluciones.php\"><i class=\"bi bi-arrow-down-circle\"> Devolver </i></a>";
+                                                } ?>
 
                                     </td>
                                 </tr>
@@ -121,6 +134,8 @@ if (isset($_GET["reps"])) {
                     </div>
                 </div>
             </div>
+
+            <?php } ?>
 
             <div class="col-md-2">
 

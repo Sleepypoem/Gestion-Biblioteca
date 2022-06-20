@@ -15,6 +15,8 @@ $categorias = $listaDeCategorias->obtenerDeBD("tipos-de-libros");
 
 ?>
 
+<h1 class="text-center pb-2">Categorias de libros</h1>
+
 <body>
     <div class="container-fluid">
 
@@ -24,8 +26,8 @@ $categorias = $listaDeCategorias->obtenerDeBD("tipos-de-libros");
             </div>
             <div class="card-body">
 
-                <table class="table table-striped" id="tabla-categorias">
-                    <thead class="bg-primary text-center text-white">
+                <table class="table table-striped table-primary" id="tabla-categorias">
+                    <thead class="text-center">
                         <tr>
                             <th>Nombre</th>
                             <th>Descripción</th>

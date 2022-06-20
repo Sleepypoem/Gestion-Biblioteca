@@ -13,22 +13,35 @@ function obtenerNombrePagina()
 /* ****************************************************************** Instancias ****************************************************************** */
 $intermediario = new Intermediario();
 /* ************************************************************************************************************************************************ */
+
+/* ********************************************** Seleccionamos los libros que tienen mas de 1 copia ********************************************** */
 $sql = "SELECT * FROM v_libros WHERE copias >= 1";
 $listaLibros = $intermediario->ejecutarSQL($sql);
+/* ************************************************************************************************************************************************ */
 
+/* ******************************** Seleccionamos tambien los usuarios que tienen estado 1 osea que pueden prestar ******************************** */
 $sql = "SELECT * FROM usuario WHERE estado = 1";
 $listaUsuarios = $intermediario->ejecutarSQL($sql);
+/* ************************************************************************************************************************************************ */
 
+/* ****************************************** Usamos joins para crear la tabla que mostrara los usuarios ****************************************** */
 $sql = "SELECT prestamo.fechaPrestamo as inicio, prestamo.fechaDevolucion as fin, usuario.nombre, libro.titulo, prestamo.estado FROM prestamo
  join usuario ON usuario.codigo = prestamo.codigoLector JOIN copias ON copias.codigo = prestamo.codigo_copia JOIN libro ON copias.isbn = libro.isbn;";
 $listaPrestamos = $intermediario->ejecutarSQL($sql);
+/* ************************************************************************************************************************************************ */
 
 if ($_POST) {
-    $gestorPrestamos = new GestorDePrestamos($_POST["codigo-lector"], 1000, $_POST["prestamos-isbn"]);
+
+    $codigoLector = $_POST["codigo-lector"];
+    $codigoBibliotecario = 1000;
+    $isbn = $_POST["prestamos-isbn"];
+    $gestorPrestamos = new GestorDePrestamos($codigoLector, $codigoBibliotecario, $isbn);
     echo $gestorPrestamos->prestar();
 
+    /* *************************************************** Refresca la pagina despues de 2 segundos *************************************************** */
     $archivoActual = $_SERVER['PHP_SELF'];
     echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
+    /* ************************************************************************************************************************************************ */
 }
 
 ?>
@@ -102,8 +115,8 @@ if ($_POST) {
                     </div>
                     <div class="card-body">
 
-                        <table class="table table-striped " id="tabla-prestamos">
-                            <thead class="text-center text-white bg-primary">
+                        <table class="table table-striped table-primary " id="tabla-prestamos">
+                            <thead class="text-center">
                                 <tr>
                                     <th>Inicio</th>
                                     <th>Fin</th>

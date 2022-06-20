@@ -5,17 +5,17 @@ require_once CONTROLLERS . "/Intermediario.php";
 include_once TEMPLATES . "/Cabecera.php";
 /* ************************************************************************************************************************************************ */
 
+/* ************************************************************* Variables por defecto ************************************************************ */
+$intermediario = new Intermediario();
+$sql = "SELECT * FROM v_libros";
+$listaDeLibros = $intermediario->ejecutarSQL($sql);
 $rutaImg = "../../public_html/img/content/";
+/* ************************************************************************************************************************************************ */
 
 function obtenerNombrePagina()
 {
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
-
-$intermediario = new Intermediario();
-$sql = "SELECT * FROM v_libros";
-$listaDeLibros = $intermediario->ejecutarSQL($sql);
-
 ?>
 <h1 class="text-center pb-2">Catalogo de libros</h1>
 
@@ -28,8 +28,8 @@ $listaDeLibros = $intermediario->ejecutarSQL($sql);
             </div>
             <div class="card-body">
 
-                <table class="table table-striped" id="tabla-libros">
-                    <thead class="bg-primary text-center text-white">
+                <table class="table table-striped table-primary" id="tabla-libros">
+                    <thead class="text-center">
                         <tr>
                             <th>ISBN</th>
                             <th>Titulo</th>

@@ -11,23 +11,15 @@ function obtenerNombrePagina()
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
+/* ****************************************************** Variables por defecto sin el $_GET ****************************************************** */
 $intermediario = new Intermediario();
-
-/* ************************************************************ Variables para la tabla *********************************************************** */
-$elementosPorPagina = 7;
-$inicio = 0;
-$fin = $elementosPorPagina;
-/* ************************************************************************************************************************************************ */
-
-/* *************************************************************** Contar elementos *************************************************************** */
-$sql = "SELECT COUNT(0) as autores FROM `autor`;";
-$cantidadDeAutores = $intermediario->ejecutarSQL($sql)[0]["autores"];
-/* ************************************************************************************************************************************************ */
-
 $rutaImg = "../../public_html/img/content/";
 $encabezado = "Agregar";
 $agregar = true;
+$nombre = "";
+$fechaNacimiento = "";
 $id;
+/* ************************************************************************************************************************************************ */
 
 
 function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
@@ -39,40 +31,61 @@ function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
     return $img;
 }
 
+/* ********************************************** Obteniendo la lista de autores de la base de datos ********************************************** */
 $sql = "SELECT * FROM `autor` ;";
 $listaAutores = $intermediario->ejecutarSQL($sql);
+/* ************************************************************************************************************************************************ */
 
 if ($_GET) {
 
     $encabezado = $_GET["enc"];
     $nombre = $_GET["name"];
     $fechaNacimiento = $_GET["fecha"];
-    $imagen = $_GET["img"];
+    $imagenbd = $_GET["img"];
     $id = $_GET["id"];
     $agregar = false;
 }
 
 if ($_POST) {
+
+    $nombre = $_POST["nombre-autor"];
+    $fechaNacimiento = $_POST["fecha-nacimiento"];
+
     if ($agregar) {
-        $gestor = new GestorDeAutores($_POST["nombre-autor"], $_POST["fecha-nacimiento"]);
+        $gestor = new GestorDeAutores($nombre, $fechaNacimiento, $intermediario);
         if (isset($_FILES["autor-imagen"])) {
-            $gestor->setImagen(moverImagen($_FILES["autor-imagen"]["tmp_name"], $rutaImg, $_FILES["autor-imagen"]["name"]));
+
+            $nombreTempImagen = $_FILES["autor-imagen"]["tmp_name"];
+            $nombreImagen = $_FILES["autor-imagen"]["name"];
+
+            $gestor->setImagen(moverImagen($nombreTempImagen, $rutaImg, $nombreImagen));
         } else {
-            $gestor->setImagen($rutaImg . "/default.png");
+            $gestor->setImagen($rutaImg . "default.png");
         }
 
         echo $gestor->agregarAutor();
     } else {
-        $gestor = new GestorDeAutores($_POST["nombre-autor"], $_POST["fecha-nacimiento"]);
+        $gestor = new GestorDeAutores($nombre, $fechaNacimiento, $intermediario);
         if ($_FILES["autor-imagen"]["name"]) {
-            $gestor->setImagen(moverImagen($_FILES["autor-imagen"]["tmp_name"], $rutaImg, $_FILES["autor-imagen"]["name"]));
+
+            $nombreTempImagen = $_FILES["autor-imagen"]["tmp_name"];
+            $nombreImagen = $_FILES["autor-imagen"]["name"];
+
+            //si una nueva imagen es pasada al editar el libro tenemos que borrar la anterior
+            echo file_exists($rutaImg . $imagenbd) ? unlink($rutaImg . $imagenbd) : $rutaImg . $imagenbd;
+
+            $gestor->setImagen(moverImagen($nombreTempImagen, $rutaImg, $nombreImagen));
         } else {
-            $gestor->setImagen($imagen);
+            //si no se pasa imagen se deja la que tenia
+            $gestor->setImagen($imagenbd);
         }
+
         echo $gestor->editarAutor($id);
     }
+    /* *************************************************** Refresca la pagina despues de 2 segundos *************************************************** */
     $archivoActual = $_SERVER['PHP_SELF'];
     echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
+    /* ************************************************************************************************************************************************ */
 }
 
 
@@ -83,7 +96,7 @@ if ($_POST) {
         <div class="row">
             <!-- Primera columna -->
             <div class="col-md-3">
-                <div class="card" style="height: 100%">
+                <div class="card">
                     <div class="card-header text-center text-white bg-primary">
                         <?php echo $encabezado ?> autor
                     </div>
@@ -99,15 +112,15 @@ if ($_POST) {
 
                                 <input type="text" name="nombre-autor" class="form-control"
                                     placeholder="Escribe el nombre del autor"
-                                    value="<?php echo (isset($nombre)) ? $nombre : "" ?>">
+                                    value="<?php echo $nombre ?>">
                             </div>
                             <label>Ingresa la fecha de nacimiento</label>
                             <input type="date" class="form-control" name="fecha-nacimiento"
-                                value="<?php echo (isset($fechaNacimiento)) ? $fechaNacimiento : "" ?>">
+                                value="<?php echo $fechaNacimiento ?>">
                             <br>
                             <div class="mb-3">
                                 <labelclass="form-label">
-                                    <?php echo (isset($fechaNacimiento)) ? "Imagen actual: " . $imagen : "Ingresa una imagen del autor" ?></label>
+                                    <?php echo (!$agregar) ? "Imagen actual: " . $imagenbd : "Ingresa una imagen del autor" ?></label>
                                     <input type="file" class="form-control" name="autor-imagen">
                             </div>
 
@@ -118,7 +131,7 @@ if ($_POST) {
                                 </div>
                             </button>
                         </form>
-
+                        <br>
                     </div>
                     <div class="card-footer text-muted bg-primary">
                     </div>

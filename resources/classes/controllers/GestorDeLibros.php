@@ -20,10 +20,16 @@ class GestorDeLibros implements IGestor, IValidar
     private $copias;
     private $alertas;
 
-    function __construct($isbn, $titulo, $idAutor, $idTipoLibro, $copias)
+    function __construct($isbn, $titulo, $idAutor, $idTipoLibro, $copias, $intermediario = null)
     {
         $this->alertas = new CrearAlertas();
-        $this->intermediario = new Intermediario();
+
+        //si pasan el intermediario por el constructor usamos ese, sino creamos uno
+        if ($intermediario === null) {
+            $this->intermediario = new Intermediario();
+        } else {
+            $this->intermediario = $intermediario;
+        }
         $this->isbn = $isbn;
         $this->titulo = $titulo;
         $this->idAutor = $idAutor;
