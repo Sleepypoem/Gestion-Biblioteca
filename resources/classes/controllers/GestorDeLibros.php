@@ -95,10 +95,6 @@ class GestorDeLibros implements IGestor, IValidar
             return $this->alertas->crearAlertaFallo("¡El isbn no puede estar vacio!");
         }
 
-        if ($this->copias <= 0) {
-            return $this->alertas->crearAlertaFallo("¡Tiene que tener minimo una copia!");
-        }
-
         $sql = "UPDATE `libro` SET `isbn`='$this->isbn',`titulo`='$this->titulo',`idAutor`='$this->idAutor',`tipoLibro`='$this->idTipoLibro',
         `codigoBbliotecario`='$this->codigoBibliotecario',`image`='$this->imagen' WHERE id= $id";
 
