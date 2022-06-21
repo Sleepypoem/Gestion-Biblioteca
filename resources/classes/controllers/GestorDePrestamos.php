@@ -129,6 +129,7 @@ class GestorDePrestamos implements IGestor
 
         $this->registrarPrestamo();
         $this->actualizarLaCopia();
+        $this->copiasDisponibles = [];
         return $this->alertas->crearAlertaExito("Se registro el prestamo");
     }
 

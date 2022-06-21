@@ -25,6 +25,7 @@ class GestorDeDevoluciones implements IGestor
         } else {
             $this->intermediario = $intermediario;
         }
+
         $this->codigoCopia = $codigoCopia;
         $this->consultarPrestamo();
     }
