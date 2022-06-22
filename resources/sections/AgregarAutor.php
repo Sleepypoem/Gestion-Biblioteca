@@ -21,16 +21,6 @@ $fechaNacimiento = "";
 $id;
 /* ************************************************************************************************************************************************ */
 
-
-function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
-{
-    $fechaDeHoy = new DateTime();
-    $img = "img_" . $fechaDeHoy->getTimestamp() . "_" . $nombreImagen;
-    move_uploaded_file($nombreTemporal, $ruta . "/" . $img);
-
-    return $img;
-}
-
 /* ********************************************** Obteniendo la lista de autores de la base de datos ********************************************** */
 $sql = "SELECT * FROM `autor` ;";
 $listaAutores = $intermediario->ejecutarSQL($sql);
@@ -109,13 +99,17 @@ if ($_POST) {
                             <div class="input-group mb-3">
 
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="bi bi-person-lines-fill"></i></span>
+                                    <span class="input-group-text"><i
+                                            class="bi bi-person-lines-fill"></i></span>
                                 </div>
 
-                                <input type="text" name="nombre-autor" class="form-control" placeholder="Escribe el nombre del autor" value="<?php echo $nombre ?>">
+                                <input type="text" name="nombre-autor" class="form-control"
+                                    placeholder="Escribe el nombre del autor"
+                                    value="<?php echo $nombre ?>">
                             </div>
                             <label>Ingresa la fecha de nacimiento</label>
-                            <input type="date" class="form-control" name="fecha-nacimiento" value="<?php echo $fechaNacimiento ?>">
+                            <input type="date" class="form-control" name="fecha-nacimiento"
+                                value="<?php echo $fechaNacimiento ?>">
                             <br>
                             <div class="mb-3">
                                 <labelclass="form-label">
@@ -145,7 +139,8 @@ if ($_POST) {
                         Lista de Autores
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped table-primary" id="tabla-autores" style="width:100%">
+                        <table class="table table-striped table-primary" id="tabla-autores"
+                            style="width:100%">
                             <thead class=" center-text">
                                 <tr>
                                     <th>Nombre</th>
@@ -156,15 +151,19 @@ if ($_POST) {
                             </thead>
                             <tbody>
                                 <?php foreach ($listaAutores as $autor) { ?>
-                                    <tr>
-                                        <td scope="row"><?php echo $autor["nombre"]; ?></td>
-                                        <td><?php echo $autor["fechaNacimiento"]; ?></td>
-                                        <td><img src="<?php echo (file_exists("../../public_html/img/content/" . $autor["image"])) ? "../../public_html/img/content/" . $autor["image"] : "../../public_html/img/content/default.png"; ?>" class="border border-dark rounded-circle" alt="Imagen del autor" style="width: 75px ; height:75px;">
-                                        </td>
-                                        <td>
-                                            <a href="<?php echo "?enc=Editar&name=" . $autor["nombre"] . "&fecha=" . $autor["fechaNacimiento"] . "&img=" . $autor["image"] . "&id=" . $autor["idAutor"] ?>" class="btn btn-info">Editar</a>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td scope="row"><?php echo $autor["nombre"]; ?></td>
+                                    <td><?php echo $autor["fechaNacimiento"]; ?></td>
+                                    <td><img src="<?php echo (file_exists("../../public_html/img/content/" . $autor["image"])) ? "../../public_html/img/content/" . $autor["image"] : "../../public_html/img/content/default.png"; ?>"
+                                            class="border border-dark rounded-circle"
+                                            alt="Imagen del autor"
+                                            style="width: 75px ; height:75px;">
+                                    </td>
+                                    <td>
+                                        <a href="<?php echo "?enc=Editar&name=" . $autor["nombre"] . "&fecha=" . $autor["fechaNacimiento"] . "&img=" . $autor["image"] . "&id=" . $autor["idAutor"] ?>"
+                                            class="btn btn-info">Editar</a>
+                                    </td>
+                                </tr>
                                 <?php } ?>
                             </tbody>
 
@@ -174,7 +173,8 @@ if ($_POST) {
                     </div>
                 </div>
             </div>
-            <script src="<?php echo $config["urls"]["baseUrl"] . "/public_html/js/paginacion.js"; ?>">
+            <script
+                src="<?php echo $config["urls"]["baseUrl"] . "/public_html/js/paginacion.js"; ?>">
 
             </script>
         </div>

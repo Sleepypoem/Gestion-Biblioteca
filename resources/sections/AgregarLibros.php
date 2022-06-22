@@ -43,15 +43,6 @@ function obtenerNombrePagina()
     return pathinfo(__FILE__, PATHINFO_FILENAME);
 }
 
-function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
-{
-    $fechaDeHoy = new DateTime();
-    $img = "img_" . $fechaDeHoy->getTimestamp() . "_" . $nombreImagen;
-    move_uploaded_file($nombreTemporal, $ruta . "/" . $img);
-
-    return $img;
-}
-
 /* *********************************************** Obteniendo las listas de autores y tipos de libro ********************************************** */
 $listaAutores = $intermediario->obtenerDeBD("autor");
 $tiposDeLibros = $intermediario->obtenerDeBD("tipos-de-libros");

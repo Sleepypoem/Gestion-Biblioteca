@@ -47,9 +47,29 @@ defined("CONTROLLERS")
 defined("VIEWS")
     or define("VIEWS", __DIR__ . '/resources/classes/views');
 
-/*
-    Error reporting.
-*/
+
+/* **************************************************************** Error reporting *************************************************************** */
 ini_set("error_reporting", "true");
 error_reporting(E_ALL | E_STRICT);
 date_default_timezone_set('America/Belize');
+/* ************************************************************************************************************************************************ */
+
+/* ************************************************************** Funciones generales ************************************************************* */
+
+/**
+ * Mueve la imagen a la carpeta de imagenes.
+ *
+ * @param string $nombreTemporal El nombre temporal que se asigna al subirse por medio e $_POST.
+ * @param string $ruta La carpeta donde se va a guardar.
+ * @param string $nombreImagen El nombre final que tendra la imagen.
+ * @return string El nombre con el que se guardo la imagen final.
+ */
+function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
+{
+    $fechaDeHoy = new DateTime();
+    $img = "img_" . $fechaDeHoy->getTimestamp() . "_" . $nombreImagen;
+    move_uploaded_file($nombreTemporal, $ruta . "/" . $img);
+
+    return $img;
+}
+/* ************************************************************************************************************************************************ */
