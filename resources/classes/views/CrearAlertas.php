@@ -28,14 +28,16 @@ class CrearAlertas
 
     private function crearAlerta($tipo, $mensaje, $icono)
     {
-        return
-            "<div class=\"container text-center\">" .
-            "<div class=\"alert alert-$tipo d-inline-flex \" role=\"alert\">" .
-            "<i class=\"bi bi-$icono flex-grow-1\" style=\"font-size: 1rem;\"></i>" .
-            "<div class=\" flex-grow-2\">" .
-            "&nbsp" . $mensaje .
-            "</div>" . "&nbsp" .
-            "<button type=\"button\" class=\"btn-close align-self-end\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>" .
-            "</div></div>";
+        $alerta = <<<_ALERTA
+            <div class="container text-center">
+            <div class="alert alert-$tipo d-inline-flex " role="alert"><i
+            class="bi bi-$icono flex-grow-1" style="font-size: 1rem;"></i>
+            <div class=" flex-grow-2">&nbsp$mensaje&nbsp</div>&nbsp<button type="button"
+            class="btn-close align-self-end" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            </div>
+            _ALERTA;
+
+        return $alerta;
     }
 }
