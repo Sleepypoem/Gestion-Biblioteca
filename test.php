@@ -1,8 +1,9 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Organizacion-prueba/config.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 include_once TEMPLATES . "/Cabecera.php";
-require_once VIEWS . "/CrearComponentes.php";
+require_once CONTROLLERS . "/Intermediario.php";
+require_once CONNECTIONS . "/ConexionBD.php";
 /* ************************************************************************************************************************************************ */
 function obtenerNombrePagina()
 {
@@ -45,8 +46,6 @@ function crearAlerta($tipo, $mensaje)
         "</div></div>";
 }
 
-$creador = new CrearComponentes();
-$listaPrueba = ["id-prueba", "valor-prueba"];
 
 if ($_POST) {
     $nombre = $_POST["text"];
@@ -73,16 +72,16 @@ if ($_POST) {
         </div>
     </div>
 
+    <?php
+    $i1 = ConexionBD::getInstance();
+    $i2 = ConexionBD::getInstance();
 
+    echo "<h1>";
+    echo ($i1 === $i2) ? "Misma instancia" : "Diferente instancia";
+    echo "</h1>";
+    ?>
     <span class="badge badge-danger">Primary</span>
-
-    <div class="mb-3">
-        <label class="form-label"></label>
-        <?php $creador->crearFormElemento("text", "bi bi-person-circle", "prueba-texto"); ?>
-        <small id="helpId" class="form-text text-muted">
-            este es un form de prueba
-        </small>
-    </div>
+    >
 
     <div class="mb-3">
         <label class="form-label">
@@ -348,7 +347,10 @@ function bootstrapAlert() {
 </div>
 </body>
 
+
+
 <?php
+echo __DIR__;
 /* ***************************************************************** Dependencias ***************************************************************** */
 include_once TEMPLATES . "/Pie.php";
 /* ************************************************************************************************************************************************ */

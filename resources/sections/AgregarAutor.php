@@ -13,6 +13,7 @@ function obtenerNombrePagina()
 
 /* ****************************************************** Variables por defecto sin el $_GET ****************************************************** */
 $intermediario = new Intermediario();
+$archivoActual = $_SERVER['PHP_SELF'];
 $rutaImg = "../../public_html/img/content/";
 $encabezado = "Agregar";
 $agregar = true;
@@ -76,8 +77,7 @@ if ($_POST) {
         echo $gestor->editarAutor($id);
     }
     /* *************************************************** Refresca la pagina despues de 2 segundos *************************************************** */
-    $archivoActual = $_SERVER['PHP_SELF'];
-    echo "<meta http-equiv=\"Refresh\" content=\"2;url=$archivoActual\">";
+    refrescarPagina(2, $archivoActual);
     /* ************************************************************************************************************************************************ */
 }
 

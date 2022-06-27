@@ -1,7 +1,6 @@
 <?php
 
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once INTERFACES . "/IGestor.php";
 require_once INTERFACES . "/IValidar.php";
@@ -101,13 +100,13 @@ class GestorDeLibros implements IGestor, IValidar
         try {
             $this->comunicarseConBD($sql);
         } catch (PDOException $e) {
-            return $this->alertas->crearAlertaFallo("Erro comunicandose con la base de datos. Error: " . $e);
+            return $this->alertas->crearAlertaFallo("Error comunicandose con la base de datos. Error: " . $e);
         }
 
         return $this->alertas->crearAlertaExito("Libro editado con exito");
     }
 
-    function validarCampo(string $entrada): bool
+    function validarCampo($entrada): bool
     {
         if ($entrada == "" || $entrada == null) {
             return false;

@@ -3,6 +3,17 @@
 /*
   Constantes para la base de datos y url necesarias
 */
+defined("BD_HOST")
+    or define("BD_HOST", "localhost");
+
+defined("BD_USUARIO")
+    or define("BD_USUARIO", "root");
+
+defined("BD_NOMBRE")
+    or define("BD_NOMBRE", "bd_biblioteca");
+
+defined("BD_CONTRASENIA")
+    or define("BD_CONTRASENIA", "");
 
 $config = array(
     "urls" => array(
@@ -20,32 +31,33 @@ $config = array(
 /*
     Constantes para los require y los include.
 */
-defined("IMAGES")
-    or define("IMAGES", __DIR__ . "/public_html/img/content");
 
 defined("ROOT")
-    or define("ROOT", __DIR__);
+    or define("ROOT", dirname(__DIR__) . "/Gestion Biblioteca");
+
+defined("IMAGES")
+    or define("IMAGES", ROOT . "/public_html/img/content");
 
 defined("LIBRARY")
-    or define("LIBRARY", __DIR__ . '/resources/library');
+    or define("LIBRARY", ROOT . '/resources/library');
 
 defined("TEMPLATES")
-    or define("TEMPLATES", __DIR__ . '/resources/templates');
+    or define("TEMPLATES", ROOT . '/resources/templates');
 
 defined("SECTIONS")
-    or define("SECTIONS", __DIR__ . '/resources/sections');
+    or define("SECTIONS", ROOT . '/resources/sections');
 
 defined("CONNECTIONS")
-    or define("CONNECTIONS", __DIR__ . '/resources/classes/connections');
+    or define("CONNECTIONS", ROOT . '/resources/classes/connections');
 
 defined("INTERFACES")
-    or define("INTERFACES", __DIR__ . '/resources/classes/interfaces');
+    or define("INTERFACES", ROOT . '/resources/classes/interfaces');
 
 defined("CONTROLLERS")
-    or define("CONTROLLERS", __DIR__ . '/resources/classes/controllers');
+    or define("CONTROLLERS", ROOT . '/resources/classes/controllers');
 
 defined("VIEWS")
-    or define("VIEWS", __DIR__ . '/resources/classes/views');
+    or define("VIEWS", ROOT . '/resources/classes/views');
 
 
 /* **************************************************************** Error reporting *************************************************************** */
@@ -72,4 +84,10 @@ function  moverImagen($nombreTemporal, $ruta, $nombreImagen)
 
     return $img;
 }
+
+function refrescarPagina($retraso, $archivoActual)
+{
+    echo "<meta http-equiv=\"Refresh\" content=\"$retraso;url=$archivoActual\">";
+}
+
 /* ************************************************************************************************************************************************ */

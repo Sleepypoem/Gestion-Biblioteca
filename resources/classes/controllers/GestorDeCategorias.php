@@ -1,6 +1,5 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once INTERFACES . "/IGestor.php";
 require_once INTERFACES . "/IValidar.php";
@@ -65,7 +64,7 @@ class GestorDeCategorias implements IGestor, IValidar
         return $this->alertas->crearAlertaExito("Categoria editada con exito");
     }
 
-    function validarCampo(string $entrada): bool
+    function validarCampo($entrada): bool
     {
         if ($entrada == "" || $entrada == null) {
             return false;

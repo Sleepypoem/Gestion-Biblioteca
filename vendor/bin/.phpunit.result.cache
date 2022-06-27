@@ -1,0 +1,1 @@
+{"version":1,"defects":{"GestorDeLibrosTest::testLibroSinIsbn":3},"times":{"GestorDeLibrosTest::testLibroSinIsbn":0.011,"GestorDeLibrosTest::testLibroIsbnNulo":0.014,"GestorDeLibrosTest::testLibroIsbnVacio":0.002}}

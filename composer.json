@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "classmap": [
+            "resources/"
+        ]
+    },
+    "require": {
+        "phpunit/phpunit": "^9.5"
+    }
+}

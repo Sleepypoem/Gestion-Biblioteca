@@ -4,7 +4,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once CONTROLLERS . "/GestorDeLibros.php";
 include_once TEMPLATES . "/Cabecera.php";
-require_once VIEWS . "/CrearComponentes.php";
 /* ************************************************************************************************************************************************ */
 
 /* ********************************************************* Valores por defecto sin $_GET ******************************************************** */
