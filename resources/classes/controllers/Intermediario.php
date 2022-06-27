@@ -1,6 +1,6 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+include_once "../../config.php";
 require_once CONNECTIONS . "/ConexionBD.php";
 /* ************************************************************************************************************************************************ */
 
@@ -8,10 +8,11 @@ class Intermediario
 {
     private $conexion;
 
-    function __construct(ConexionBD $conexion = null)
+    function __construct($conexion = null)
     {
 
-        $this->conexion = $conexion == null ? new ConexionBD("localhost", "bd_biblioteca", "root", "") : $conexion;
+        $this->conexion = $conexion == null ? ConexionBD::getInstance() : $conexion;
+        $this->conexion->conectar(BD_HOST, BD_NOMBRE, BD_USUARIO, BD_CONTRASENIA);
     }
 
     /**
@@ -25,7 +26,7 @@ class Intermediario
         $sql = "SELECT * FROM `$valor`";
         switch ($valor) {
             case 'libro':
-                $listaLibros = $this->conexion->ejecutaSQL($sql);
+                $listaLibros = $this->conexion->consultarBD($sql);
                 return $listaLibros;
                 break;
 
@@ -75,13 +76,12 @@ class Intermediario
     /**
      * Inserta valores en su respectiva tabla en la base de datos.
      *
-     * @param [string] $valor La tabla en la que se va a insertar.
-     * @param [type] $datos Un array asociativo con los datos opcionales para cada insercion.
-     * @return void
+     * @param [string] $sql La sentencia sql a ejecutar para la insercion.
+     * @return bool FALSE en caso de error, TRUE en caso de exito.
      */
     public function insertarEnBD($sql)
     {
-        $this->conexion->ejecutaSQL($sql);
+        return $this->conexion->agregarBD($sql);
     }
 
     /** 
