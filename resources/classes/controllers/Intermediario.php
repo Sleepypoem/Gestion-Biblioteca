@@ -12,7 +12,6 @@ class Intermediario
     {
 
         $this->conexion = $conexion == null ? ConexionBD::getInstance() : $conexion;
-        $this->conexion->conectar(BD_HOST, BD_NOMBRE, BD_USUARIO, BD_CONTRASENIA);
     }
 
     /**
@@ -93,5 +92,10 @@ class Intermediario
     public function ejecutarSQL($sql)
     {
         return $this->conexion->ejecutaSQL($sql);
+    }
+
+    public function consultarConBD($sql)
+    {
+        return $this->conexion->consultarBD($sql);
     }
 }

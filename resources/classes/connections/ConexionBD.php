@@ -8,35 +8,31 @@ require_once INTERFACES . "/IConsultarBD.php";
 
 class ConexionBD implements IEjecutarSQL, IAgregarBD, IConsultarBD
 {
-    protected static $conexiones = [];
+    protected static $instancia = null;
     private $pdo;
 
     private function __construct()
     {
+        $host = BD_HOST;
+        $bd_name = BD_NOMBRE;
+        $username = BD_USUARIO;
+        $password = BD_CONTRASENIA;
+        try {
+            $this->pdo = new PDO("mysql:host=$host;dbname=$bd_name", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            return "Conexion establecida!";
+        } catch (PDOException $e) {
+            return "Error al conectarse";
+        }
     }
+
+
 
     public static function getInstance()
     {
-        $clase = static::class;
-        if (!isset(self::$conexiones[$clase])) {
-            self::$conexiones[$clase] = new static();
+        if (IS_NULL(self::$instancia)) {
+            self::$instancia = new self();
         }
-
-        return self::$conexiones[$clase];
-    }
-
-    public function conectar($host, $bd_name, $username, $password)
-    {
-        try {
-            $this->pdo = new PDO("mysql:host=$host;dbname=$bd_name", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING]);
-            if ($this->pdo instanceof PDO) {
-                return $this->pdo;
-            } else {
-                throw new Exception(message: "No se encontro la base de datos");
-            }
-        } catch (PDOException $e) {
-            die($e->getMessage());
-        }
+        return self::$instancia;
     }
 
     public function agregarBD($sql): bool
