@@ -2,6 +2,15 @@
 /* ***************************************************************** Dependencias ***************************************************************** */
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 /* ************************************************************************************************************************************************ */
+
+/* ******************************************************************* Variables ****************************************************************** */
+$baseUrl = $config["urls"]["baseUrl"];
+/* ************************************************************************************************************************************************ */
+session_start();
+$cuentaAdmin = <<<_CUENTA
+        <a class="dropdown-item"
+        href="$baseUrl/resources/sections/AgregarCategorias.php">Añadir usuarios</a>
+_CUENTA;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +37,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
             class="navbar navbar-expand-xl justify-content-center navbar-light navbar-dark bg-primary shadow-lg p-3 mb-5 bg-white rounded">
             <div class=" container">
                 <a class="navbar-brand"
-                    href="<?php echo $config["urls"]["baseUrl"] . "/index.php"; ?>">Biblioteca</a>
+                    href="<?php echo $config["urls"]["baseUrl"] . "/home.php"; ?>">Biblioteca</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -38,13 +47,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
                     <ul class="navbar-nav me-auto mt-2 mt-lg-1">
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Prestamos.php"; ?>">Préstamos
+                                href="<?php echo $baseUrl . "/resources/sections/Prestamos.php"; ?>">Préstamos
                             <span class="visually-hidden">(current)</span></a></a>
                         </li>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Devoluciones.php"; ?>">Devoluciones
+                                href="<?php echo $baseUrl . "/resources/sections/Devoluciones.php"; ?>">Devoluciones
                             <span class="visually-hidden">(current)</span></a></a>
                         </li>
                         <li class="nav-item dropdown">
@@ -53,10 +62,12 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
                                 aria-expanded="false">Libros</a>
                             <div class="dropdown-menu" aria-labelledby="Acciones-Libros">
                                 <a class="dropdown-item"
-                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Catalogo.php"; ?>">Catalogo</a>
+                                    href="<?php echo $baseUrl . "/resources/sections/Catalogo.php"; ?>">Catalogo</a>
                                 <a class="dropdown-item"
-                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarLibros.php"; ?>">Añadir
+                                    href="<?php echo $baseUrl . "/resources/sections/AgregarLibros.php"; ?>">Añadir
                                 libro</a>
+                                <a class="dropdown-item"
+                                    href="<?php echo $baseUrl . "/resources/sections/AgregarAutor.php"; ?>">Ver y agregar autores</a>
                             </div>
                         </li>
 
@@ -66,15 +77,33 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
                                 aria-expanded="false">Categorias</a>
                             <div class="dropdown-menu" aria-labelledby="Acciones-Libros">
                                 <a class="dropdown-item"
-                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/Categorias.php"; ?>">Ver
+                                    href="<?php echo $baseUrl . "/resources/sections/Categorias.php"; ?>">Ver
                                 categorias</a>
                                 <a class="dropdown-item"
-                                    href="<?php echo $config["urls"]["baseUrl"] . "/resources/sections/AgregarCategorias.php"; ?>">Añadir
+                                    href="<?php echo $baseUrl . "/resources/sections/AgregarCategorias.php"; ?>">Añadir
                                 categoria</a>
                             </div>
                         </li>
 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="CategoriasDropDown"
+                                data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">Cuenta</a>
+                            <div class="dropdown-menu" aria-labelledby="Acciones-Libros">
+                                <a class="dropdown-item"
+                                    href="<?php echo $baseUrl . "/resources/sections/Categorias.php"; ?>">Editar informacion de la cuenta</a>
+
+                                <?php echo $cuentaAdmin ?>
+
+                                <a class="dropdown-item"
+                                    href="<?php echo $baseUrl . "/resources/sections/AgregarCategorias.php"; ?>">Salir</a>
+                            </div>
+                        </li>
+
                     </ul>
+                    <div>
+                        <h6>Ingresaste como: <?php echo $_SESSION["nombre"];  ?></h6>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -85,12 +114,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
         <!-- Bootstrap icons -->
         <link rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-
-        <!-- Bootstrap growl -->
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.js"
-            integrity="sha512-4fpPq5LCcSAofCKmaM58RSbjpVRUqjx8nKAaBQVFay4MRo7FLafbt6bUNUfUbTZcSMzRNxZuVj3shwHA6ZeiOQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- DataTables -->
         <script type="text/javascript"
