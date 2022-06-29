@@ -7,6 +7,7 @@ require_once CONNECTIONS . "/ConexionBD.php";
 class Intermediario
 {
     private $conexion;
+    private $enTransaccion = false;
 
     function __construct($conexion = null)
     {
@@ -97,5 +98,31 @@ class Intermediario
     public function consultarConBD($sql)
     {
         return $this->conexion->consultarBD($sql);
+    }
+
+    public function empezarTransaccion()
+    {
+        $this->enTransaccion = true;
+        $this->conexion->empezarTransaccion();
+    }
+
+    public function guardarCambios()
+    {
+        if (!$this->enTransaccion) {
+            throw new Exception("No se ha iniciado ninguna transaccion");
+        } else {
+            $this->enTransaccion = false;
+            $this->conexion->guardarCambios();
+        }
+    }
+
+    public function descartarCambios()
+    {
+        if (!$this->enTransaccion) {
+            throw new Exception("No se ha iniciado ninguna transaccion");
+        } else {
+            $this->enTransaccion = false;
+            $this->conexion->descartarCambios();
+        }
     }
 }
