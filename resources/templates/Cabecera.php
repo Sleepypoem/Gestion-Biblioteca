@@ -7,6 +7,11 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 $baseUrl = $config["urls"]["baseUrl"];
 /* ************************************************************************************************************************************************ */
 session_start();
+//Si no se han logueado, los redirigimos a la pagina de login, para que no se nos cuelen
+if (!isset($_SESSION["nombre"])) {
+    header("location:./index.php");
+}
+
 $cuentaAdmin = <<<_CUENTA
         <a class="dropdown-item"
         href="$baseUrl/resources/sections/AgregarCategorias.php">Añadir usuarios</a>
@@ -96,7 +101,7 @@ _CUENTA;
                                 <?php echo $cuentaAdmin ?>
 
                                 <a class="dropdown-item"
-                                    href="<?php echo $baseUrl . "/resources/sections/AgregarCategorias.php"; ?>">Salir</a>
+                                    href="<?php echo $baseUrl . "/resources/sections/Salir.php"; ?>">Salir</a>
                             </div>
                         </li>
 

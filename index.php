@@ -14,7 +14,7 @@ if ($_POST) {
     $usuario = $_POST["usuario"];
     $contrasenia = $_POST["contrasenia"];
 
-    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario' ";
+    $sql = "SELECT * FROM v_bibliotecarios WHERE usuario = '$usuario' ";
     $datosDeBD = $intermediario->consultarConBD($sql);
     $contraseniaBD = ($datosDeBD !== []) ? $intermediario->consultarConBD($sql)[0]["password"] : 0;
 
@@ -81,9 +81,10 @@ if ($_POST) {
                     </div>
                 </div>
         </div>
-        <div class="text-center">
+        <div class="text-center ">
             <button type="submit" class="btn btn-success">Ingresar</button>
         </div>
+        <br>
         </form>
     </div>
     <div class="card-footer text-muted bg-dark">
