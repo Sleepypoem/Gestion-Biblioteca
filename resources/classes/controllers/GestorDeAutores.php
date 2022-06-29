@@ -47,12 +47,10 @@ class GestorDeAutores implements IGestor, IValidar
 
         $sql = "INSERT INTO `autor`( `nombre`, `fechaNacimiento`, `image`) 
         VALUES ('$this->nombre', '$this->fechaDeNacimiento', '$this->imagen')";
-        try {
-            $this->comunicarseConBD($sql);
-        } catch (PDOException $e) {
-            return $this->alertas->crearAlertaFallo("Error al contactarse con la BD. Error: " . $e);
-        }
 
+        if (!$this->comunicarseConBD("ejecutar", $sql)) {
+            return $this->alertas->crearAlertaFallo("Error agregando el autor.");
+        }
         return $this->alertas->crearAlertaExito("Autor agregado con exito");
     }
 
@@ -66,12 +64,10 @@ class GestorDeAutores implements IGestor, IValidar
     public function editarAutor($id)
     {
         $sql = "UPDATE `autor` SET `nombre`='$this->nombre',`fechaNacimiento`='$this->fechaDeNacimiento',`image`='$this->imagen' WHERE `idAutor` = $id";
-        try {
-            $this->comunicarseConBD($sql);
-        } catch (PDOException $e) {
-            return $this->alertas->crearAlertaFallo("Error editando el autor. Error: " . $e);
-        }
 
+        if (!$this->comunicarseConBD("ejecutar", $sql)) {
+            return $this->alertas->crearAlertaFallo("Error editando el autor.");
+        }
         return $this->alertas->crearAlertaExito("Autor editado con exito");
     }
 
@@ -85,8 +81,15 @@ class GestorDeAutores implements IGestor, IValidar
         return true;
     }
 
-    function comunicarseConBD($sql): array
+
+    function comunicarseConBD($tipo, $sql)
     {
-        return $this->intermediario->ejecutarSQL($sql);
+        if ($tipo === "ejecutar") {
+            return $this->intermediario->insertarEnBD($sql);
+        } else if ($tipo === "consultar") {
+            return $this->intermediario->consultarConBD($sql);
+        } else {
+            throw new Exception("Error de tipo");
+        }
     }
 }

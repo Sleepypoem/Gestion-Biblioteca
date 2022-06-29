@@ -63,16 +63,13 @@ class GestorDeLibros implements IGestor, IValidar
         $sql = "INSERT INTO libro (isbn, titulo, idAutor, tipoLibro, codigoBbliotecario, image, estado) 
         VALUES ('$this->isbn', '$this->titulo', $this->idAutor, $this->idTipoLibro, $this->codigoBibliotecario, '$this->imagen', 1)";
 
-        try {
-            $this->comunicarseConBD($sql);
-        } catch (PDOException $e) {
-            return $this->alertas->crearAlertaFallo("Erro comunicandose con la base de datos. Error: " . $e);
+        if (!$this->comunicarseConBD("ejecutar", $sql)) {
+            return $this->alertas->crearAlertaFallo("Error al insertar el libro");
+        } else {
+            $sql = "CALL insertarCopias('$this->isbn', $this->copias);";
+
+            $this->comunicarseConBD("ejecutar", $sql);
         }
-
-
-        $sql = "CALL insertarCopias('$this->isbn', $this->copias);";
-
-        $this->comunicarseConBD($sql);
 
         return $this->alertas->crearAlertaExito("Libro agregado con exito");
     }
@@ -97,12 +94,10 @@ class GestorDeLibros implements IGestor, IValidar
         $sql = "UPDATE `libro` SET `isbn`='$this->isbn',`titulo`='$this->titulo',`idAutor`='$this->idAutor',`tipoLibro`='$this->idTipoLibro',
         `codigoBbliotecario`='$this->codigoBibliotecario',`image`='$this->imagen' WHERE id= $id";
 
-        try {
-            $this->comunicarseConBD($sql);
-        } catch (PDOException $e) {
-            return $this->alertas->crearAlertaFallo("Error comunicandose con la base de datos. Error: " . $e);
+        if (!$this->comunicarseConBD("ejecutar", $sql)) {
+            return $this->alertas->crearAlertaFallo("Error al editar el libro");
         }
-
+        
         return $this->alertas->crearAlertaExito("Libro editado con exito");
     }
 
@@ -115,8 +110,14 @@ class GestorDeLibros implements IGestor, IValidar
         return true;
     }
 
-    function comunicarseConBD($sql): array
+    function comunicarseConBD($tipo, $sql)
     {
-        return $this->intermediario->ejecutarSQL($sql);
+        if ($tipo === "ejecutar") {
+            return $this->intermediario->insertarEnBD($sql);
+        } else if ($tipo === "consultar") {
+            return $this->intermediario->consultarConBD($sql);
+        } else {
+            throw new Exception("Error de tipo");
+        }
     }
 }

@@ -33,13 +33,22 @@ class GestorDeDevoluciones implements IGestor
      * Se encarga de todo lo relacionado a la devolucion en la base de datos,
      * actualiza los estados de la copia y el prestamo.
      *
-     * @return string Un mensaje de confirmacion.
+     * @return string Un mensaje de confirmacion o de fallo.
      */
     public function devolver()
     {
-        $sql = "UPDATE prestamo SET estado = 2 WHERE idPrestamo = $this->idPrestamo";
-        $this->comunicarseConBD($sql);
+        $prestamo = $this->consultarPrestamo();
+        if ($prestamo == []) {
+            return $this->alertas->crearAlertaFallo("No se encontro prestamo registrado a esta copia.");
+        } else {
+            $this->idPrestamo = $prestamo[0]["idPrestamo"];
+            $this->codigoBibliotecario = $prestamo[0]["codigoBbliotecario"];
+        }
 
+        $sql = "UPDATE prestamo SET estado = 2 WHERE idPrestamo = $this->idPrestamo";
+        if (!$this->comunicarseConBD("ejecutar", $sql)) {
+            return $this->alertas->crearAlertaFallo("Error al registrar el prestamo");
+        }
         $this->registrarDevolucion();
         $this->actualizarLaCopia();
 
@@ -51,16 +60,12 @@ class GestorDeDevoluciones implements IGestor
      *
      * @return void
      */
-    private function consultarPrestamo()
+    private function consultarPrestamo(): array
     {
+        $resultados = [];
         $sql = "SELECT idPrestamo, codigoLector, codigoBbliotecario FROM prestamo WHERE codigo_copia = $this->codigoCopia AND estado = 1;";
-        $resultados = $this->comunicarseConBD($sql);
-        if ($resultados == []) {
-            return $this->alertas->crearAlertaFallo("No se encontro prestamo registrado a esta copia.");
-        } else {
-            $this->idPrestamo = $resultados[0]["idPrestamo"];
-            $this->codigoBibliotecario = $resultados[0]["codigoBbliotecario"];
-        }
+        $resultados = $this->comunicarseConBD("consultar", $sql);
+        return $resultados;
     }
 
     /**
@@ -71,7 +76,7 @@ class GestorDeDevoluciones implements IGestor
     private function registrarDevolucion()
     {
         $sql = "INSERT INTO devolucion (idPrestamo, idBbliotecario) VALUES ($this->idPrestamo, $this->codigoBibliotecario)";
-        $this->comunicarseConBD($sql);
+        return $this->comunicarseConBD("ejecutar", $sql);
     }
 
     /**
@@ -82,12 +87,17 @@ class GestorDeDevoluciones implements IGestor
     private function actualizarLaCopia()
     {
         $sql = "UPDATE copias SET estado = 1 WHERE codigo = $this->codigoCopia";
-        $this->comunicarseConBD($sql);
+        return $this->comunicarseConBD("ejecutar", $sql);
     }
 
-    function comunicarseConBD($sql): array
+    function comunicarseConBD($tipo, $sql)
     {
-        $resultados = $this->intermediario->ejecutarSQL($sql);
-        return $resultados;
+        if ($tipo === "ejecutar") {
+            return $this->intermediario->insertarEnBD($sql);
+        } else if ($tipo === "consultar") {
+            return $this->intermediario->consultarConBD($sql);
+        } else {
+            throw new Exception("Error de tipo");
+        }
     }
 }

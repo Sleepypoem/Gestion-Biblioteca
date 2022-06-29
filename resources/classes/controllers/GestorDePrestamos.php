@@ -38,10 +38,10 @@ class GestorDePrestamos implements IGestor
     public function comprobarUsuario()
     {
         $sql = "SELECT `estado` FROM `usuario` WHERE codigo = $this->codigoLector";
-        $estado = $this->comunicarseConBD($sql);
+        $estado = $this->comunicarseConBD("consultar", $sql);
         if ($estado[0]["estado"] == 1) {
             $sql = "SELECT COUNT(0) as prestamos FROM prestamo WHERE codigoLector = $this->codigoLector AND estado = 1";
-            $numeroDePrestamos = $this->comunicarseConBD($sql)[0]["prestamos"];
+            $numeroDePrestamos = $this->comunicarseConBD("consultar", $sql)[0]["prestamos"];
             if ($numeroDePrestamos < 3) {
                 return true;
             }
@@ -58,7 +58,7 @@ class GestorDePrestamos implements IGestor
     {
         $copias = 0;
         $sql = "SELECT * FROM `copias` WHERE isbn = $this->isbn";
-        $resultado = $this->ComunicarseConBD($sql);
+        $resultado = $this->ComunicarseConBD("consultar", $sql);
         foreach ($resultado as $copia) {
             if ($copia["estado"] == 1) {
                 $this->copiasDisponibles[] = $copia["codigo"];
@@ -95,7 +95,7 @@ class GestorDePrestamos implements IGestor
         VALUES ('" . $this->calcularFechaDeHoy() . "','" . $this->calcularFechaDevolucion() .
             "', $this->codigoLector , $this->codigoBibliotecario," . $this->copiasDisponibles[0] . ", 1)";
 
-        $this->ComunicarseConBD($sql);
+        return $this->ComunicarseConBD("ejecutar", $sql);
     }
 
     /** 
@@ -106,7 +106,7 @@ class GestorDePrestamos implements IGestor
     private function actualizarLaCopia()
     {
         $sql = "UPDATE copias SET estado = 2 WHERE codigo = " . $this->copiasDisponibles[0];
-        $this->ComunicarseConBD($sql);
+        $this->ComunicarseConBD("ejecutar", $sql);
     }
 
     /**
@@ -125,14 +125,22 @@ class GestorDePrestamos implements IGestor
             return $this->alertas->crearAlertaFallo("Lo sentimos, no hay mas copias de este libro.");
         }
 
-        $this->registrarPrestamo();
+        if (!$this->registrarPrestamo()) {
+            return $this->alertas->crearAlertaFallo("Error al registrar el prestamo");
+        }
         $this->actualizarLaCopia();
         $this->copiasDisponibles = [];
         return $this->alertas->crearAlertaExito("Se registro el prestamo");
     }
 
-    function comunicarseConBD($sql): array
+    function comunicarseConBD($tipo, $sql)
     {
-        return $this->intermediario->ejecutarSQL($sql);
+        if ($tipo === "ejecutar") {
+            return $this->intermediario->insertarEnBD($sql);
+        } else if ($tipo === "consultar") {
+            return $this->intermediario->consultarConBD($sql);
+        } else {
+            throw new Exception("Error de tipo");
+        }
     }
 }

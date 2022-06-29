@@ -36,12 +36,14 @@ class GestorDeCategorias implements IGestor, IValidar
     {
         if (!$this->validarCampo($this->nombre)) {
             return $this->alertas->crearAlertaFallo("El nombre no puede estar vacio!");
-        } else {
-            $sql = "INSERT INTO `tipos-de-libros` (nombre, descripcion) VALUES ('$this->nombre', '$this->descripcion')";
-            $this->comunicarseConBD($sql);
-
-            return $this->alertas->crearAlertaExito("Categoria agregada con exito");
         }
+
+        $sql = "INSERT INTO `tipos-de-libros` (nombre, descripcion) VALUES ('$this->nombre', '$this->descripcion')";
+        if (!$this->comunicarseConBD("insertar", $sql)) {
+            return $this->alertas->crearAlertaFallo("Error al agregar la categoria.");
+        }
+
+        return $this->alertas->crearAlertaExito("Categoria agregada con exito");
     }
 
     /**
@@ -55,10 +57,8 @@ class GestorDeCategorias implements IGestor, IValidar
     {
         $sql = "UPDATE `tipos-de-libros` SET nombre = '$this->nombre', descripcion = '$this->descripcion' WHERE idtipoLibro = $id";
 
-        try {
-            $this->comunicarseConBD($sql);
-        } catch (PDOException $e) {
-            return $this->alertas->crearAlertaFallo("Error al comunicarse con la base de datos. Error: " . $e);
+        if (!$this->comunicarseConBD("insertar", $sql)) {
+            return $this->alertas->crearAlertaFallo("Error al editar la categoria.");
         }
 
         return $this->alertas->crearAlertaExito("Categoria editada con exito");
@@ -73,8 +73,14 @@ class GestorDeCategorias implements IGestor, IValidar
         return true;
     }
 
-    function comunicarseConBD($sql): array
+    function comunicarseConBD($tipo, $sql)
     {
-        return $this->intermediario->ejecutarSQL($sql);
+        if ($tipo === "ejecutar") {
+            return $this->intermediario->insertarEnBD($sql);
+        } else if ($tipo === "consultar") {
+            return $this->intermediario->consultarConBD($sql);
+        } else {
+            throw new Exception("Error de tipo");
+        }
     }
 }
