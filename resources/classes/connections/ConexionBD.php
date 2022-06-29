@@ -25,7 +25,20 @@ class ConexionBD implements IEjecutarSQL, IAgregarBD, IConsultarBD
         }
     }
 
+    public function iniciarTransaccion()
+    {
+        $this->pdo->beginTransaction();
+    }
 
+    public function guardarCambios()
+    {
+        $this->pdo->commit();
+    }
+
+    public function descartarCambios()
+    {
+        $this->pdo->rollBack();
+    }
 
     public static function getInstance()
     {
