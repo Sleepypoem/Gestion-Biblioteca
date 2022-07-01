@@ -246,8 +246,14 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('#tabla-prestamos').DataTable({
-
         "pageLength": 2,
+
+    });
+});
+
+$(document).ready(function () {
+    $('#tabla-usuarios').DataTable({
+        "pageLength": 5,
 
     });
 });

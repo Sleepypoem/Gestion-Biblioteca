@@ -5,6 +5,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 
 /* ******************************************************************* Variables ****************************************************************** */
 $baseUrl = $config["urls"]["baseUrl"];
+$rutaImg = $config["paths"]["images"]["content"];
 /* ************************************************************************************************************************************************ */
 session_start();
 //Si no se han logueado, los redirigimos a la pagina de login, para que no se nos cuelen
@@ -12,9 +13,10 @@ if (!isset($_SESSION["nombre"])) {
     header("location:./index.php");
 }
 
+
 $cuentaAdmin = <<<_CUENTA
         <a class="dropdown-item"
-        href="$baseUrl/resources/sections/AgregarCategorias.php">Añadir usuarios</a>
+        href="$baseUrl/resources/sections/AgregarUsuarios.php">Añadir usuarios</a>
 _CUENTA;
 ?>
 <!DOCTYPE html>
@@ -96,9 +98,12 @@ _CUENTA;
                                 aria-expanded="false">Cuenta</a>
                             <div class="dropdown-menu" aria-labelledby="Acciones-Libros">
                                 <a class="dropdown-item"
-                                    href="<?php echo $baseUrl . "/resources/sections/Categorias.php"; ?>">Editar informacion de la cuenta</a>
+                                    href="<?php echo $baseUrl . "/resources/sections/EditarUsuarios.php"; ?>">Editar informacion de la cuenta</a>
 
-                                <?php echo $cuentaAdmin ?>
+                                <?php echo ($_SESSION["rol"] == "administrador") ? $cuentaAdmin : "" ?>
+
+                                <a class="dropdown-item"
+                                    href="<?php echo $baseUrl . "/resources/sections/ListaUsuarios.php"; ?>">Ver usuarios</a>
 
                                 <a class="dropdown-item"
                                     href="<?php echo $baseUrl . "/resources/sections/Salir.php"; ?>">Salir</a>
@@ -106,11 +111,19 @@ _CUENTA;
                         </li>
 
                     </ul>
-                    <div>
-                        <h6>Ingresaste como: <?php echo $_SESSION["nombre"];  ?></h6>
-                    </div>
+
+
                 </div>
+                <div class="badge bg-primary d-flex justify-content-between" style="width: auto;">
+                    <img src="<?php echo file_exists(IMAGES . $_SESSION["imagen"]) ? $rutaImg . "/" . $_SESSION["imagen"] : $rutaImg . "/default.jpg" ?>"
+                        class="img-thumbnail" alt="foto de perfil" width="50px" height="50px">
+                    &nbsp&nbsp&nbsp
+                    <div class="fs-2 text-white"><?php echo $_SESSION["nombre"] ?></div>
+                </div>
+
             </div>
+
+
         </nav>
 
         <!-- JQuery -->

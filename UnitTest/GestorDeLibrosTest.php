@@ -71,7 +71,7 @@ class GestorDeLibrosTest extends TestCase
     {
         $texto = "Libro agregado con exito";
 
-        $gestor = new GestorDeLibros("000000", "testTitulo", 1, 1, 1);
+        $gestor = new GestorDeLibros("123456789", "testTitulo", 1, 1, 1);
         assertEquals($this->alertas->crearAlertaExito($texto), $gestor->registrarLibro());
     }
 

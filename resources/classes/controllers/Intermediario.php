@@ -9,10 +9,10 @@ class Intermediario
     private $conexion;
     private $enTransaccion = false;
 
-    function __construct($conexion = null)
+    function __construct(ConexionBD $conexion = null)
     {
 
-        $this->conexion = $conexion == null ? ConexionBD::getInstance() : $conexion;
+        $this->conexion = ($conexion == null) ? ConexionBD::getInstance() : $conexion;
     }
 
     /**
@@ -63,6 +63,11 @@ class Intermediario
             case 'devolucion':
                 $listaDevoluciones = $this->conexion->ejecutaSQL($sql);
                 return $listaDevoluciones;
+                break;
+
+            case 'bibliotecario':
+                $listaBibliotecarios = $this->conexion->ejecutaSQL($sql);
+                return $listaBibliotecarios;
                 break;
 
             default:

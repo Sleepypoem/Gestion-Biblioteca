@@ -57,6 +57,18 @@ if ($_POST) {
 
 
 <body>
+    <form action="" method="post">
+        <div class="mb-3">
+            <label class="custom-file">
+                <input type="file" name="" id="" placeholder="dd" class="custom-file-input"
+                    aria-describedby="fileHelpId">
+                <span class="custom-file-control"></span>
+            </label>
+            <small id="fileHelpId" class="form-text text-muted">Help text</small>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
     <div class="p-5 bg-light">
         <div class="container">
             <h1 class="display-3">Jumbo heading</h1>
@@ -73,16 +85,41 @@ if ($_POST) {
     </div>
 
     <?php
-    $i1 = ConexionBD::getInstance();
-    $i2 = ConexionBD::getInstance();
+    function validarContrasenia($contrasenia)
+    {
+        //la contraseña debe tener al menos una mayuscula, una minuscula, un numero y minimo 8 caracteres.
+        $expresion = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/";
+
+        if (preg_match($expresion, $contrasenia) === 1) {
+            echo "true";
+            return;
+        }
+
+        echo "false";
+    }
 
     echo "<h1>";
-    echo ($i1 === $i2) ? "Misma instancia" : "Diferente instancia";
+    validarContrasenia("aasjjjJs1");
     echo "</h1>";
     ?>
     <span class="badge badge-danger">Primary</span>
     >
 
+    <p>Click the radio button to toggle between password visibility:</p>
+
+    Password: <input type="password" value="FakePSW" id="myInput"><br><br>
+    <input type="checkbox" onclick="myFunction()">Show Password
+
+    <script>
+    function myFunction() {
+        var x = document.getElementById("myInput");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+    </script>
     <div class="mb-3">
         <label class="form-label">
             Ingresa el autor del libro
@@ -163,6 +200,44 @@ if ($_POST) {
             </tbody>
         </table>
     </div>
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link"
+                            href="#">Home <span class="visually-hidden">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownId"
+                            data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Dropdown</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownId">
+                            <a class="dropdown-item" href="#">Action 1</a>
+                            <a class="dropdown-item" href="#">Action 2</a>
+                        </div>
+                    </li>
+                </ul>
+                <form class="d-flex my-2 my-lg-0">
+                    <input class="form-control me-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0"
+                        type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
 
     <div class="container">
         <form class="row g-3 needs-validation" novalidate>

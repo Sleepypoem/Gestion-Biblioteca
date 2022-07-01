@@ -21,7 +21,7 @@ class ConexionBD implements IEjecutarSQL, IAgregarBD, IConsultarBD
             $this->pdo = new PDO("mysql:host=$host;dbname=$bd_name", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
             return "Conexion establecida!";
         } catch (PDOException $e) {
-            return "Error al conectarse";
+            return "Error al conectarse. Error" . $e;
         }
     }
 
