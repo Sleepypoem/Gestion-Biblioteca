@@ -36,7 +36,7 @@ defined("ROOT")
     or define("ROOT", dirname(__DIR__) . "/Gestion Biblioteca");
 
 defined("IMAGES")
-    or define("IMAGES", ROOT . "/public_html/img/content");
+    or define("IMAGES", ROOT . "/public_html/img/content/");
 
 defined("LIBRARY")
     or define("LIBRARY", ROOT . '/resources/library');

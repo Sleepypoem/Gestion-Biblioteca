@@ -14,6 +14,7 @@ $intermediario = new Intermediario();
 
 $usuarios = count($intermediario->obtenerDeBD("usuario"));
 $libros = count($intermediario->obtenerDeBD("libro"));
+$bibliotecarios = count($intermediario->obtenerDeBD("bibliotecario"));
 $autores = count($intermediario->obtenerDeBD("autor"));
 $prestamos = count($intermediario->obtenerDeBD("prestamo"));
 $devoluciones = count($intermediario->obtenerDeBD("devolucion"));
