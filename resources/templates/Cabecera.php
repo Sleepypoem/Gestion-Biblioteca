@@ -1,6 +1,6 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+require_once dirname(__DIR__, 2) . "/config.php";
 /* ************************************************************************************************************************************************ */
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="https://iconarchive.com/download/i75808/martz90/circle/books.ico">
         <!--Bootstrap 5 CSS only -->
-        <link href="<?php echo $config["urls"]["baseUrl"] . "/public_html/css/bootstrap.css"; ?>"
+        <link href="<?php echo $config["paths"]["assets"] . "css/bootstrap.css"; ?>"
             rel="stylesheet">
         <!-- Para las tablas -->
         <link rel="stylesheet" type="text/css"
@@ -20,7 +20,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
 
         <title>Gestion de Biblioteca | <?php echo obtenerNombrePagina() ?></title>
         <link rel="stylesheet"
-            href="<?php echo $config["urls"]["baseUrl"] . "/public_html/css/customStyleSheet.css"; ?>">
+            href="<?php echo $config["paths"]["assets"] . "css/customStyleSheet.css"; ?>">
 
         <!-- Aqui empieza la NavBar -->
 

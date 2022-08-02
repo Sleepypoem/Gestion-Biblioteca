@@ -1,18 +1,24 @@
 <?php
 
+require 'vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 /*
   Constantes para la base de datos y url necesarias
 */
 
 $config = array(
     "urls" => array(
-        "baseUrl" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca"
+        "baseUrl" => "http://" . $_SERVER["HTTP_HOST"] . "/{$_ENV["ROOT"]}"
     ),
     "paths" => array(
         "resources" => "/resources",
+        "assets" => "http://" . $_SERVER["HTTP_HOST"] . "/public_html/",
         "images" => array(
-            "content" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca/public_html/img/content",
-            "layout" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca/public_html/img/layout"
+            "content" => "http://" . $_SERVER["HTTP_HOST"] . "/{$_ENV["ROOT"]}/public_html/img/content",
+            "layout" => "http://" . $_SERVER["HTTP_HOST"] . "/{$_ENV["ROOT"]}/public_html/img/layout"
         )
     )
 );
@@ -20,6 +26,7 @@ $config = array(
 /*
     Constantes para los require y los include.
 */
+
 defined("IMAGES")
     or define("IMAGES", __DIR__ . "/public_html/img/content");
 
@@ -52,4 +59,4 @@ defined("VIEWS")
 */
 ini_set("error_reporting", "true");
 error_reporting(E_ALL | E_STRICT);
-date_default_timezone_set('America/Belize');
+date_default_timezone_set($_ENV["ZONA_HORARIA"]);

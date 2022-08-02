@@ -1,0 +1,20 @@
+{
+    "name": "alexander/gestion_biblioteca",
+    "description": "Proyecto simple de gestion de una biblioteca",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Alexander\\GestionBiblioteca\\": "resources/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander",
+            "email": "gallade2014@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "^5.4"
+    }
+}

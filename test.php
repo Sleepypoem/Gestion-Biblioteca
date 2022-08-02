@@ -1,9 +1,11 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Organizacion-prueba/config.php";
+require_once dirname(__DIR__) . "/Gestion-Biblioteca/config.php";
+
 include_once TEMPLATES . "/Cabecera.php";
 require_once VIEWS . "/CrearComponentes.php";
 /* ************************************************************************************************************************************************ */
+
 function obtenerNombrePagina()
 {
     return "Pruebas";
@@ -53,6 +55,7 @@ if ($_POST) {
 
     echo crearAlerta("info", $nombre);
 }
+echo $config["paths"]["assets"] . "css/bootstrap.css";
 ?>
 
 

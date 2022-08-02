@@ -1,8 +1,9 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+require_once dirname(__DIR__, 3) . "/config.php";
 require_once INTERFACES . "/IEjecutarSQL.php";
 /* ************************************************************************************************************************************************ */
+
 
 class ConexionBD implements IEjecutarSQL
 {
