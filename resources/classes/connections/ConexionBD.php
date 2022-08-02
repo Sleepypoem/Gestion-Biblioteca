@@ -1,9 +1,15 @@
 <?php
+
+namespace Alexander\Biblioteca\classes\connections;
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
-require_once INTERFACES . "/IEjecutarSQL.php";
-require_once INTERFACES . "/IAgregarBD.php";
-require_once INTERFACES . "/IConsultarBD.php";
+
+require_once dirname(__DIR__, 3) . "/config.php";
+
+use Alexander\Biblioteca\classes\interfaces\IEjecutarSQL as IEjecutarSQL;
+use Alexander\Biblioteca\classes\interfaces\IAgregarBD as IAgregarBD;
+use Alexander\Biblioteca\classes\interfaces\IConsultarBD as IConsultarBD;
+use PDO;
+use PDOException;
 /* ************************************************************************************************************************************************ */
 
 class ConexionBD implements IEjecutarSQL, IAgregarBD, IConsultarBD

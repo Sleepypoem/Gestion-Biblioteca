@@ -1,10 +1,11 @@
 {
     "autoload": {
-        "classmap": [
-            "resources/"
-        ]
+        "psr-4": {
+            "Alexander\\Biblioteca\\": "resources/"
+        }
     },
     "require": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "vlucas/phpdotenv": "^5.4"
     }
 }

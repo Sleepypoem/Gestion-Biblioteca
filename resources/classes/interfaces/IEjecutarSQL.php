@@ -1,4 +1,8 @@
 <?php
-interface IEjecutarSQL {
+
+namespace Alexander\Biblioteca\classes\interfaces;
+
+interface IEjecutarSQL
+{
     function ejecutaSQL($sql);
 }

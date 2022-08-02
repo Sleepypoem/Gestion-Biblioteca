@@ -1,9 +1,15 @@
 <?php
 
+namespace Alexander\Biblioteca\classes\controllers;
 /* ***************************************************************** Dependencias ***************************************************************** */
-require_once CONTROLLERS . "/Intermediario.php";
-require_once INTERFACES . "/IGestor.php";
-require_once VIEWS . "/CrearAlertas.php";
+
+require_once dirname(__DIR__, 3) . "/config.php";
+
+use Alexander\Biblioteca\classes\controllers\Intermediario as Intermediario;
+use Alexander\Biblioteca\classes\interfaces\IGestor as IGestor;
+use Alexander\Biblioteca\classes\views\CrearAlertas as CrearAlertas;
+
+use Exception;
 /* ************************************************************************************************************************************************ */
 
 class GestorDeDevoluciones implements IGestor

@@ -1,6 +1,6 @@
 <?php
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
+require_once dirname(__DIR__) . "/Gestion-Biblioteca" . "/config.php";
 include_once TEMPLATES . "/Cabecera.php";
 require_once CONTROLLERS . "/Intermediario.php";
 require_once CONNECTIONS . "/ConexionBD.php";

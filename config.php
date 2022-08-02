@@ -1,29 +1,34 @@
 <?php
 
+require_once "vendor/autoload.php";
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 /*
   Constantes para la base de datos y url necesarias
 */
 defined("BD_HOST")
-    or define("BD_HOST", "localhost");
+    or define("BD_HOST", $_ENV["BD_HOST"]);
 
 defined("BD_USUARIO")
-    or define("BD_USUARIO", "root");
+    or define("BD_USUARIO", $_ENV["BD_USUARIO"]);
 
 defined("BD_NOMBRE")
-    or define("BD_NOMBRE", "bd_biblioteca");
+    or define("BD_NOMBRE", $_ENV["BD_NOMBRE"]);
 
 defined("BD_CONTRASENIA")
-    or define("BD_CONTRASENIA", "");
+    or define("BD_CONTRASENIA", $_ENV["BD_CONTRASENIA"]);
 
 $config = array(
     "urls" => array(
-        "baseUrl" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca"
+        "baseUrl" => "http://" . $_SERVER["HTTP_HOST"] . "/{$_ENV["ROOT"]}"
     ),
     "paths" => array(
         "resources" => "/resources",
         "images" => array(
-            "content" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca/public_html/img/content",
-            "layout" => "http://" . $_SERVER["HTTP_HOST"] . "/Gestion Biblioteca/public_html/img/layout"
+            "content" => "http://" . $_SERVER["HTTP_HOST"] . "/{$_ENV["ROOT"]}/public_html/img/content",
+            "layout" => "http://" . $_SERVER["HTTP_HOST"] . "/{$_ENV["ROOT"]}/public_html/img/layout"
         )
     )
 );
@@ -33,7 +38,7 @@ $config = array(
 */
 
 defined("ROOT")
-    or define("ROOT", dirname(__DIR__) . "/Gestion Biblioteca");
+    or define("ROOT", dirname(__DIR__) . "/{$_ENV["ROOT"]}");
 
 defined("IMAGES")
     or define("IMAGES", ROOT . "/public_html/img/content/");

@@ -1,7 +1,12 @@
 <?php
+
+namespace Alexander\Biblioteca\classes\controllers;
 /* ***************************************************************** Dependencias ***************************************************************** */
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Gestion Biblioteca/config.php";
-require_once CONNECTIONS . "/ConexionBD.php";
+
+require_once dirname(__DIR__, 3) . "/config.php";
+
+use Alexander\Biblioteca\classes\connections\ConexionBD as ConexionBD;
+use Exception;
 /* ************************************************************************************************************************************************ */
 
 class Intermediario
