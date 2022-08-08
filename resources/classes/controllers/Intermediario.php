@@ -5,134 +5,52 @@ namespace Alexander\Biblioteca\classes\controllers;
 
 require_once dirname(__DIR__, 3) . "/config.php";
 
+use PDOStatement;
 use Alexander\Biblioteca\classes\connections\ConexionBD as ConexionBD;
-use Exception;
+use Alexander\Biblioteca\classes\interfaces\IEjecutarSQL;
+
 /* ************************************************************************************************************************************************ */
 
-class Intermediario
+class Intermediario implements IEjecutarSQL
 {
-    private $conexion;
-    private $enTransaccion = false;
+    private $pdo;
 
     function __construct(ConexionBD $conexion = null)
     {
+        if ($conexion === null) {
+            $conexion = ConexionBD::getInstance();
+            $this->pdo = $conexion->getPDO();
+        } else {
+            $conexion = $conexion::getInstance();
+            $this->pdo = $conexion->getInstance;
+        }
+    }
 
-        $this->conexion = ($conexion == null) ? ConexionBD::getInstance() : $conexion;
+    function ejecutaSQL($sql, $datos = [])
+    {
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($datos);
+
+        return $stmt;
     }
 
     /**
-     * Obtiene una lista de la base de datos.
-     *
-     * @param [string] $valor
-     * @return array Una lista con los objetos sacados de la base de datos
+     * Get the value of pdo
      */
-    public function obtenerDeBD($valor)
+    public function getPdo()
     {
-        $sql = "SELECT * FROM `$valor`";
-        switch ($valor) {
-            case 'libro':
-                $listaLibros = $this->conexion->consultarBD($sql);
-                return $listaLibros;
-                break;
-
-            case 'copia':
-                $listaCopias = $this->conexion->ejecutaSQL($sql);
-                return $listaCopias;
-                break;
-
-            case 'autor':
-                $listaAutores = $this->conexion->ejecutaSQL($sql);
-                return $listaAutores;
-                break;
-
-            case 'tipos-de-libros':
-                $listaTiposDeLibros = $this->conexion->ejecutaSQL($sql);
-                return $listaTiposDeLibros;
-                break;
-
-            case 'prestamo':
-                $listaPrestamos = $this->conexion->ejecutaSQL($sql);
-                return $listaPrestamos;
-                break;
-
-            case 'usuario':
-                $listaUsuarios = $this->conexion->ejecutaSQL($sql);
-                return $listaUsuarios;
-                break;
-
-            case 'multa':
-                $listaMultas = $this->conexion->ejecutaSQL($sql);
-                return $listaMultas;
-                break;
-
-            case 'devolucion':
-                $listaDevoluciones = $this->conexion->ejecutaSQL($sql);
-                return $listaDevoluciones;
-                break;
-
-            case 'bibliotecario':
-                $listaBibliotecarios = $this->conexion->ejecutaSQL($sql);
-                return $listaBibliotecarios;
-                break;
-
-            default:
-                throw new Exception("No existen objetos de tipo '" . $valor . "' en la base de datos");
-
-                break;
-        }
+        return $this->pdo;
     }
-
 
     /**
-     * Inserta valores en su respectiva tabla en la base de datos.
+     * Set the value of pdo
      *
-     * @param [string] $sql La sentencia sql a ejecutar para la insercion.
-     * @return bool FALSE en caso de error, TRUE en caso de exito.
+     * @return  self
      */
-    public function insertarEnBD($sql)
+    public function setPdo($pdo)
     {
-        return $this->conexion->agregarBD($sql);
-    }
+        $this->pdo = $pdo;
 
-    /** 
-     * Ejecuta una sentencia sql a la base de datos y retorna el resultado (si lo hay).
-     * 
-     * @param string $sql   La sentencia a ejecutar.
-     * @return array Un array con los resultados.
-     */
-    public function ejecutarSQL($sql)
-    {
-        return $this->conexion->ejecutaSQL($sql);
-    }
-
-    public function consultarConBD($sql)
-    {
-        return $this->conexion->consultarBD($sql);
-    }
-
-    public function empezarTransaccion()
-    {
-        $this->enTransaccion = true;
-        $this->conexion->empezarTransaccion();
-    }
-
-    public function guardarCambios()
-    {
-        if (!$this->enTransaccion) {
-            throw new Exception("No se ha iniciado ninguna transaccion");
-        } else {
-            $this->enTransaccion = false;
-            $this->conexion->guardarCambios();
-        }
-    }
-
-    public function descartarCambios()
-    {
-        if (!$this->enTransaccion) {
-            throw new Exception("No se ha iniciado ninguna transaccion");
-        } else {
-            $this->enTransaccion = false;
-            $this->conexion->descartarCambios();
-        }
+        return $this;
     }
 }

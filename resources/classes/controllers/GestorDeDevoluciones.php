@@ -6,104 +6,76 @@ namespace Alexander\Biblioteca\classes\controllers;
 require_once dirname(__DIR__, 3) . "/config.php";
 
 use Alexander\Biblioteca\classes\controllers\Intermediario as Intermediario;
-use Alexander\Biblioteca\classes\interfaces\IGestor as IGestor;
-use Alexander\Biblioteca\classes\views\CrearAlertas as CrearAlertas;
+use Alexander\Biblioteca\classes\models\Devolucion as Devolucion;
+use Alexander\Biblioteca\classes\interfaces\IGestor as Gestor;
+use Alexander\Biblioteca\classes\models\Copias as Copias;
+use Alexander\Biblioteca\classes\interfaces\IValidar as IValidar;
 
-use Exception;
 /* ************************************************************************************************************************************************ */
 
-class GestorDeDevoluciones implements IGestor
+class GestorDeDevoluciones implements Gestor, IValidar
 {
     private $intermediario;
-    private $idPrestamo;
-    private $codigoCopia;
-    private $codigoBibliotecario;
-    private $alertas;
 
-    function __construct($codigoCopia, $intermediario = null)
+    function __construct()
     {
-        $this->alertas = new CrearAlertas();
+        $this->intermediario = new Intermediario();
+    }
 
-        //si pasan el intermediario por el constructor usamos ese, sino creamos uno
-        if ($intermediario === null) {
-            $this->intermediario = new Intermediario();
+    public function crear(array $data)
+    {
+        $copiaTemp = new Copias($this->intermediario);
+
+        if (!$this->validar($data)) {
+            return false;
+        }
+
+        $devolucionTemp = new Devolucion($this->intermediario);
+        $devolucionTemp = $devolucionTemp->crearDesdeArray($data);
+
+        if ($devolucionTemp->guardar()) {
+            $copiaTemp = $copiaTemp->obtener($data["codigoCopia"]);
+            $copiaTemp->setEstado(1);
+            $copiaTemp->actualizar($copiaTemp->getId());
+            return true;
         } else {
-            $this->intermediario = $intermediario;
+            return false;
         }
-
-        $this->codigoCopia = $codigoCopia;
-        $this->consultarPrestamo();
     }
 
-    /**
-     * Se encarga de todo lo relacionado a la devolucion en la base de datos,
-     * actualiza los estados de la copia y el prestamo.
-     *
-     * @return string Un mensaje de confirmacion o de fallo.
-     */
-    public function devolver()
+    public function leer(int $id = null)
     {
-        $prestamo = $this->consultarPrestamo();
-        if ($prestamo == []) {
-            return $this->alertas->crearAlertaFallo("No se encontro prestamo registrado a esta copia.");
+        $devolucionTemp = new Devolucion($this->intermediario);
+
+        if ($id === null || $id === "") {
+            $devolucionTemp = $devolucionTemp->obtenerTodos();
         } else {
-            $this->idPrestamo = $prestamo[0]["idPrestamo"];
-            $this->codigoBibliotecario = $prestamo[0]["codigoBbliotecario"];
+            $devolucionTemp = $devolucionTemp->obtener($id);
+        }
+        return $devolucionTemp;
+    }
+
+    public function actualizar(int $id, array $data)
+    {
+        if (!$this->validar($data)) {
+            return false;
         }
 
-        $sql = "UPDATE prestamo SET estado = 2 WHERE idPrestamo = $this->idPrestamo";
-        if (!$this->comunicarseConBD("ejecutar", $sql)) {
-            return $this->alertas->crearAlertaFallo("Error al registrar el prestamo");
+        $devolucionTemp = new Devolucion($this->intermediario);
+        $devolucionTemp = $devolucionTemp->crearDesdeArray($data);
+
+        return $devolucionTemp->actualizar($id);
+    }
+
+    function validar($entrada)
+    {
+        foreach ($entrada as $valor) {
+            $valor = trim($valor);
+            if ($valor == "") {
+                return false;
+            }
         }
-        $this->registrarDevolucion();
-        $this->actualizarLaCopia();
 
-        return $this->alertas->crearAlertaExito("Se registro la devolucion.");
-    }
-
-    /**
-     * Consulta la informacion de prestamo de una copia en especifico.
-     *
-     * @return void
-     */
-    private function consultarPrestamo(): array
-    {
-        $resultados = [];
-        $sql = "SELECT idPrestamo, codigoLector, codigoBbliotecario FROM prestamo WHERE codigo_copia = $this->codigoCopia AND estado = 1;";
-        $resultados = $this->comunicarseConBD("consultar", $sql);
-        return $resultados;
-    }
-
-    /**
-     * Registra la devolucion en la base de dato, para dejar registro.
-     *
-     * @return void
-     */
-    private function registrarDevolucion()
-    {
-        $sql = "INSERT INTO devolucion (idPrestamo, idBbliotecario) VALUES ($this->idPrestamo, $this->codigoBibliotecario)";
-        return $this->comunicarseConBD("ejecutar", $sql);
-    }
-
-    /**
-     * Actualiza el estado de la copia en la base de datos a "1" que significa que ya esta disponible para volver a prestar.
-     *
-     * @return void
-     */
-    private function actualizarLaCopia()
-    {
-        $sql = "UPDATE copias SET estado = 1 WHERE codigo = $this->codigoCopia";
-        return $this->comunicarseConBD("ejecutar", $sql);
-    }
-
-    function comunicarseConBD($tipo, $sql)
-    {
-        if ($tipo === "ejecutar") {
-            return $this->intermediario->insertarEnBD($sql);
-        } else if ($tipo === "consultar") {
-            return $this->intermediario->consultarConBD($sql);
-        } else {
-            throw new Exception("Error de tipo");
-        }
+        return true;
     }
 }

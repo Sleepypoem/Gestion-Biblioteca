@@ -5,14 +5,11 @@ namespace Alexander\Biblioteca\classes\connections;
 
 require_once dirname(__DIR__, 3) . "/config.php";
 
-use Alexander\Biblioteca\classes\interfaces\IEjecutarSQL as IEjecutarSQL;
-use Alexander\Biblioteca\classes\interfaces\IAgregarBD as IAgregarBD;
-use Alexander\Biblioteca\classes\interfaces\IConsultarBD as IConsultarBD;
 use PDO;
 use PDOException;
 /* ************************************************************************************************************************************************ */
 
-class ConexionBD implements IEjecutarSQL, IAgregarBD, IConsultarBD
+class ConexionBD
 {
     protected static $instancia = null;
     private $pdo;
@@ -31,21 +28,6 @@ class ConexionBD implements IEjecutarSQL, IAgregarBD, IConsultarBD
         }
     }
 
-    public function iniciarTransaccion()
-    {
-        $this->pdo->beginTransaction();
-    }
-
-    public function guardarCambios()
-    {
-        $this->pdo->commit();
-    }
-
-    public function descartarCambios()
-    {
-        $this->pdo->rollBack();
-    }
-
     public static function getInstance()
     {
         if (IS_NULL(self::$instancia)) {
@@ -54,23 +36,8 @@ class ConexionBD implements IEjecutarSQL, IAgregarBD, IConsultarBD
         return self::$instancia;
     }
 
-    public function agregarBD($sql): bool
+    public function getPDO()
     {
-        $query = $this->pdo->prepare($sql);
-        return $query->execute();
-    }
-
-    public function consultarBD($sql): array
-    {
-        $query = $this->pdo->prepare($sql);
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function ejecutaSQL($sql)
-    {
-        $query = $this->pdo->prepare($sql);
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return $this->pdo;
     }
 }

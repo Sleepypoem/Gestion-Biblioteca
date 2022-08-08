@@ -5,10 +5,10 @@ namespace Alexander\Biblioteca\classes\interfaces;
 interface IValidar
 {
     /**
-     * Valida que el campo ingresado no este vacio.
+     * Valida que el array ingresado no contenga valores nulos o vacios.
      *
-     * @param string $entrada El texto a evaluar.
-     * @return bool true si el campo no esta vacio, false en caso contrario.
+     * @param array $entrada El array a evaluar.
+     * @return bool true si el array no tiene valores nulos o vacios, false en caso contrario.
      */
-    function validarCampo($entrada): bool;
+    function validar($entrada);
 }

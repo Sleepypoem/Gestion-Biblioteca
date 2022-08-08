@@ -6,97 +6,65 @@ namespace Alexander\Biblioteca\classes\controllers;
 require_once dirname(__DIR__, 3) . "/config.php";
 
 use Alexander\Biblioteca\classes\controllers\Intermediario as Intermediario;
-use Alexander\Biblioteca\classes\interfaces\IGestor as IGestor;
 use Alexander\Biblioteca\classes\interfaces\IValidar as IValidar;
-use Alexander\Biblioteca\classes\views\CrearAlertas as CrearAlertas;
-
-use Exception;
+use Alexander\Biblioteca\classes\interfaces\IGestor as Gestor;
+use Alexander\Biblioteca\classes\models\Autor as Autor;
 /* ************************************************************************************************************************************************ */
 
-class GestorDeAutores implements IGestor, IValidar
+class GestorDeAutores implements Gestor, IValidar
 {
     private $intermediario;
-    private $nombre;
-    private $fechaDeNacimiento;
-    private $imagen;
-    private $alertas;
 
-    function __construct($nombre, $fechaDeNacimiento, $intermediario = null)
+    function __construct()
     {
-        $this->alertas = new CrearAlertas();
-
-        //si pasan el intermediario por el constructor usamos ese, sino creamos uno
-        if ($intermediario === null) {
-            $this->intermediario = new Intermediario();
-        } else {
-            $this->intermediario = $intermediario;
-        }
-
-        $this->nombre = $nombre;
-        $this->fechaDeNacimiento = $fechaDeNacimiento;
+        $this->intermediario = new Intermediario();
     }
 
-    public function setImagen($imagen)
+    public function crear(array $data)
     {
-        $this->imagen = $imagen;
-    }
-
-    /**
-     * Se encarga de todo lo necesario para agregar el autor a la base de datos con los datos pasados en el constructor.
-     *
-     * @return string Un mensaje de confirmacion o de error.
-     */
-    public function agregarAutor()
-    {
-        if (!$this->validarCampo($this->nombre)) {
-            return $this->alertas->crearAlertaFallo("El nombre no puede estar vacio!");
-        }
-
-        $sql = "INSERT INTO `autor`( `nombre`, `fechaNacimiento`, `image`) 
-        VALUES ('$this->nombre', '$this->fechaDeNacimiento', '$this->imagen')";
-
-        if (!$this->comunicarseConBD("ejecutar", $sql)) {
-            return $this->alertas->crearAlertaFallo("Error agregando el autor.");
-        }
-        return $this->alertas->crearAlertaExito("Autor agregado con exito");
-    }
-
-    /**
-     * Se encarga de todo lo necesario para editar el autor en la base de datos
-     * con los datos pasados al constructor y un id para identificar la tabla a editar.
-     *
-     * @param int $id El id de la fila a editar.
-     * @return void
-     */
-    public function editarAutor($id)
-    {
-        $sql = "UPDATE `autor` SET `nombre`='$this->nombre',`fechaNacimiento`='$this->fechaDeNacimiento',`image`='$this->imagen' WHERE `idAutor` = $id";
-
-        if (!$this->comunicarseConBD("ejecutar", $sql)) {
-            return $this->alertas->crearAlertaFallo("Error editando el autor.");
-        }
-        return $this->alertas->crearAlertaExito("Autor editado con exito");
-    }
-
-
-    function validarCampo($entrada): bool
-    {
-        if ($entrada == "" || $entrada == null) {
+        if (!$this->validar($data)) {
             return false;
         }
 
-        return true;
+        $autorTemp = new Autor($this->intermediario);
+        $autorTemp = $autorTemp->crearDesdeArray($data);
+
+        return $autorTemp->guardar();
     }
 
-
-    function comunicarseConBD($tipo, $sql)
+    public function leer(int $id = null)
     {
-        if ($tipo === "ejecutar") {
-            return $this->intermediario->insertarEnBD($sql);
-        } else if ($tipo === "consultar") {
-            return $this->intermediario->consultarConBD($sql);
+        $autorTemp = new Autor($this->intermediario);
+        if ($id === null || $id === "") {
+            $autorTemp = $autorTemp->obtenerTodos();
         } else {
-            throw new Exception("Error de tipo");
+            $autorTemp = $autorTemp->obtener($id);
         }
+
+        return $autorTemp;
+    }
+
+    public function actualizar(int $id, array $data)
+    {
+        if (!$this->validar($data)) {
+            return false;
+        }
+
+        $autorTemp = new Autor($this->intermediario);
+        $autorTemp = $autorTemp->crearDesdeArray($data);
+
+        return $autorTemp->actualizar($id);
+    }
+
+    function validar($entrada)
+    {
+        foreach ($entrada as $valor) {
+            $valor = trim($valor);
+            if ($valor == "") {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

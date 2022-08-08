@@ -6,88 +6,65 @@ namespace Alexander\Biblioteca\classes\controllers;
 require_once dirname(__DIR__, 3) . "/config.php";
 
 use Alexander\Biblioteca\classes\controllers\Intermediario as Intermediario;
-use Alexander\Biblioteca\classes\interfaces\IGestor as IGestor;
+use Alexander\Biblioteca\classes\models\Tipo as Tipo;
+use Alexander\Biblioteca\classes\interfaces\IGestor as Gestor;
 use Alexander\Biblioteca\classes\interfaces\IValidar as IValidar;
-use Alexander\Biblioteca\classes\views\CrearAlertas as CrearAlertas;
-
-use Exception;
 /* ************************************************************************************************************************************************ */
 
-class GestorDeCategorias implements IGestor, IValidar
+class GestorDeCategorias implements Gestor, IValidar
 {
     private $intermediario;
-    private $nombre;
-    private $descripcion = "sin descripcion";
-    private $alertas;
 
-    function __construct($nombre, $descripcion, $intermediario = null)
+    function __construct()
     {
-        $this->alertas = new CrearAlertas();
-
-        //si pasan el intermediario por el constructor usamos ese, sino creamos uno
-        if ($intermediario === null) {
-            $this->intermediario = new Intermediario();
-        } else {
-            $this->intermediario = $intermediario;
-        }
-        $this->nombre = $nombre;
-        $this->descripcion = $descripcion;
+        $this->intermediario = new Intermediario();
     }
 
-    /**
-     * Se encarga de todo lo necesario para agregar una categoria a la base de datos con los datos pasados al constructor.
-     *
-     * @return string Un mensaje de confirmacion o de error.
-     */
-    public function agregarCategoria()
+    public function crear(array $data)
     {
-        if (!$this->validarCampo($this->nombre)) {
-            return $this->alertas->crearAlertaFallo("El nombre no puede estar vacio!");
-        }
-
-        $sql = "INSERT INTO `tipos-de-libros` (nombre, descripcion) VALUES ('$this->nombre', '$this->descripcion')";
-        if (!$this->comunicarseConBD("insertar", $sql)) {
-            return $this->alertas->crearAlertaFallo("Error al agregar la categoria.");
-        }
-
-        return $this->alertas->crearAlertaExito("Categoria agregada con exito");
-    }
-
-    /**
-     * Se encarga de todo lo necesario para editar la categoria en la base de datos
-     * con los datos pasados al constructor y un id para identificar la fila a editar.
-     *
-     * @param int $id El id de la fila a editar.
-     * @return void
-     */
-    public function editarCategoria($id)
-    {
-        $sql = "UPDATE `tipos-de-libros` SET nombre = '$this->nombre', descripcion = '$this->descripcion' WHERE idtipoLibro = $id";
-
-        if (!$this->comunicarseConBD("insertar", $sql)) {
-            return $this->alertas->crearAlertaFallo("Error al editar la categoria.");
-        }
-
-        return $this->alertas->crearAlertaExito("Categoria editada con exito");
-    }
-
-    function validarCampo($entrada): bool
-    {
-        if ($entrada == "" || $entrada == null) {
+        if (!$this->validar($data)) {
             return false;
         }
 
-        return true;
+        $categoriaTemp = new Tipo($this->intermediario);
+        $categoriaTemp = $categoriaTemp->crearDesdeArray($data);
+
+        return $categoriaTemp->guardar();
     }
 
-    function comunicarseConBD($tipo, $sql)
+    public function leer(int $id = null)
     {
-        if ($tipo === "ejecutar") {
-            return $this->intermediario->insertarEnBD($sql);
-        } else if ($tipo === "consultar") {
-            return $this->intermediario->consultarConBD($sql);
+        $categoriaTemp = new Tipo($this->intermediario);
+
+        if ($id === null || $id === "") {
+            $categoriaTemp = $categoriaTemp->obtenerTodos();
         } else {
-            throw new Exception("Error de tipo");
+            $categoriaTemp = $categoriaTemp->obtener($id);
         }
+        return $categoriaTemp;
+    }
+
+    public function actualizar(int $id, array $data)
+    {
+        if (!$this->validar($data)) {
+            return false;
+        }
+
+        $categoriaTemp = new Tipo($this->intermediario);
+        $categoriaTemp = $categoriaTemp->crearDesdeArray($data);
+
+        return $categoriaTemp->actualizar($id);
+    }
+
+    function validar($entrada)
+    {
+        foreach ($entrada as $valor) {
+            $valor = trim($valor);
+            if ($valor == "") {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
