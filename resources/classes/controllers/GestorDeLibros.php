@@ -87,7 +87,7 @@ class GestorDeLibros implements IGestor, Validar
             }
         }
 
-        if (!is_array($libroTemp)) {
+        if (is_bool($libroTemp)) {
             return false;
         }
 

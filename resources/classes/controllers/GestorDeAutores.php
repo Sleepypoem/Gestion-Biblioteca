@@ -43,7 +43,7 @@ class GestorDeAutores implements Gestor, IValidar
             $autorTemp = $autorTemp->obtener($id);
         }
 
-        if (!is_array($autorTemp)) {
+        if (is_bool($autorTemp)) {
             return false;
         }
 

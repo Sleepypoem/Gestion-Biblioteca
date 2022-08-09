@@ -53,7 +53,7 @@ class GestorDePrestamos implements Gestor, IValidar
             $prestamoTemp = $prestamoTemp->obtener($id);
         }
 
-        if (!is_array($prestamoTemp)) {
+        if (is_bool($prestamoTemp)) {
             return false;
         }
         return $prestamoTemp;

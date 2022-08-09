@@ -78,20 +78,29 @@ class Manejador
             return;
         }
 
-        header("HTTP/1.0 201 Resource Created");
-        $gestor->crear($this->data);
+        $respuesta =  $gestor->crear($this->data);
+        if ($respuesta === false) {
+        } else {
+            header("HTTP/1.0 201 Resource Created");
+        }
     }
 
     private function procesarPut(Gestor $gestor)
     {
+        //se obtiene el input y se guarda en una variable llamada $_PUT
         parse_str(file_get_contents('php://input'), $_PUT);
+
         if ($this->data === null || $this->data === []) {
             header("HTTP/1.0 400 Bad Request");
             echo "Error in sent data";
             return;
         }
-
-        header("HTTP/1.0 201 Resource Created");
-        $gestor->actualizar($this->id, $_PUT);
+        $respuesta = $gestor->actualizar($this->id, $_PUT);
+        if ($respuesta === false) {
+            header("HTTP/1.0 400 Bad Request");
+            echo "Error in sent data";
+        } else {
+            header("HTTP/1.0 201 Resource Created");
+        }
     }
 }

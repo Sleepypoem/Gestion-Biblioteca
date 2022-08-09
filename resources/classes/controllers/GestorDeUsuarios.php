@@ -65,7 +65,7 @@ class GestorDeUsuarios implements Gestor, IValidar
             $usuarioTemp = $usuarioTemp->obtener($id);
         }
 
-        if (!is_array($usuarioTemp)) {
+        if (is_bool($usuarioTemp)) {
             return false;
         }
 

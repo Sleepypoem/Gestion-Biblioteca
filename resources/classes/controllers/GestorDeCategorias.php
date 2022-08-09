@@ -44,7 +44,7 @@ class GestorDeCategorias implements Gestor, IValidar
             $categoriaTemp = $categoriaTemp->obtener($id);
         }
 
-        if (!is_array($categoriaTemp)) {
+        if (is_bool($categoriaTemp)) {
             return false;
         }
 

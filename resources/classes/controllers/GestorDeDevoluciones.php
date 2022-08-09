@@ -53,7 +53,7 @@ class GestorDeDevoluciones implements Gestor, IValidar
             $devolucionTemp = $devolucionTemp->obtener($id);
         }
 
-        if (!is_array($devolucionTemp)) {
+        if (is_bool($devolucionTemp)) {
             return false;
         }
         return $devolucionTemp;
