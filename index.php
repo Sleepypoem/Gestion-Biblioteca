@@ -10,12 +10,15 @@ use Alexander\Biblioteca\classes\controllers\GestorDeDevoluciones as GestorDeDev
 use Alexander\Biblioteca\classes\controllers\GestorDePrestamos as GestorDePrestamos;
 use Alexander\Biblioteca\classes\controllers\GestorDeUsuarios as GestorDeUsuarios;
 use Alexander\Biblioteca\classes\controllers\Manejador as Manejador;
+
+header("Content-Type: application/json");
 /* ************************************************************************************************************************************************ */
 
 /* ********************************************************************* Rutas ******************************************************************** */
 
 //Solucion provisional: asi se eliminan los numeros de la uri, los numeros los obtenemos despues
 $uri = preg_replace("/[^a-zA-Z\/\-_]/", "", $_SERVER["REQUEST_URI"]);
+
 
 Router::agregarRutas("/{$_ENV["ROOT"]}/" . "libros/", function () {
     //creamos un gestor del tipo correctp y pasamos al manejador los datos que hagan falta

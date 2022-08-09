@@ -62,26 +62,27 @@ class Manejador
     {
         $lista = $gestor->leer($this->id);
         if ($lista === false) {
-            header("HTTP/1.0 404 Not Found");
+            http_response_code(404);
             echo "Resource not found in server";
         } else {
             echo json_encode(($lista));
-            header("HTTP/1.0 200 OK");
+            http_response_code(200);
         }
     }
 
     private function procesarPost(Gestor $gestor)
     {
         if ($this->data === null || $this->data === []) {
-            header("HTTP/1.0 400 Bad Request");
+            http_response_code(400);
             echo "Error in sent data";
             return;
         }
 
         $respuesta =  $gestor->crear($this->data);
         if ($respuesta === false) {
+            http_response_code(404);
         } else {
-            header("HTTP/1.0 201 Resource Created");
+            http_response_code(201);
         }
     }
 
@@ -91,16 +92,16 @@ class Manejador
         parse_str(file_get_contents('php://input'), $_PUT);
 
         if ($this->data === null || $this->data === []) {
-            header("HTTP/1.0 400 Bad Request");
+            http_response_code(400);
             echo "Error in sent data";
             return;
         }
         $respuesta = $gestor->actualizar($this->id, $_PUT);
         if ($respuesta === false) {
-            header("HTTP/1.0 400 Bad Request");
+            http_response_code(400);
             echo "Error in sent data";
         } else {
-            header("HTTP/1.0 201 Resource Created");
+            http_response_code(201);
         }
     }
 }
