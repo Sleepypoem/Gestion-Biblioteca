@@ -52,6 +52,10 @@ class GestorDePrestamos implements Gestor, IValidar
         } else {
             $prestamoTemp = $prestamoTemp->obtener($id);
         }
+
+        if (!is_array($prestamoTemp)) {
+            return false;
+        }
         return $prestamoTemp;
     }
 
@@ -64,7 +68,9 @@ class GestorDePrestamos implements Gestor, IValidar
         $prestamoTemp = new Prestamo($this->intermediario);
         $prestamoTemp = $prestamoTemp->crearDesdeArray($data);
 
-        return $prestamoTemp->actualizar($id);
+
+        $prestamoTemp = $prestamoTemp->actualizar($id);
+        return $prestamoTemp;
     }
 
     function validar($entrada)

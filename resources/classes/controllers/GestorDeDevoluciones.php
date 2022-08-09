@@ -52,6 +52,10 @@ class GestorDeDevoluciones implements Gestor, IValidar
         } else {
             $devolucionTemp = $devolucionTemp->obtener($id);
         }
+
+        if (!is_array($devolucionTemp)) {
+            return false;
+        }
         return $devolucionTemp;
     }
 
@@ -64,7 +68,8 @@ class GestorDeDevoluciones implements Gestor, IValidar
         $devolucionTemp = new Devolucion($this->intermediario);
         $devolucionTemp = $devolucionTemp->crearDesdeArray($data);
 
-        return $devolucionTemp->actualizar($id);
+        $devolucionTemp = $devolucionTemp->actualizar($id);
+        return $devolucionTemp;
     }
 
     function validar($entrada)

@@ -29,7 +29,9 @@ class GestorDeCategorias implements Gestor, IValidar
         $categoriaTemp = new Tipo($this->intermediario);
         $categoriaTemp = $categoriaTemp->crearDesdeArray($data);
 
-        return $categoriaTemp->guardar();
+        $categoriaTemp = $categoriaTemp->guardar();
+
+        return $categoriaTemp;
     }
 
     public function leer(int $id = null)
@@ -41,6 +43,11 @@ class GestorDeCategorias implements Gestor, IValidar
         } else {
             $categoriaTemp = $categoriaTemp->obtener($id);
         }
+
+        if (!is_array($categoriaTemp)) {
+            return false;
+        }
+
         return $categoriaTemp;
     }
 
@@ -53,7 +60,9 @@ class GestorDeCategorias implements Gestor, IValidar
         $categoriaTemp = new Tipo($this->intermediario);
         $categoriaTemp = $categoriaTemp->crearDesdeArray($data);
 
-        return $categoriaTemp->actualizar($id);
+        $categoriaTemp = $categoriaTemp->actualizar($id);
+
+        return $categoriaTemp;
     }
 
     function validar($entrada)

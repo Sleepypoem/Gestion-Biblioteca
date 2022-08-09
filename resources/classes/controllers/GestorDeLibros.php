@@ -87,6 +87,10 @@ class GestorDeLibros implements IGestor, Validar
             }
         }
 
+        if (!is_array($libroTemp)) {
+            return false;
+        }
+
         return $libroTemp;
     }
 
@@ -99,7 +103,8 @@ class GestorDeLibros implements IGestor, Validar
         $libroTemp = new Libro($this->intermediario);
         $libroTemp = $libroTemp->crearDesdeArray($data);
 
-        return $libroTemp->actualizar($id);
+        $libroTemp = $libroTemp->actualizar($id);
+        return $libroTemp;
     }
 
     function validar($entrada)

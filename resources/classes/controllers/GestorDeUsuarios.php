@@ -64,6 +64,11 @@ class GestorDeUsuarios implements Gestor, IValidar
         } else {
             $usuarioTemp = $usuarioTemp->obtener($id);
         }
+
+        if (!is_array($usuarioTemp)) {
+            return false;
+        }
+
         return $usuarioTemp;
     }
 
@@ -76,7 +81,9 @@ class GestorDeUsuarios implements Gestor, IValidar
         $usuarioTemp = new Usuario($this->intermediario);
         $usuarioTemp = $usuarioTemp->crearDesdeArray($data);
 
-        return $usuarioTemp->actualizar($id);
+
+        $usuarioTemp =  $usuarioTemp->actualizar($id);
+        return $usuarioTemp;
     }
 
     function validar($entrada)

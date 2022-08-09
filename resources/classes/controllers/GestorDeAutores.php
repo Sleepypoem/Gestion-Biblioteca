@@ -29,7 +29,9 @@ class GestorDeAutores implements Gestor, IValidar
         $autorTemp = new Autor($this->intermediario);
         $autorTemp = $autorTemp->crearDesdeArray($data);
 
-        return $autorTemp->guardar();
+        $autorTemp = $autorTemp->guardar();
+
+        return $autorTemp;
     }
 
     public function leer(int $id = null)
@@ -39,6 +41,10 @@ class GestorDeAutores implements Gestor, IValidar
             $autorTemp = $autorTemp->obtenerTodos();
         } else {
             $autorTemp = $autorTemp->obtener($id);
+        }
+
+        if (!is_array($autorTemp)) {
+            return false;
         }
 
         return $autorTemp;
@@ -53,7 +59,9 @@ class GestorDeAutores implements Gestor, IValidar
         $autorTemp = new Autor($this->intermediario);
         $autorTemp = $autorTemp->crearDesdeArray($data);
 
-        return $autorTemp->actualizar($id);
+        $autorTemp = $autorTemp->actualizar($id);
+
+        return $autorTemp;
     }
 
     function validar($entrada)
