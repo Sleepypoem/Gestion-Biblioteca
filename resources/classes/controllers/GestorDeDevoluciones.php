@@ -43,7 +43,7 @@ class GestorDeDevoluciones implements Gestor, IValidar
         }
     }
 
-    public function leer(int $id = null)
+    public function leer($id = null)
     {
         $devolucionTemp = new Devolucion($this->intermediario);
 

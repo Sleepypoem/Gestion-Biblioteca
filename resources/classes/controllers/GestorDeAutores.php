@@ -9,6 +9,7 @@ use Alexander\Biblioteca\classes\controllers\Intermediario as Intermediario;
 use Alexander\Biblioteca\classes\interfaces\IValidar as IValidar;
 use Alexander\Biblioteca\classes\interfaces\IGestor as Gestor;
 use Alexander\Biblioteca\classes\models\Autor as Autor;
+use Alexander\Biblioteca\classes\controllers\ManejadordeImagenes;
 /* ************************************************************************************************************************************************ */
 
 class GestorDeAutores implements Gestor, IValidar
@@ -26,6 +27,15 @@ class GestorDeAutores implements Gestor, IValidar
             return false;
         }
 
+        $manejadorDeImg = new ManejadordeImagenes();
+        $imagen = $manejadorDeImg->crear(["imagen" => $data["image"]]);
+
+        if ($imagen === false) {
+            $data["image"] = "default.png";
+        } else {
+            $data["image"] = $imagen;
+        }
+
         $autorTemp = new Autor($this->intermediario);
         $autorTemp = $autorTemp->crearDesdeArray($data);
 
@@ -34,7 +44,7 @@ class GestorDeAutores implements Gestor, IValidar
         return $autorTemp;
     }
 
-    public function leer(int $id = null)
+    public function leer($id = null)
     {
         $autorTemp = new Autor($this->intermediario);
         if ($id === null || $id === "") {

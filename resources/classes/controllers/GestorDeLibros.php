@@ -32,7 +32,17 @@ class GestorDeLibros implements IGestor, Validar
             return false;
         }
 
+        $manejadorDeImg = new ManejadordeImagenes();
+        $imagen = $manejadorDeImg->crear(["imagen" => $data["image"]]);
+
+        if ($imagen === false) {
+            $data["image"] = "default.png";
+        } else {
+            $data["image"] = $imagen;
+        }
+
         $libroTemp = new Libro($this->intermediario);
+
         $libroTemp = $libroTemp->crearDesdeArray($data);
 
         $libroTemp = $libroTemp->guardar();
@@ -46,7 +56,7 @@ class GestorDeLibros implements IGestor, Validar
         return $libroTemp;
     }
 
-    public function leer(int $id = null)
+    public function leer($id = null)
     {
         $libroTemp = new Libro($this->intermediario);
         $autorTemp = new Autor($this->intermediario);

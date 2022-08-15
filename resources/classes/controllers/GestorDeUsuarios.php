@@ -30,6 +30,15 @@ class GestorDeUsuarios implements Gestor, IValidar
             return false;
         }
 
+        $manejadorDeImg = new ManejadordeImagenes();
+        $imagen = $manejadorDeImg->crear(["imagen" => $data["imagen"]]);
+
+        if ($imagen === false) {
+            $data["imagen"] = "default.png";
+        } else {
+            $data["imagen"] = $imagen;
+        }
+
         $usuarioTemp = new Usuario($this->intermediario);
         $usuarioTemp = $usuarioTemp->crearDesdeArray($data);
 
@@ -55,7 +64,7 @@ class GestorDeUsuarios implements Gestor, IValidar
         return $usuarioTemp;
     }
 
-    public function leer(int $id = null)
+    public function leer($id = null)
     {
         $usuarioTemp = new Usuario($this->intermediario);
 
@@ -72,7 +81,7 @@ class GestorDeUsuarios implements Gestor, IValidar
         return $usuarioTemp;
     }
 
-    public function actualizar(int $id, array $data)
+    public function actualizar($id, array $data)
     {
         if (!$this->validar($data)) {
             return false;

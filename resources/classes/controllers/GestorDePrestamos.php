@@ -43,7 +43,7 @@ class GestorDePrestamos implements Gestor, IValidar
         }
     }
 
-    public function leer(int $id = null)
+    public function leer($id = null)
     {
         $prestamoTemp = new Prestamo($this->intermediario);
 

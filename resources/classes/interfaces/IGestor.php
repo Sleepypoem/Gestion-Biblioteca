@@ -18,7 +18,7 @@ interface IGestor
      * @param integer|null $id el id de una entrada que se quiera obtener, si no se pasa se obtienmen todas las entradas.
      * @return array|bool|Model un array con los objetos Model si no se paso el id y tuvo exito, un objeto Model unico si se paso el id y false en caso de error.
      */
-    public function leer(int $id = null);
+    public function leer($id = null);
 
     /**
      * Se encarga de la logica de actualizar una entrada en la base de datos.

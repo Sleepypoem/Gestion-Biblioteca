@@ -34,7 +34,7 @@ class GestorDeCategorias implements Gestor, IValidar
         return $categoriaTemp;
     }
 
-    public function leer(int $id = null)
+    public function leer($id = null)
     {
         $categoriaTemp = new Tipo($this->intermediario);
 

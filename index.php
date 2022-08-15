@@ -10,6 +10,7 @@ use Alexander\Biblioteca\classes\controllers\GestorDeDevoluciones as GestorDeDev
 use Alexander\Biblioteca\classes\controllers\GestorDePrestamos as GestorDePrestamos;
 use Alexander\Biblioteca\classes\controllers\GestorDeUsuarios as GestorDeUsuarios;
 use Alexander\Biblioteca\classes\controllers\Manejador as Manejador;
+use Alexander\Biblioteca\classes\controllers\ManejadordeImagenes;
 
 header("Content-Type: application/json");
 /* ************************************************************************************************************************************************ */
@@ -17,16 +18,19 @@ header("Content-Type: application/json");
 /* ********************************************************************* Rutas ******************************************************************** */
 
 //Solucion provisional: asi se eliminan los numeros de la uri, los numeros los obtenemos despues
-$uri = preg_replace("/[^a-zA-Z\/\-_]/", "", $_SERVER["REQUEST_URI"]);
+$uri_split = explode("/", $_SERVER["REQUEST_URI"]);
+array_pop($uri_split);
+$uri = implode("/", $uri_split) . "/";
+
 
 
 Router::agregarRutas("/{$_ENV["ROOT"]}/" . "libros/", function () {
     //creamos un gestor del tipo correctp y pasamos al manejador los datos que hagan falta
     $gestor = new GestorDeLibros();
-    $id = preg_replace("/[^0-9]/", "", $_SERVER["REQUEST_URI"]);
+    $id = trim(strrchr($_SERVER["REQUEST_URI"], "/"), "/");
     $manejador = new Manejador($_SERVER["REQUEST_METHOD"], $gestor);
 
-    if ($id != null) {
+    if ($id != "") {
         $manejador->setId($id);
     }
 
@@ -36,10 +40,10 @@ Router::agregarRutas("/{$_ENV["ROOT"]}/" . "libros/", function () {
 
 Router::agregarRutas("/{$_ENV["ROOT"]}/" . "usuarios/", function () {
     $gestor = new GestorDeUsuarios();
-    $id = preg_replace("/[^0-9]/", "", $_SERVER["REQUEST_URI"]);
+    $id = trim(strrchr($_SERVER["REQUEST_URI"], "/"), "/");
     $manejador = new Manejador($_SERVER["REQUEST_METHOD"], $gestor);
 
-    if ($id != null) {
+    if ($id != "") {
         $manejador->setId($id);
     }
 
@@ -49,10 +53,10 @@ Router::agregarRutas("/{$_ENV["ROOT"]}/" . "usuarios/", function () {
 
 Router::agregarRutas("/{$_ENV["ROOT"]}/" . "prestamos/", function () {
     $gestor = new GestorDePrestamos();
-    $id = preg_replace("/[^0-9]/", "", $_SERVER["REQUEST_URI"]);
+    $id = trim(strrchr($_SERVER["REQUEST_URI"], "/"), "/");
     $manejador = new Manejador($_SERVER["REQUEST_METHOD"], $gestor);
 
-    if ($id != null) {
+    if ($id != "") {
         $manejador->setId($id);
     }
 
@@ -62,10 +66,10 @@ Router::agregarRutas("/{$_ENV["ROOT"]}/" . "prestamos/", function () {
 
 Router::agregarRutas("/{$_ENV["ROOT"]}/" . "devoluciones/", function () {
     $gestor = new GestorDeDevoluciones();
-    $id = preg_replace("/[^0-9]/", "", $_SERVER["REQUEST_URI"]);
+    $id = trim(strrchr($_SERVER["REQUEST_URI"], "/"), "/");
     $manejador = new Manejador($_SERVER["REQUEST_METHOD"], $gestor);
 
-    if ($id != null) {
+    if ($id != "") {
         $manejador->setId($id);
     }
 
@@ -75,10 +79,10 @@ Router::agregarRutas("/{$_ENV["ROOT"]}/" . "devoluciones/", function () {
 
 Router::agregarRutas("/{$_ENV["ROOT"]}/" . "autores/", function () {
     $gestor = new GestorDeAutores();
-    $id = preg_replace("/[^0-9]/", "", $_SERVER["REQUEST_URI"]);
+    $id = trim(strrchr($_SERVER["REQUEST_URI"], "/"), "/");
     $manejador = new Manejador($_SERVER["REQUEST_METHOD"], $gestor);
 
-    if ($id != null) {
+    if ($id != "") {
         $manejador->setId($id);
     }
     $manejador->setData($_POST);
@@ -88,10 +92,10 @@ Router::agregarRutas("/{$_ENV["ROOT"]}/" . "autores/", function () {
 
 Router::agregarRutas("/{$_ENV["ROOT"]}/" . "tipos/", function () {
     $gestor = new GestorDeCategorias();
-    $id = preg_replace("/[^0-9]/", "", $_SERVER["REQUEST_URI"]);
+    $id = trim(strrchr($_SERVER["REQUEST_URI"], "/"), "/");
     $manejador = new Manejador($_SERVER["REQUEST_METHOD"], $gestor);
 
-    if ($id != null) {
+    if ($id != "") {
         $manejador->setId($id);
     }
 
@@ -99,9 +103,20 @@ Router::agregarRutas("/{$_ENV["ROOT"]}/" . "tipos/", function () {
     $manejador->procesar();
 });
 
+Router::agregarRutas("/{$_ENV["ROOT"]}/" . "imagenes/", function () {
+    $gestor = new ManejadordeImagenes();
+    $id = trim(strrchr($_SERVER["REQUEST_URI"], "/"), "/");
+    $manejador = new Manejador($_SERVER["REQUEST_METHOD"], $gestor);
+
+    if ($id != "") {
+        $manejador->setId($id);
+    }
+    $manejador->procesarImagen();
+});
+
 Router::agregarRutas("/404", function () {
     echo preg_replace("/[^0-9]/", "", $_SERVER["REQUEST_URI"]);
-    header("HTTP/1.0 404 Not Found");
+    header("HTTP/1.0 404 Not Found!");
 });
 
 Router::procesar($uri);
